@@ -398,7 +398,7 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
                   Expanded(
                     child: OutlinedButton.icon(
                       onPressed: () {
-                        final link = 'https://jouby.github.io/surprise_me/join/$_createdCode';
+                        final link = 'https://surprise-qyrr4yynh-jouby-s-projects.vercel.app/join/$_createdCode';
                         Clipboard.setData(ClipboardData(text: link));
                         _showSnack('Lien copié !');
                       },
@@ -417,7 +417,7 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
                   Expanded(
                     child: ElevatedButton.icon(
                       onPressed: () {
-                        final link = 'https://jouby.github.io/surprise_me/join/$_createdCode';
+                        final link = 'https://surprise-qyrr4yynh-jouby-s-projects.vercel.app/join/$_createdCode';
                         Share.share(
                           'J\'ai une surprise pour toi ! 🎁\nOuvre ce lien pour la découvrir : $link\n\nOu entre le code manuellement : $_createdCode',
                         );

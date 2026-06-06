@@ -55,12 +55,13 @@
     // Le code est le dernier segment du path : /join/CODE
     // ou passé en query : /join?code=CODE
     function getCode() {
+      // Sur Vercel : /join/CODE  →  parts = ['join', 'CODE']
       const parts = window.location.pathname.split('/').filter(Boolean);
-      // parts = ['surprise_me', 'join', 'CODE'] sur GitHub Pages
       const joinIdx = parts.indexOf('join');
       if (joinIdx !== -1 && parts[joinIdx + 1]) {
         return parts[joinIdx + 1].toUpperCase();
       }
+      // Fallback query string : /join?code=CODE
       const params = new URLSearchParams(window.location.search);
       return (params.get('code') || '').toUpperCase();
     }
