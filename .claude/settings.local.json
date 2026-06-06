@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(flutter pub *)",
+      "Bash(flutter analyze *)",
+      "Bash(grep -r \"^class\\\\|static.*share\\\\b\\\\|\\\\.share\\(\" ~/.pub-cache/hosted/pub.dev/share_plus-10.1.4/lib/share_plus.dart 2>/dev/null | head -10)",
+      "Bash(grep -v \"^Analyzing\\\\|^$\\\\|newer versions\")",
+      "Bash(/Users/psykokwak/fvm/versions/stable/bin/flutter analyze *)",
+      "Bash(/Users/psykokwak/fvm/versions/stable/bin/flutter pub *)"
+    ]
+  }
+}

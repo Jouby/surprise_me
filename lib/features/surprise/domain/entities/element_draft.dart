@@ -1,0 +1,39 @@
+import 'surprise_element.dart';
+
+class ElementDraft {
+  String? id;
+  ElementType type;
+  String label;
+  String content;
+  String unlockCode;
+
+  ElementDraft({
+    this.id,
+    required this.type,
+    required this.label,
+    required this.content,
+    required this.unlockCode,
+  });
+
+  factory ElementDraft.fromElement(SurpriseElement e) => ElementDraft(
+        id: e.id,
+        type: e.type,
+        label: e.label,
+        content: e.content,
+        unlockCode: e.unlockCode,
+      );
+
+  bool get isNew => id == null;
+
+  bool get isValid =>
+      label.trim().isNotEmpty &&
+      content.trim().isNotEmpty &&
+      unlockCode.trim().isNotEmpty;
+
+  Map<String, dynamic> toMap() => {
+        'type': type.name,
+        'label': label.trim(),
+        'content': content.trim(),
+        'unlock_code': unlockCode.trim().toUpperCase(),
+      };
+}

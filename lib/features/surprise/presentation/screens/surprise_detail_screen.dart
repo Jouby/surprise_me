@@ -1,0 +1,646 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show Clipboard, ClipboardData;
+import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
+import '../../domain/entities/surprise.dart';
+import '../providers/surprise_provider.dart';
+import '../../../unlock/presentation/providers/unlock_provider.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../../core/utils/color_utils.dart';
+import '../widgets/element_tile.dart';
+import '../../../unlock/presentation/widgets/unlock_bottom_sheet.dart';
+import 'edit_surprise_screen.dart';
+
+class SurpriseDetailScreen extends StatelessWidget {
+  final Surprise surprise;
+  final bool isOwner;
+
+  const SurpriseDetailScreen({
+    super.key,
+    required this.surprise,
+    this.isOwner = false,
+  });
+
+  void _showUnlockSheet(BuildContext context, UnlockProvider provider) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => UnlockBottomSheet(
+        provider: provider,
+        themeColor: ColorUtils.fromHex(surprise.color),
+      ),
+    );
+  }
+
+  void _showShareSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (_) => _ShareSheet(
+        surprise: surprise,
+        themeColor: ColorUtils.fromHex(surprise.color),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (isOwner) return _buildOwnerView(context);
+
+    return Consumer<UnlockProvider>(
+      builder: (context, provider, _) {
+        final unlockedCount =
+            surprise.elements.where((e) => provider.isUnlocked(e.unlockCode)).length;
+        final total = surprise.elements.length;
+
+        return Scaffold(
+          backgroundColor: AppTheme.surface,
+          body: Stack(
+            children: [
+              CustomScrollView(
+                slivers: [
+                  _buildAppBar(context),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+                      child: Column(
+                        children: [
+                          _buildHero(context),
+                          const SizedBox(height: 20),
+                          _buildProgressBar(context, unlockedCount, total),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) => ElementTile(
+                        element: surprise.elements[index],
+                        isUnlocked: provider.isUnlocked(
+                            surprise.elements[index].unlockCode),
+                        themeColor: ColorUtils.fromHex(surprise.color),
+                      ),
+                      childCount: surprise.elements.length,
+                    ),
+                  ),
+                  const SliverToBoxAdapter(child: SizedBox(height: 120)),
+                ],
+              ),
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: _buildBottomBar(context, provider),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _confirmDelete(BuildContext context) async {
+    final themeColor = ColorUtils.fromHex(surprise.color);
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: AppTheme.cardBg,
+        title: const Text('Supprimer cette surprise ?'),
+        content: Text(
+          isOwner
+              ? 'Cette action est irréversible. La surprise et tous ses éléments seront définitivement supprimés.'
+              : 'La surprise sera retirée de votre liste. Vous pourrez la rejoindre à nouveau avec son code.',
+          style: const TextStyle(fontSize: 14, color: AppTheme.textMid),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text('Annuler',
+                style: TextStyle(color: AppTheme.textLight)),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: Text(
+              isOwner ? 'Supprimer' : 'Retirer',
+              style: const TextStyle(
+                  color: Colors.redAccent, fontWeight: FontWeight.w700),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true || !context.mounted) return;
+
+    try {
+      await context.read<SurpriseProvider>().deleteSurprise(
+            surpriseId: surprise.id,
+            shareCode: surprise.shareCode,
+            isOwner: isOwner,
+          );
+      if (context.mounted) Navigator.pop(context); // retour à l'accueil
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Erreur : $e'),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: themeColor,
+        ));
+      }
+    }
+  }
+
+  void _openEdit(BuildContext context) async {
+    final updated = await Navigator.push<bool>(
+      context,
+      MaterialPageRoute(
+        builder: (_) => EditSurpriseScreen(surprise: surprise),
+      ),
+    );
+    // Si des modifs ont été sauvegardées, on récupère la version fraîche
+    // depuis le provider et on remplace la surprise dans la navigation.
+    if (updated == true && context.mounted) {
+      final provider = context.read<SurpriseProvider>();
+      final fresh = provider.surprises
+          .where((s) => s.id == surprise.id)
+          .firstOrNull;
+      if (fresh != null && context.mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => SurpriseDetailScreen(
+              surprise: fresh,
+              isOwner: true,
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  Widget _buildOwnerView(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppTheme.surface,
+      body: Stack(
+        children: [
+          CustomScrollView(
+            slivers: [
+              _buildOwnerAppBar(context),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
+                  child: Column(
+                    children: [
+                      _buildHero(context),
+                      const SizedBox(height: 16),
+                      _buildOwnerBanner(context),
+                    ],
+                  ),
+                ),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) => ElementTile(
+                    element: surprise.elements[index],
+                    isUnlocked: true,
+                    ownerMode: true,
+                    themeColor: ColorUtils.fromHex(surprise.color),
+                  ),
+                  childCount: surprise.elements.length,
+                ),
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 120)),
+            ],
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: _buildOwnerBottomBar(context),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildOwnerBanner(BuildContext context) {
+    final themeColor = ColorUtils.fromHex(surprise.color);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        color: themeColor.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: themeColor.withValues(alpha: 0.2)),
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.edit_note_rounded, size: 18, color: themeColor),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              'Vous êtes le créateur · Appuyez sur un code pour le révéler',
+              style: TextStyle(
+                fontSize: 12,
+                color: themeColor,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildOwnerBottomBar(BuildContext context) {
+    final themeColor = ColorUtils.fromHex(surprise.color);
+    return Container(
+      decoration: BoxDecoration(
+        color: AppTheme.surface,
+        boxShadow: [
+          BoxShadow(
+            color: themeColor.withValues(alpha: 0.08),
+            blurRadius: 20,
+            offset: const Offset(0, -4),
+          ),
+        ],
+      ),
+      padding: EdgeInsets.fromLTRB(
+          20, 16, 20, 16 + MediaQuery.of(context).padding.bottom),
+      child: Row(
+        children: [
+          Expanded(
+            child: OutlinedButton.icon(
+              onPressed: () => _showShareSheet(context),
+              icon: const Icon(Icons.share_rounded, size: 16),
+              label: Text('Partager · ${surprise.shareCode}'),
+              style: OutlinedButton.styleFrom(
+                foregroundColor: themeColor,
+                side: BorderSide(color: themeColor, width: 1.5),
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14)),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  SliverAppBar _buildOwnerAppBar(BuildContext context) {
+    return SliverAppBar(
+      pinned: true,
+      backgroundColor: AppTheme.surface,
+      surfaceTintColor: Colors.transparent,
+      leading: Padding(
+        padding: const EdgeInsets.all(8),
+        child: GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppTheme.cardBg,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: AppTheme.divider),
+            ),
+            child: const Icon(Icons.arrow_back_ios_rounded,
+                size: 16, color: AppTheme.textDark),
+          ),
+        ),
+      ),
+      title: Text(
+        surprise.title,
+        style:
+            Theme.of(context).textTheme.headlineMedium?.copyWith(fontSize: 20),
+      ),
+      centerTitle: true,
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: 4),
+          child: GestureDetector(
+            onTap: () => _openEdit(context),
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: AppTheme.cardBg,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: AppTheme.divider),
+              ),
+              child: Icon(Icons.edit_rounded,
+                  size: 16, color: ColorUtils.fromHex(surprise.color)),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(right: 12),
+          child: GestureDetector(
+            onTap: () => _confirmDelete(context),
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: AppTheme.cardBg,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: AppTheme.divider),
+              ),
+              child: const Icon(Icons.delete_outline_rounded,
+                  size: 16, color: Colors.redAccent),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  SliverAppBar _buildAppBar(BuildContext context) {
+    return SliverAppBar(
+      pinned: true,
+      backgroundColor: AppTheme.surface,
+      surfaceTintColor: Colors.transparent,
+      leading: Padding(
+        padding: const EdgeInsets.all(8),
+        child: GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppTheme.cardBg,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: AppTheme.divider),
+            ),
+            child: const Icon(Icons.arrow_back_ios_rounded,
+                size: 16, color: AppTheme.textDark),
+          ),
+        ),
+      ),
+      title: Text(
+        surprise.title,
+        style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontSize: 20),
+      ),
+      centerTitle: true,
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: 4),
+          child: GestureDetector(
+            onTap: () => _showShareSheet(context),
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: AppTheme.cardBg,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: AppTheme.divider),
+              ),
+              child: Icon(Icons.share_rounded,
+                  size: 16, color: ColorUtils.fromHex(surprise.color)),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(right: 12),
+          child: GestureDetector(
+            onTap: () => _confirmDelete(context),
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: AppTheme.cardBg,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: AppTheme.divider),
+              ),
+              child: const Icon(Icons.delete_outline_rounded,
+                  size: 16, color: Colors.redAccent),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildHero(BuildContext context) {
+    final themeColor = ColorUtils.fromHex(surprise.color);
+    final themeLight = ColorUtils.lighten(themeColor);
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: 28),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [themeColor, themeLight],
+        ),
+        borderRadius: BorderRadius.circular(22),
+        boxShadow: [
+          BoxShadow(
+            color: themeColor.withValues(alpha: 0.3),
+            blurRadius: 24,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Text(surprise.emoji, style: const TextStyle(fontSize: 52)),
+          const SizedBox(height: 10),
+          Text(
+            surprise.title,
+            style: const TextStyle(
+                fontSize: 22, fontWeight: FontWeight.w600, color: Colors.white),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            surprise.subtitle,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 13, color: Colors.white.withValues(alpha: 0.75)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProgressBar(BuildContext context, int unlocked, int total) {
+    final themeColor = ColorUtils.fromHex(surprise.color);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+      decoration: BoxDecoration(
+        color: AppTheme.cardBg,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppTheme.divider),
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Éléments révélés',
+                style: TextStyle(
+                    fontSize: 13,
+                    color: AppTheme.textMid,
+                    fontWeight: FontWeight.w500),
+              ),
+              Text(
+                '$unlocked / $total',
+                style: TextStyle(
+                    fontSize: 13,
+                    color: themeColor,
+                    fontWeight: FontWeight.w700),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: LinearProgressIndicator(
+              value: total > 0 ? unlocked / total : 0,
+              minHeight: 6,
+              backgroundColor: AppTheme.divider,
+              valueColor: AlwaysStoppedAnimation(themeColor),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBottomBar(BuildContext context, UnlockProvider provider) {
+    final themeColor = ColorUtils.fromHex(surprise.color);
+    return Container(
+      decoration: BoxDecoration(
+        color: AppTheme.surface,
+        boxShadow: [
+          BoxShadow(
+            color: themeColor.withValues(alpha: 0.08),
+            blurRadius: 20,
+            offset: const Offset(0, -4),
+          ),
+        ],
+      ),
+      padding: EdgeInsets.fromLTRB(
+          20, 16, 20, 16 + MediaQuery.of(context).padding.bottom),
+      child: SizedBox(
+        width: double.infinity,
+        child: ElevatedButton.icon(
+          onPressed: () => _showUnlockSheet(context, provider),
+          icon: const Icon(Icons.vpn_key_outlined, size: 18),
+          label: const Text('Entrer un code'),
+          style: ElevatedButton.styleFrom(backgroundColor: themeColor),
+        ),
+      ),
+    );
+  }
+}
+
+// ─── Share sheet ──────────────────────────────────────────────────────────────
+
+class _ShareSheet extends StatelessWidget {
+  final Surprise surprise;
+  final Color themeColor;
+
+  const _ShareSheet({required this.surprise, required this.themeColor});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        color: AppTheme.cardBg,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      ),
+      padding: EdgeInsets.fromLTRB(
+          24, 0, 24, 24 + MediaQuery.of(context).padding.bottom),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(height: 12),
+          Container(
+            width: 40,
+            height: 4,
+            decoration: BoxDecoration(
+              color: AppTheme.divider,
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          const SizedBox(height: 28),
+          Text(
+            surprise.emoji,
+            style: const TextStyle(fontSize: 40),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            'Partager "${surprise.title}"',
+            style: Theme.of(context)
+                .textTheme
+                .headlineMedium
+                ?.copyWith(fontSize: 20),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Partagez ce code pour que vos proches\npuissent accéder à cette surprise.',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: AppTheme.textLight, fontSize: 13, height: 1.5),
+          ),
+          const SizedBox(height: 24),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 18),
+            decoration: BoxDecoration(
+              color: AppTheme.surface,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: AppTheme.divider, width: 1.5),
+            ),
+            child: Text(
+              surprise.shareCode,
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 8,
+                color: themeColor,
+              ),
+            ),
+          ),
+          const SizedBox(height: 24),
+          Row(
+            children: [
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: () {
+                    Clipboard.setData(
+                        ClipboardData(text: surprise.shareCode));
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: const Text('Code copié dans le presse-papier'),
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: themeColor,
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.copy_rounded, size: 16),
+                  label: const Text('Copier'),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: themeColor,
+                    side: BorderSide(color: themeColor.withValues(alpha: 0.4), width: 1.5),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14)),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    Share.share(
+                      'J\'ai une surprise pour toi ! Entre ce code dans l\'app Surprise Me : ${surprise.shareCode}',
+                    );
+                  },
+                  icon: const Icon(Icons.share_rounded, size: 16),
+                  label: const Text('Partager'),
+                  style: ElevatedButton.styleFrom(backgroundColor: themeColor),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
