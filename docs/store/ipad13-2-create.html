@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=1032"/>
+  <title>iPad 13" 2 – Créer</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; -webkit-font-smoothing:antialiased; }
+    body { width:1032px; height:1376px; background:#F0F7FF; font-family:'DM Sans',sans-serif; overflow:hidden; position:relative; }
+
+    .status { display:flex; justify-content:space-between; align-items:center; padding:20px 40px 0; }
+    .status-time { font-size:18px; font-weight:700; color:#0D2035; }
+    .status-icons { font-size:14px; color:#0D2035; }
+
+    .appbar { padding:14px 32px; display:flex; align-items:center; justify-content:space-between; }
+    .appbar-back { width:44px; height:44px; background:#fff; border-radius:13px; border:1px solid #D6E8F5; display:flex; align-items:center; justify-content:center; }
+    .appbar-back svg { width:18px; height:18px; stroke:#0D2035; fill:none; stroke-width:2.5; stroke-linecap:round; }
+    .appbar-title { font-family:'DM Serif Display',serif; font-size:26px; color:#0D2035; }
+
+    .layout { display:grid; grid-template-columns:1fr 1fr 1fr; gap:24px; padding:0 40px 140px; height:calc(100% - 118px); overflow:hidden; }
+    .panel { display:flex; flex-direction:column; gap:16px; }
+
+    .lbl { font-size:12px; font-weight:700; letter-spacing:1.3px; color:#8AAABF; text-transform:uppercase; margin-bottom:4px; }
+
+    .card { background:#fff; border-radius:22px; border:1px solid #D6E8F5; padding:20px; }
+    .irow { display:flex; gap:14px; align-items:flex-start; margin-bottom:14px; }
+    .epicker { width:78px; height:58px; background:#F0F7FF; border-radius:15px; border:1.5px solid #D6E8F5; display:flex; align-items:center; justify-content:center; font-size:30px; flex-shrink:0; position:relative; }
+    .eedit { position:absolute; bottom:4px; right:4px; width:18px; height:18px; background:#2E6DA4; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+    .ibox { background:#F0F7FF; border-radius:14px; border:1.5px solid #D6E8F5; padding:14px 16px; font-size:16px; color:#0D2035; font-weight:500; font-family:'DM Sans',sans-serif; width:100%; }
+    .ibox.ph { color:#8AAABF; font-weight:400; }
+    .crow { background:#F0F7FF; border-radius:14px; border:1.5px solid #D6E8F5; padding:14px 16px; display:flex; align-items:center; gap:12px; }
+    .cdot { width:30px; height:30px; border-radius:50%; background:#2E6DA4; box-shadow:0 0 0 4px rgba(46,109,164,0.15); flex-shrink:0; }
+
+    /* Type grid */
+    .tgrid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .tbtn { background:#fff; border:1px solid #D6E8F5; border-radius:14px; padding:16px; display:flex; flex-direction:column; align-items:center; gap:8px; }
+    .tbtn.active { background:#1A3A5C; border-color:#1A3A5C; }
+    .tbtn svg { width:22px; height:22px; fill:none; stroke-width:2; stroke-linecap:round; }
+    .tbtn span { font-size:13px; font-weight:600; color:#4A6580; }
+    .tbtn.active span { color:#fff; }
+
+    /* Elements */
+    .ehint { font-size:13px; color:#8AAABF; margin-bottom:14px; line-height:1.5; }
+    .etile { background:#fff; border-radius:16px; border:1px solid #D6E8F5; padding:14px 16px; margin-bottom:10px; }
+    .erow { display:flex; align-items:center; gap:9px; }
+    .eico { width:32px; height:32px; border-radius:10px; display:flex; align-items:center; justify-content:center; }
+    .eico svg { width:16px; height:16px; fill:none; stroke-width:2; stroke-linecap:round; }
+    .elbl { font-size:15px; font-weight:600; color:#0D2035; flex:1; }
+    .econtent { font-size:12px; color:#4A6580; margin-top:4px; padding-left:41px; }
+    .ecode { display:inline-block; margin-top:6px; margin-left:41px; background:#F0F7FF; border:1px solid #D6E8F5; border-radius:7px; padding:3px 10px; font-size:11px; font-weight:600; color:#2E6DA4; letter-spacing:1px; }
+    .addbtn { background:#F0F7FF; border-radius:14px; border:1.5px dashed #D6E8F5; padding:14px; display:flex; align-items:center; justify-content:center; gap:9px; }
+    .addbtn svg { width:18px; height:18px; stroke:#2E6DA4; fill:none; stroke-width:2; stroke-linecap:round; }
+    .addbtn span { font-size:14px; font-weight:600; color:#2E6DA4; }
+
+    /* Preview */
+    .preview { background:#fff; border-radius:24px; border:1px solid #D6E8F5; overflow:hidden; box-shadow:0 4px 28px rgba(26,58,92,0.08); display:flex; flex-direction:column; }
+    .phero { background:linear-gradient(135deg,#2E6DA4,#4A9FD4); padding:30px; text-align:center; }
+    .phero-emoji { font-size:52px; }
+    .phero-title { font-size:22px; font-weight:600; color:#fff; margin-top:10px; }
+    .phero-sub { font-size:14px; color:rgba(255,255,255,0.7); margin-top:4px; }
+    .pcode { margin:18px 20px; background:#F0F7FF; border-radius:16px; border:1px solid #D6E8F5; padding:16px; text-align:center; }
+    .pcode-lbl { font-size:12px; color:#4A6580; margin-bottom:8px; }
+    .pcode-val { font-size:32px; font-weight:800; letter-spacing:8px; color:#2E6DA4; }
+    .phint { margin:0 20px 16px; font-size:13px; color:#8AAABF; text-align:center; line-height:1.5; }
+    .pel { margin:0 20px 10px; background:#F0F7FF; border-radius:14px; padding:12px 14px; display:flex; align-items:center; gap:10px; }
+    .pelico { width:28px; height:28px; border-radius:8px; display:flex; align-items:center; justify-content:center; }
+    .pelico svg { width:14px; height:14px; fill:none; stroke-width:2; stroke-linecap:round; }
+    .pellbl { font-size:14px; font-weight:600; color:#0D2035; }
+
+    .bottom-bar { position:absolute; bottom:0; left:0; right:0; background:#F0F7FF; padding:20px 40px 36px; box-shadow:0 -4px 24px rgba(26,58,92,0.08); }
+    .savebtn { width:100%; height:58px; background:#1A3A5C; border-radius:16px; display:flex; align-items:center; justify-content:center; gap:10px; font-size:17px; font-weight:600; color:#fff; }
+    .savebtn svg { width:20px; height:20px; stroke:#fff; fill:none; stroke-width:2.5; stroke-linecap:round; }
+  </style>
+</head>
+<body>
+  <div class="status"><span class="status-time">9:41</span><span class="status-icons">●●● WiFi 🔋</span></div>
+  <div class="appbar">
+    <div class="appbar-back"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></div>
+    <div class="appbar-title">Créer une surprise</div>
+    <div style="width:44px;"></div>
+  </div>
+
+  <div class="layout">
+    <!-- Col 1: Identité -->
+    <div class="panel">
+      <div>
+        <div class="lbl">Identité</div>
+        <div class="card">
+          <div class="irow">
+            <div class="epicker">🏖️<div class="eedit"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg></div></div>
+            <div style="flex:1;"><div class="ibox">Voyage à Lisbonne</div></div>
+          </div>
+          <div class="ibox ph" style="margin-bottom:14px;">Sous-titre (optionnel)</div>
+          <div class="crow">
+            <div class="cdot"></div>
+            <span style="flex:1;font-size:15px;color:#4A6580;">Couleur thème</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8AAABF" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="lbl">Type d'élément</div>
+        <div class="tgrid">
+          <div class="tbtn active"><svg viewBox="0 0 24 24" stroke="#fff"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Texte</span></div>
+          <div class="tbtn"><svg viewBox="0 0 24 24" stroke="#4A6580"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><span>Image</span></div>
+          <div class="tbtn"><svg viewBox="0 0 24 24" stroke="#4A6580"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span>Date</span></div>
+          <div class="tbtn"><svg viewBox="0 0 24 24" stroke="#4A6580"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Lieu</span></div>
+          <div class="tbtn"><svg viewBox="0 0 24 24" stroke="#4A6580"><rect x="2" y="2" width="9" height="9"/><rect x="13" y="2" width="9" height="9"/><rect x="2" y="13" width="9" height="9"/><rect x="13" y="13" width="9" height="9"/></svg><span>Taquin</span></div>
+          <div class="tbtn"><svg viewBox="0 0 24 24" stroke="#4A6580"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span>Mot mêlé</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Col 2: Éléments -->
+    <div class="panel">
+      <div class="lbl">Éléments (3)</div>
+      <div class="ehint">Chaque élément peut être révélé par un code distinct.</div>
+      <div class="etile">
+        <div class="erow"><div class="eico" style="background:#E8F3FB;"><svg viewBox="0 0 24 24" stroke="#2E6DA4"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><span class="elbl">Le lieu du rendez-vous</span></div>
+        <div class="econtent">Lisbonne, Portugal 🇵🇹</div>
+        <div class="ecode">LISBONNE</div>
+      </div>
+      <div class="etile">
+        <div class="erow"><div class="eico" style="background:#fef9c3;"><svg viewBox="0 0 24 24" stroke="#ca8a04"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><span class="elbl">La date du départ</span></div>
+        <div class="econtent">Samedi 14 Juin 2025 · 08h30</div>
+        <div class="ecode">DEPART</div>
+      </div>
+      <div class="etile">
+        <div class="erow"><div class="eico" style="background:#fdf4ff;"><svg viewBox="0 0 24 24" stroke="#a855f7"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div><span class="elbl">Surprise photo</span></div>
+        <div class="econtent">Image ajoutée ✓</div>
+        <div class="ecode">PHOTO1</div>
+      </div>
+      <div class="addbtn">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
+        <span>Ajouter un élément</span>
+      </div>
+    </div>
+
+    <!-- Col 3: Aperçu -->
+    <div class="panel">
+      <div class="lbl">Aperçu</div>
+      <div class="preview">
+        <div class="phero">
+          <div class="phero-emoji">🏖️</div>
+          <div class="phero-title">Voyage à Lisbonne</div>
+          <div class="phero-sub">3 éléments à découvrir</div>
+        </div>
+        <div class="pcode">
+          <div class="pcode-lbl">Code de partage</div>
+          <div class="pcode-val">A7K2PX</div>
+        </div>
+        <div class="phint">Partagez ce code pour que vos proches puissent rejoindre la surprise.</div>
+        <div class="pel"><div class="pelico" style="background:#E8F3FB;"><svg viewBox="0 0 24 24" stroke="#2E6DA4"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><span class="pellbl">Le lieu du rendez-vous</span></div>
+        <div class="pel"><div class="pelico" style="background:#fef9c3;"><svg viewBox="0 0 24 24" stroke="#ca8a04"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><span class="pellbl">La date du départ</span></div>
+        <div class="pel" style="margin-bottom:20px;"><div class="pelico" style="background:#fdf4ff;"><svg viewBox="0 0 24 24" stroke="#a855f7"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div><span class="pellbl">Surprise photo</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <div class="savebtn">
+      <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+      Créer la surprise
+    </div>
+  </div>
+</body>
+</html>

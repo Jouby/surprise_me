@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=1032"/>
+  <title>iPad 13" 4 – Déverrouiller</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; -webkit-font-smoothing:antialiased; }
+    body { width:1032px; height:1376px; background:#F0F7FF; font-family:'DM Sans',sans-serif; overflow:hidden; position:relative; }
+
+    .status { display:flex; justify-content:space-between; align-items:center; padding:20px 40px 0; }
+    .status-time { font-size:18px; font-weight:700; color:#0D2035; }
+    .status-icons { font-size:14px; color:#0D2035; }
+
+    /* Background */
+    .bg { padding:14px 32px; filter:blur(3px); opacity:0.35; }
+    .bg-appbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+    .bg-title { font-family:'DM Serif Display',serif; font-size:26px; color:#0D2035; }
+    .bg-layout { display:flex; gap:24px; }
+    .bg-sidebar { width:360px; }
+    .bg-card { background:#fff; border-radius:20px; padding:16px; margin-bottom:12px; display:flex; gap:14px; align-items:center; }
+    .bg-emoji { width:56px; height:56px; border-radius:14px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:24px; }
+    .bg-lines { flex:1; }
+    .bg-line { height:12px; background:#D6E8F5; border-radius:6px; margin-bottom:8px; }
+    .bg-line.sm { width:60%; height:8px; }
+    .bg-main { flex:1; }
+    .bg-hero { border-radius:24px; padding:30px; background:linear-gradient(135deg,#2E6DA4,#4A9FD4); text-align:center; margin-bottom:16px; }
+    .bg-hero-emoji { font-size:56px; }
+    .bg-hero-title { font-size:22px; font-weight:600; color:#fff; margin-top:10px; }
+    .bg-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .bg-el { background:#fff; border-radius:18px; height:120px; }
+
+    /* Dim */
+    .overlay { position:absolute; inset:0; background:rgba(13,32,53,0.6); }
+
+    /* Sheet — centré horizontalement */
+    .sheet {
+      position:absolute; bottom:0; left:50%; transform:translateX(-50%);
+      width:560px;
+      background:#fff; border-radius:32px 32px 0 0;
+      padding:0 40px 48px;
+    }
+    .handle { width:44px; height:5px; background:#D6E8F5; border-radius:3px; margin:16px auto 34px; }
+
+    .key-circle { width:72px; height:72px; border-radius:50%; background:rgba(46,109,164,0.08); display:flex; align-items:center; justify-content:center; margin:0 auto 20px; }
+    .key-circle svg { width:34px; height:34px; stroke:#2E6DA4; fill:none; stroke-width:2; stroke-linecap:round; }
+
+    h2 { font-family:'DM Serif Display',serif; font-size:28px; color:#0D2035; text-align:center; margin-bottom:10px; }
+    .sub { font-size:15px; color:#8AAABF; text-align:center; line-height:1.6; margin-bottom:34px; }
+
+    .code-input { background:#F0F7FF; border-radius:16px; border:2.5px solid #2E6DA4; padding:24px; text-align:center; font-size:36px; font-weight:800; letter-spacing:12px; color:#2E6DA4; font-family:'DM Sans',sans-serif; margin-bottom:20px; }
+
+    .feedback { display:flex; align-items:center; justify-content:center; gap:10px; background:rgba(46,109,164,0.08); border-radius:14px; padding:14px 20px; margin-bottom:30px; }
+    .feedback svg { width:20px; height:20px; stroke:#2E6DA4; fill:none; stroke-width:2.5; stroke-linecap:round; flex-shrink:0; }
+    .feedback span { font-size:15px; font-weight:500; color:#2E6DA4; }
+
+    .ubtn { width:100%; height:60px; background:#2E6DA4; border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:600; color:#fff; gap:10px; }
+    .ubtn svg { width:21px; height:21px; stroke:#fff; fill:none; stroke-width:2; stroke-linecap:round; }
+  </style>
+</head>
+<body>
+  <div class="status"><span class="status-time">9:41</span><span class="status-icons">●●● WiFi 🔋</span></div>
+
+  <div class="bg">
+    <div class="bg-appbar">
+      <div style="width:44px;height:44px;background:#fff;border-radius:13px;border:1px solid #D6E8F5;"></div>
+      <div class="bg-title">Voyage à Lisbonne</div>
+      <div style="width:44px;"></div>
+    </div>
+    <div class="bg-layout">
+      <div class="bg-sidebar">
+        <div class="bg-card"><div class="bg-emoji" style="background:#E8F3FB;">🏖️</div><div class="bg-lines"><div class="bg-line"></div><div class="bg-line sm"></div></div></div>
+        <div class="bg-card"><div class="bg-emoji" style="background:#fdf4ff;">💍</div><div class="bg-lines"><div class="bg-line"></div><div class="bg-line sm"></div></div></div>
+        <div class="bg-card"><div class="bg-emoji" style="background:#f0fdf4;">🎂</div><div class="bg-lines"><div class="bg-line"></div><div class="bg-line sm"></div></div></div>
+      </div>
+      <div class="bg-main">
+        <div class="bg-hero"><div class="bg-hero-emoji">🏖️</div><div class="bg-hero-title">Voyage à Lisbonne</div></div>
+        <div class="bg-grid">
+          <div class="bg-el"></div><div class="bg-el"></div>
+          <div class="bg-el"></div><div class="bg-el"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay"></div>
+
+  <div class="sheet">
+    <div class="handle"></div>
+    <div class="key-circle"><svg viewBox="0 0 24 24"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg></div>
+    <h2>Entrez votre code</h2>
+    <div class="sub">Chaque code débloque un élément de la surprise.</div>
+    <div class="code-input">LISBONNE</div>
+    <div class="feedback">
+      <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+      <span>Code accepté ! Un élément a été révélé. 🎉</span>
+    </div>
+    <div class="ubtn">
+      <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
+      Déverrouiller
+    </div>
+  </div>
+</body>
+</html>

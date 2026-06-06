@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=1032"/>
+  <title>iPad 13" 3 – Détail</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; -webkit-font-smoothing:antialiased; }
+    body { width:1032px; height:1376px; background:#F0F7FF; font-family:'DM Sans',sans-serif; overflow:hidden; position:relative; }
+
+    .status { display:flex; justify-content:space-between; align-items:center; padding:20px 40px 0; }
+    .status-time { font-size:18px; font-weight:700; color:#0D2035; }
+    .status-icons { font-size:14px; color:#0D2035; }
+
+    .appbar { padding:14px 32px; display:flex; align-items:center; justify-content:space-between; }
+    .btn { width:44px; height:44px; background:#fff; border-radius:13px; border:1px solid #D6E8F5; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .btn svg { width:18px; height:18px; fill:none; stroke-width:2.5; stroke-linecap:round; }
+    .appbar-title { font-family:'DM Serif Display',serif; font-size:26px; color:#0D2035; }
+    .appbar-actions { display:flex; gap:10px; }
+
+    .layout { display:flex; gap:24px; padding:0 40px 130px; height:calc(100% - 118px); }
+
+    .left { width:420px; flex-shrink:0; display:flex; flex-direction:column; gap:18px; overflow:hidden; }
+
+    .hero { border-radius:28px; padding:36px; background:linear-gradient(135deg,#2E6DA4,#4A9FD4); box-shadow:0 12px 40px rgba(46,109,164,0.3); text-align:center; flex-shrink:0; }
+    .hero-emoji { font-size:68px; }
+    .hero-title { font-size:26px; font-weight:600; color:#fff; margin-top:12px; }
+    .hero-sub { font-size:14px; color:rgba(255,255,255,0.75); margin-top:6px; }
+
+    .prog-card { background:#fff; border-radius:20px; border:1px solid #D6E8F5; padding:18px 22px; flex-shrink:0; }
+    .prog-row { display:flex; justify-content:space-between; margin-bottom:10px; }
+    .prog-row span { font-size:14px; color:#4A6580; font-weight:500; }
+    .prog-row strong { font-size:14px; font-weight:700; color:#2E6DA4; }
+    .pbar { height:7px; background:#D6E8F5; border-radius:4px; overflow:hidden; }
+    .pbar-fill { height:100%; border-radius:4px; background:#2E6DA4; width:40%; }
+
+    .info-card { background:#fff; border-radius:20px; border:1px solid #D6E8F5; padding:20px 22px; flex:1; }
+    .info-title { font-size:13px; font-weight:700; color:#8AAABF; text-transform:uppercase; letter-spacing:1px; margin-bottom:14px; }
+    .info-row { display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid #F0F7FF; }
+    .info-row:last-child { border-bottom:none; }
+    .info-ico { width:34px; height:34px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .info-ico svg { width:16px; height:16px; fill:none; stroke-width:2; stroke-linecap:round; }
+    .info-body { flex:1; }
+    .info-label { font-size:12px; color:#8AAABF; font-weight:500; }
+    .info-val { font-size:14px; color:#0D2035; font-weight:500; margin-top:2px; }
+
+    /* Right: elements grid */
+    .right { flex:1; overflow:hidden; }
+    .right-title { font-size:13px; font-weight:700; color:#8AAABF; text-transform:uppercase; letter-spacing:1px; margin-bottom:14px; }
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+
+    .el { background:#fff; border-radius:22px; overflow:hidden; }
+    .el-u { border:1.5px solid rgba(46,109,164,0.35); box-shadow:0 4px 20px rgba(46,109,164,0.08); }
+    .el-l { border:1px solid #D6E8F5; }
+    .el-hdr { padding:18px 20px 0; display:flex; align-items:center; gap:10px; }
+    .el-ico { width:34px; height:34px; border-radius:10px; display:flex; align-items:center; justify-content:center; }
+    .el-ico svg { width:17px; height:17px; fill:none; stroke-width:2; stroke-linecap:round; }
+    .el-lbl { font-size:12px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; flex:1; }
+    .el-bdg { padding:4px 12px; border-radius:20px; font-size:11px; font-weight:600; }
+    .el-txt { padding:10px 20px 20px; font-size:15px; color:#4A6580; line-height:1.6; }
+    .el-locked-inner { position:relative; }
+    .el-lc { padding:10px 20px 20px; min-height:70px; filter:blur(6px); font-size:15px; color:#aaa; }
+    .el-lov { position:absolute; inset:0; background:rgba(240,247,255,0.88); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; }
+    .lc { width:46px; height:46px; background:#fff; border-radius:50%; box-shadow:0 2px 14px rgba(46,109,164,0.15); display:flex; align-items:center; justify-content:center; }
+    .lc svg { width:21px; height:21px; stroke:#2E6DA4; fill:none; stroke-width:2; stroke-linecap:round; }
+    .ll { font-size:13px; font-weight:500; color:#2E6DA4; }
+
+    .bottom-bar { position:absolute; bottom:0; left:0; right:0; background:#F0F7FF; padding:20px 40px 36px; box-shadow:0 -4px 24px rgba(26,58,92,0.08); }
+    .ubtn { width:100%; height:58px; background:#2E6DA4; border-radius:16px; display:flex; align-items:center; justify-content:center; gap:10px; font-size:17px; font-weight:600; color:#fff; }
+    .ubtn svg { width:20px; height:20px; stroke:#fff; fill:none; stroke-width:2; stroke-linecap:round; }
+  </style>
+</head>
+<body>
+  <div class="status"><span class="status-time">9:41</span><span class="status-icons">●●● WiFi 🔋</span></div>
+  <div class="appbar">
+    <div class="btn"><svg viewBox="0 0 24 24" stroke="#0D2035"><path d="M15 18l-6-6 6-6"/></svg></div>
+    <div class="appbar-title">Voyage à Lisbonne</div>
+    <div class="appbar-actions">
+      <div class="btn"><svg viewBox="0 0 24 24" stroke="#2E6DA4"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51L8.59 10.49"/></svg></div>
+    </div>
+  </div>
+
+  <div class="layout">
+    <div class="left">
+      <div class="hero">
+        <div class="hero-emoji">🏖️</div>
+        <div class="hero-title">Voyage à Lisbonne</div>
+        <div class="hero-sub">Une surprise rien que pour toi ✨</div>
+      </div>
+      <div class="prog-card">
+        <div class="prog-row"><span>Éléments révélés</span><strong>2 / 5</strong></div>
+        <div class="pbar"><div class="pbar-fill"></div></div>
+      </div>
+      <div class="info-card">
+        <div class="info-title">Déjà révélés</div>
+        <div class="info-row">
+          <div class="info-ico" style="background:rgba(46,109,164,0.1);"><svg viewBox="0 0 24 24" stroke="#2E6DA4"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+          <div class="info-body">
+            <div class="info-label">Date du départ</div>
+            <div class="info-val">Samedi 14 Juin 2025 · 08h30</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-ico" style="background:rgba(46,109,164,0.1);"><svg viewBox="0 0 24 24" stroke="#2E6DA4"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+          <div class="info-body">
+            <div class="info-label">Un message</div>
+            <div class="info-val">Tu mérites cette surprise ❤️</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="right-title">Tous les éléments</div>
+      <div class="grid">
+        <div class="el el-u">
+          <div class="el-hdr"><div class="el-ico" style="background:rgba(46,109,164,0.1);"><svg viewBox="0 0 24 24" stroke="#2E6DA4"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><span class="el-lbl" style="color:#2E6DA4;">Date</span><div class="el-bdg" style="background:rgba(46,109,164,0.1);color:#2E6DA4;">Débloqué</div></div>
+          <div class="el-txt">Samedi 14 Juin 2025 · 08h30</div>
+        </div>
+        <div class="el el-u">
+          <div class="el-hdr"><div class="el-ico" style="background:rgba(46,109,164,0.1);"><svg viewBox="0 0 24 24" stroke="#2E6DA4"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><span class="el-lbl" style="color:#2E6DA4;">Message</span><div class="el-bdg" style="background:rgba(46,109,164,0.1);color:#2E6DA4;">Débloqué</div></div>
+          <div class="el-txt">Tu mérites cette surprise plus que quiconque ❤️</div>
+        </div>
+        <div class="el el-l">
+          <div class="el-hdr"><div class="el-ico" style="background:#F0F7FF;"><svg viewBox="0 0 24 24" stroke="#8AAABF"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><span class="el-lbl" style="color:#8AAABF;">Lieu mystère</span></div>
+          <div class="el-locked-inner"><div class="el-lc">Lisbonne, Portugal</div><div class="el-lov"><div class="lc"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><span class="ll">Entrez un code</span></div></div>
+        </div>
+        <div class="el el-l">
+          <div class="el-hdr"><div class="el-ico" style="background:#F0F7FF;"><svg viewBox="0 0 24 24" stroke="#8AAABF"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div><span class="el-lbl" style="color:#8AAABF;">Photo</span></div>
+          <div class="el-locked-inner"><div class="el-lc" style="height:80px;background:#F0F7FF;margin:10px 20px 20px;border-radius:12px;filter:none;"></div><div class="el-lov"><div class="lc"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><span class="ll">Entrez un code</span></div></div>
+        </div>
+        <div class="el el-l" style="grid-column:1/-1;">
+          <div class="el-hdr"><div class="el-ico" style="background:#F0F7FF;"><svg viewBox="0 0 24 24" stroke="#8AAABF"><rect x="2" y="2" width="9" height="9"/><rect x="13" y="2" width="9" height="9"/><rect x="2" y="13" width="9" height="9"/><rect x="13" y="13" width="9" height="9"/></svg></div><span class="el-lbl" style="color:#8AAABF;">Puzzle surprise</span></div>
+          <div class="el-locked-inner"><div class="el-lc" style="height:50px;"></div><div class="el-lov"><div class="lc"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><span class="ll">Entrez un code pour révéler</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <div class="ubtn">
+      <svg viewBox="0 0 24 24"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+      Entrer un code
+    </div>
+  </div>
+</body>
+</html>
