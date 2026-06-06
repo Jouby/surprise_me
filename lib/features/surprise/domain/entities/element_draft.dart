@@ -31,7 +31,7 @@ class ElementDraft {
       unlockCode.trim().isNotEmpty;
 
   Map<String, dynamic> toMap() => {
-        'type': type.name,
+        'type': type.dbName,
         'label': label.trim(),
         'content': content.trim(),
         'unlock_code': unlockCode.trim().toUpperCase(),

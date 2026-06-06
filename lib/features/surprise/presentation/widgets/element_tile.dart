@@ -2,6 +2,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../../domain/entities/surprise_element.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../features/word_game/presentation/widgets/word_game_tile.dart';
+import '../../../../features/puzzle_game/presentation/widgets/puzzle_game_tile.dart';
 
 class ElementTile extends StatelessWidget {
   final SurpriseElement element;
@@ -178,6 +180,20 @@ class ElementTile extends StatelessWidget {
       );
     }
 
+    if (element.type == ElementType.puzzle) {
+      return PuzzleGameTile(
+        imageUrl: element.content,
+        themeColor: themeColor,
+      );
+    }
+
+    if (element.type == ElementType.wordGame) {
+      return WordGameTile(
+        word: element.content,
+        themeColor: themeColor,
+      );
+    }
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 10, 16, 16),
       child: Text(
@@ -242,6 +258,8 @@ class ElementTile extends StatelessWidget {
       case ElementType.image:    return Icons.photo_outlined;
       case ElementType.date:     return Icons.calendar_today_outlined;
       case ElementType.location: return Icons.place_outlined;
+      case ElementType.wordGame: return Icons.casino_outlined;
+      case ElementType.puzzle:   return Icons.grid_view_rounded;
     }
   }
 }

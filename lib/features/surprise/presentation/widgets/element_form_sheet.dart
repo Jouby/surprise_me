@@ -7,6 +7,8 @@ import '../../domain/entities/element_draft.dart';
 import '../../domain/entities/surprise_element.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/utils/text_formatters.dart';
+import '../../../../features/word_game/presentation/widgets/word_game_form_field.dart';
+import '../../../../features/puzzle_game/presentation/widgets/puzzle_game_form_field.dart';
 import 'image_picker_field.dart';
 import 'location_autocomplete_field.dart';
 
@@ -34,6 +36,8 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
   DateTime? _selectedDate;
   TimeOfDay? _selectedTime;
   String? _uploadedImageUrl;
+  String _wordGameWord = '';
+  String? _puzzleImageUrl;
   bool _submitted = false; // true dès le premier appui sur Ajouter/Enregistrer
 
   static const _chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
@@ -53,6 +57,12 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
           ? init.content
           : '',
     );
+    if (init != null && init.type == ElementType.wordGame) {
+      _wordGameWord = init.content;
+    }
+    if (init != null && init.type == ElementType.puzzle) {
+      _puzzleImageUrl = init.content;
+    }
     _codeController = TextEditingController(text: init?.unlockCode ?? '');
 
     if (init != null && init.type == ElementType.date) {
@@ -153,6 +163,10 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
         return _uploadedImageUrl == null ? 'Veuillez ajouter une image' : null;
       case ElementType.location:
         return _contentController.text.trim().isEmpty ? 'Veuillez indiquer un lieu' : null;
+      case ElementType.wordGame:
+        return _wordGameWord.trim().isEmpty ? 'Veuillez saisir un mot' : null;
+      case ElementType.puzzle:
+        return _puzzleImageUrl == null ? 'Veuillez ajouter une image' : null;
       case ElementType.text:
         return _contentController.text.trim().isEmpty ? 'Ce champ est requis' : null;
     }
@@ -168,6 +182,10 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
       content = _dateContent;
     } else if (_type == ElementType.image) {
       content = _uploadedImageUrl ?? '';
+    } else if (_type == ElementType.wordGame) {
+      content = _wordGameWord.trim().toUpperCase();
+    } else if (_type == ElementType.puzzle) {
+      content = _puzzleImageUrl ?? '';
     } else {
       content = _contentController.text.trim();
     }
@@ -227,6 +245,8 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
                       _selectedDate = null;
                       _selectedTime = null;
                       _uploadedImageUrl = null;
+                      _wordGameWord = '';
+                      _puzzleImageUrl = null;
                       _contentController.clear();
                       _submitted = false;
                     }),
@@ -351,6 +371,22 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
                 },
                 errorText: _contentError,
               )
+            else if (_type == ElementType.puzzle)
+              PuzzleGameFormField(
+                initialUrl: _puzzleImageUrl,
+                onUploaded: (url) => setState(() => _puzzleImageUrl = url),
+
+                errorText: _contentError,
+              )
+            else if (_type == ElementType.wordGame)
+              WordGameFormField(
+                initialValue: _wordGameWord.isNotEmpty ? _wordGameWord : null,
+                onChanged: (v) {
+                  _wordGameWord = v;
+                  if (_submitted) setState(() {});
+                },
+                errorText: _contentError,
+              )
             else
               TextField(
                 controller: _contentController,
@@ -419,28 +455,34 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
 
   String _labelFor(ElementType t) {
     switch (t) {
-      case ElementType.text: return 'Texte';
-      case ElementType.image: return 'Image';
-      case ElementType.date: return 'Date';
+      case ElementType.text:     return 'Texte';
+      case ElementType.image:    return 'Image';
+      case ElementType.date:     return 'Date';
       case ElementType.location: return 'Lieu';
+      case ElementType.wordGame: return 'Mot mêlé';
+      case ElementType.puzzle:   return 'Taquin';
     }
   }
 
   String _contentHint(ElementType t) {
     switch (t) {
-      case ElementType.text: return 'Contenu du message *';
-      case ElementType.image: return 'URL de l\'image *';
-      case ElementType.date: return 'Ex : Samedi 15 Juillet 2026 · 20h00 *';
+      case ElementType.text:     return 'Contenu du message *';
+      case ElementType.image:    return 'URL de l\'image *';
+      case ElementType.date:     return 'Ex : Samedi 15 Juillet 2026 · 20h00 *';
       case ElementType.location: return 'Ex : Château de Versailles, 78000 *';
+      case ElementType.wordGame: return 'Mot à deviner *';
+      case ElementType.puzzle:   return 'Image du puzzle *';
     }
   }
 
   IconData _iconFor(ElementType t) {
     switch (t) {
-      case ElementType.text: return Icons.notes_rounded;
-      case ElementType.image: return Icons.photo_outlined;
-      case ElementType.date: return Icons.calendar_today_outlined;
+      case ElementType.text:     return Icons.notes_rounded;
+      case ElementType.image:    return Icons.photo_outlined;
+      case ElementType.date:     return Icons.calendar_today_outlined;
       case ElementType.location: return Icons.place_outlined;
+      case ElementType.wordGame: return Icons.casino_outlined;
+      case ElementType.puzzle:   return Icons.grid_view_rounded;
     }
   }
 }

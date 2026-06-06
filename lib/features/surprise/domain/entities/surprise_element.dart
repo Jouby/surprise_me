@@ -1,4 +1,14 @@
-enum ElementType { text, image, date, location }
+enum ElementType { text, image, date, location, wordGame, puzzle }
+
+extension ElementTypeX on ElementType {
+  /// Serialized name used in the database (snake_case).
+  String get dbName {
+    switch (this) {
+      case ElementType.wordGame: return 'word_game';
+      default:                   return name;
+    }
+  }
+}
 
 class SurpriseElement {
   final String id;

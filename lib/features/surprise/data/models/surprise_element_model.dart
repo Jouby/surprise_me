@@ -20,10 +20,12 @@ class SurpriseElementModel extends SurpriseElement {
 
   static ElementType _parseType(String type) {
     switch (type) {
-      case 'image':    return ElementType.image;
-      case 'date':     return ElementType.date;
-      case 'location': return ElementType.location;
-      default:         return ElementType.text;
+      case 'image':     return ElementType.image;
+      case 'date':      return ElementType.date;
+      case 'location':  return ElementType.location;
+      case 'word_game': return ElementType.wordGame;
+      case 'puzzle':    return ElementType.puzzle;
+      default:          return ElementType.text;
     }
   }
 }

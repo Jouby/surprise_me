@@ -12,7 +12,7 @@ create table if not exists surprises (
 create table if not exists surprise_elements (
   id uuid primary key default gen_random_uuid(),
   surprise_id uuid not null references surprises(id) on delete cascade,
-  type text not null check (type in ('text', 'image', 'date', 'location')),
+  type text not null check (type in ('text', 'image', 'date', 'location', 'word_game')),
   label text not null,
   content text not null,
   unlock_code text not null,

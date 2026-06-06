@@ -54,7 +54,7 @@ class UpdateSurpriseUseCase {
       if (draft.isNew) {
         await _repository.addElement(
           surpriseId: params.surpriseId,
-          type: draft.type.name,
+          type: draft.type.dbName,
           label: draft.label,
           content: draft.content,
           unlockCode: draft.unlockCode,
@@ -63,7 +63,7 @@ class UpdateSurpriseUseCase {
       } else {
         await _repository.updateElement(
           id: draft.id!,
-          type: draft.type.name,
+          type: draft.type.dbName,
           label: draft.label,
           content: draft.content,
           unlockCode: draft.unlockCode,

@@ -557,6 +557,8 @@ class _ElementDraftTile extends StatelessWidget {
       case ElementType.image: return Icons.photo_outlined;
       case ElementType.date: return Icons.calendar_today_outlined;
       case ElementType.location: return Icons.place_outlined;
+      case ElementType.wordGame: return Icons.casino_outlined;
+      case ElementType.puzzle:   return Icons.grid_view_rounded;
     }
   }
 }
