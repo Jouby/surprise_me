@@ -111,7 +111,7 @@ class _SurpriseMeAppState extends State<SurpriseMeApp> {
   /// Extrait le code de partage depuis un URI deep link.
   /// Formats supportés :
   ///   surpriseme://join/CODE
-  ///   https://surprise-qyrr4yynh-jouby-s-projects.vercel.app/join/CODE
+  ///   https://surprise-99sj7mpha-jouby-s-projects.vercel.app/join/CODE
   String? _extractCode(Uri uri) {
     // Scheme custom
     if (uri.scheme == 'surpriseme' && uri.host == 'join') {
@@ -120,7 +120,7 @@ class _SurpriseMeAppState extends State<SurpriseMeApp> {
     }
     // Lien HTTPS Vercel
     if ((uri.scheme == 'https' || uri.scheme == 'http') &&
-        uri.host == 'surprise-qyrr4yynh-jouby-s-projects.vercel.app') {
+        uri.host == 'surprise-99sj7mpha-jouby-s-projects.vercel.app') {
       final segments = uri.pathSegments;
       // pathSegments = ['join', 'CODE']
       final joinIdx = segments.indexOf('join');
