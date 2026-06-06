@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show Clipboard, ClipboardData;
-import '../../../../core/l10n/l10n.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../domain/entities/surprise.dart';
+import '../../domain/repositories/i_surprise_repository.dart';
 import '../providers/surprise_provider.dart';
 import '../../../unlock/presentation/providers/unlock_provider.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/utils/color_utils.dart';
+import '../../../../core/l10n/l10n.dart';
 import '../widgets/element_tile.dart';
 import '../../../unlock/presentation/widgets/unlock_bottom_sheet.dart';
 import 'edit_surprise_screen.dart';
 
-class SurpriseDetailScreen extends StatelessWidget {
+class SurpriseDetailScreen extends StatefulWidget {
   final Surprise surprise;
   final bool isOwner;
 
@@ -21,6 +22,28 @@ class SurpriseDetailScreen extends StatelessWidget {
     required this.surprise,
     this.isOwner = false,
   });
+
+  @override
+  State<SurpriseDetailScreen> createState() => _SurpriseDetailScreenState();
+}
+
+class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
+  Surprise get surprise => widget.surprise;
+  bool get isOwner => widget.isOwner;
+
+  bool _tokenMissing = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (isOwner) _checkToken();
+  }
+
+  Future<void> _checkToken() async {
+    final repo = context.read<ISurpriseRepository>();
+    final token = await repo.getCreatorToken(surprise.id);
+    if (mounted) setState(() => _tokenMissing = token == null);
+  }
 
   void _showUnlockSheet(BuildContext context, UnlockProvider provider) {
     showModalBottomSheet(
@@ -197,6 +220,10 @@ class SurpriseDetailScreen extends StatelessWidget {
                       _buildHero(context),
                       const SizedBox(height: 16),
                       _buildOwnerBanner(context),
+                      if (_tokenMissing) ...[
+                        const SizedBox(height: 10),
+                        _buildTokenMissingBanner(context),
+                      ],
                     ],
                   ),
                 ),
@@ -252,6 +279,106 @@ class SurpriseDetailScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _buildTokenMissingBanner(BuildContext context) {
+    return GestureDetector(
+      onTap: () => _showTokenRecoveryDialog(context),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        decoration: BoxDecoration(
+          color: Colors.orange.withValues(alpha: 0.08),
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: Colors.orange.withValues(alpha: 0.3)),
+        ),
+        child: Row(
+          children: [
+            const Icon(Icons.link_rounded, size: 18, color: Colors.orange),
+            const SizedBox(width: 10),
+            const Expanded(
+              child: Text(
+                'Cet appareil n\'est pas lié à cette surprise. Appuyez pour entrer le code d\'accès.',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.orange,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            const Icon(Icons.chevron_right_rounded,
+                size: 16, color: Colors.orange),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _showTokenRecoveryDialog(BuildContext context) async {
+    final controller = TextEditingController();
+    String? errorText;
+
+    await showDialog(
+      context: context,
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setDialogState) => AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          backgroundColor: AppTheme.cardBg,
+          title: const Text('Lier cet appareil'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Entrez le creator_token associé à cette surprise dans Supabase.',
+                style: TextStyle(fontSize: 13, color: AppTheme.textMid),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: controller,
+                autofocus: true,
+                decoration: InputDecoration(
+                  labelText: 'Creator token (UUID)',
+                  hintText: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+                  errorText: errorText,
+                ),
+                onChanged: (_) {
+                  if (errorText != null) setDialogState(() => errorText = null);
+                },
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: Text(ctx.l10n.cancel,
+                  style: const TextStyle(color: AppTheme.textLight)),
+            ),
+            TextButton(
+              onPressed: () async {
+                final token = controller.text.trim();
+                if (token.isEmpty) return;
+
+                final repo = context.read<ISurpriseRepository>();
+                final valid = await repo.verifyAndSaveCreatorToken(
+                  surpriseId: surprise.id,
+                  token: token,
+                );
+
+                if (valid) {
+                  if (ctx.mounted) Navigator.pop(ctx);
+                  if (mounted) setState(() => _tokenMissing = false);
+                } else {
+                  setDialogState(() => errorText = 'Token invalide.');
+                }
+              },
+              child: const Text('Lier',
+                  style: TextStyle(fontWeight: FontWeight.w700)),
+            ),
+          ],
+        ),
+      ),
+    );
+    controller.dispose();
   }
 
   Widget _buildOwnerBottomBar(BuildContext context) {
