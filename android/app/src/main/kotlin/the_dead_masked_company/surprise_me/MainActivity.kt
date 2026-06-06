@@ -1,4 +1,4 @@
-package com.example.surprise_me
+package the_dead_masked_company.surprise_me
 
 import io.flutter.embedding.android.FlutterActivity
 
