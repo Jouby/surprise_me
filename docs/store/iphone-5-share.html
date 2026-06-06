@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=414"/>
+  <title>iPhone 5 – Partager</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; -webkit-font-smoothing:antialiased; }
+    body { width:414px; height:896px; background:#F0F7FF; font-family:'DM Sans',sans-serif; overflow:hidden; position:relative; }
+
+    .status { display:flex; justify-content:space-between; align-items:center; padding:16px 26px 0; }
+    .status-time { font-size:16px; font-weight:700; color:#0D2035; }
+    .status-icons { font-size:13px; color:#0D2035; }
+
+    .bg-content { padding:12px 18px; filter:blur(3px); opacity:0.4; }
+    .bg-hero { border-radius:22px; padding:22px; background:linear-gradient(135deg,#2E6DA4,#4A9FD4); text-align:center; margin-bottom:12px; }
+    .bg-hero-emoji { font-size:44px; }
+    .bg-hero-title { font-size:19px; font-weight:600; color:#fff; margin-top:8px; }
+    .bg-card { background:#fff; border-radius:16px; border:1px solid #D6E8F5; padding:14px; margin-bottom:10px; display:flex; gap:10px; align-items:center; }
+    .bg-dot { width:26px; height:26px; border-radius:8px; flex-shrink:0; }
+    .bg-line { flex:1; height:10px; background:#F0F7FF; border-radius:4px; }
+
+    /* Floating message bubble */
+    .msg-bubble { position:absolute; top:86px; left:22px; right:22px; background:#fff; border-radius:20px; padding:16px 18px; box-shadow:0 10px 40px rgba(0,0,0,0.2); display:flex; gap:12px; z-index:5; }
+    .msg-avatar { width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,#2E6DA4,#4A9FD4); display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+    .msg-body { flex:1; }
+    .msg-name { font-size:13px; font-weight:700; color:#0D2035; margin-bottom:4px; }
+    .msg-text { font-size:13px; color:#4A6580; line-height:1.5; }
+    .msg-code-pill { display:inline-block; margin-top:6px; background:#E8F3FB; border-radius:8px; padding:4px 10px; font-size:13px; font-weight:800; color:#2E6DA4; letter-spacing:3px; }
+
+    .overlay { position:absolute; inset:0; background:rgba(13,32,53,0.55); z-index:3; }
+
+    .sheet { position:absolute; bottom:0; left:0; right:0; background:#fff; border-radius:30px 30px 0 0; padding:0 26px 38px; z-index:10; }
+    .handle { width:40px; height:4px; background:#D6E8F5; border-radius:2px; margin:14px auto 26px; }
+
+    .sheet-emoji { font-size:42px; text-align:center; margin-bottom:10px; }
+    .sheet-title { font-family:'DM Serif Display',serif; font-size:21px; color:#0D2035; text-align:center; margin-bottom:8px; }
+    .sheet-sub { font-size:13px; color:#8AAABF; text-align:center; line-height:1.5; margin-bottom:24px; }
+
+    .code-box { background:#F0F7FF; border-radius:18px; border:1.5px solid #D6E8F5; padding:20px 30px; text-align:center; margin-bottom:24px; }
+    .code-text { font-size:36px; font-weight:800; letter-spacing:10px; color:#2E6DA4; font-family:'DM Sans',sans-serif; }
+
+    .btn-row { display:flex; gap:12px; }
+    .btn-outlined { flex:1; height:54px; border-radius:15px; border:1.5px solid rgba(46,109,164,0.4); background:#fff; display:flex; align-items:center; justify-content:center; gap:8px; font-size:15px; font-weight:600; color:#2E6DA4; }
+    .btn-outlined svg { width:17px; height:17px; stroke:#2E6DA4; fill:none; stroke-width:2; stroke-linecap:round; }
+    .btn-filled { flex:1; height:54px; border-radius:15px; background:#2E6DA4; display:flex; align-items:center; justify-content:center; gap:8px; font-size:15px; font-weight:600; color:#fff; }
+    .btn-filled svg { width:17px; height:17px; stroke:#fff; fill:none; stroke-width:2; stroke-linecap:round; }
+  </style>
+</head>
+<body>
+  <div class="status"><span class="status-time">9:41</span><span class="status-icons">●●● WiFi 🔋</span></div>
+
+  <div class="bg-content">
+    <div class="bg-hero">
+      <div class="bg-hero-emoji">🏖️</div>
+      <div class="bg-hero-title">Voyage à Lisbonne</div>
+    </div>
+    <div class="bg-card"><div class="bg-dot" style="background:#E8F3FB;"></div><div class="bg-line"></div></div>
+    <div class="bg-card"><div class="bg-dot" style="background:#fef9c3;"></div><div class="bg-line"></div></div>
+  </div>
+
+  <!-- Floating message preview -->
+  <div class="msg-bubble">
+    <div class="msg-avatar">👤</div>
+    <div class="msg-body">
+      <div class="msg-name">Aurélie</div>
+      <div class="msg-text">J'ai une surprise pour toi ! 🎁<br/>Entre ce code pour la découvrir :</div>
+      <div class="msg-code-pill">A7K2PX</div>
+    </div>
+  </div>
+
+  <div class="overlay"></div>
+
+  <div class="sheet">
+    <div class="handle"></div>
+    <div class="sheet-emoji">🏖️</div>
+    <div class="sheet-title">Partager "Voyage à Lisbonne"</div>
+    <div class="sheet-sub">Partagez ce code pour que vos proches<br/>puissent accéder à cette surprise.</div>
+    <div class="code-box">
+      <div class="code-text">A7K2PX</div>
+    </div>
+    <div class="btn-row">
+      <div class="btn-outlined">
+        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copier
+      </div>
+      <div class="btn-filled">
+        <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51L8.59 10.49"/></svg>
+        Partager
+      </div>
+    </div>
+  </div>
+</body>
+</html>

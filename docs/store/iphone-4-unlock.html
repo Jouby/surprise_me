@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=414"/>
+  <title>iPhone 4 – Déverrouiller</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; -webkit-font-smoothing:antialiased; }
+    body { width:414px; height:896px; background:#F0F7FF; font-family:'DM Sans',sans-serif; overflow:hidden; position:relative; }
+
+    .status { display:flex; justify-content:space-between; align-items:center; padding:16px 26px 0; }
+    .status-time { font-size:16px; font-weight:700; color:#0D2035; }
+    .status-icons { font-size:13px; color:#0D2035; }
+
+    .bg-content { padding:12px 18px; filter:blur(3px); opacity:0.4; }
+    .bg-hero { border-radius:22px; padding:22px; background:linear-gradient(135deg,#2E6DA4,#4A9FD4); text-align:center; margin-bottom:12px; }
+    .bg-hero-emoji { font-size:44px; }
+    .bg-hero-title { font-size:19px; font-weight:600; color:#fff; margin-top:8px; }
+    .bg-card { background:#fff; border-radius:16px; border:1px solid #D6E8F5; padding:14px; margin-bottom:10px; display:flex; gap:10px; align-items:center; }
+    .bg-dot { width:26px; height:26px; border-radius:8px; flex-shrink:0; }
+    .bg-line { flex:1; height:10px; background:#F0F7FF; border-radius:4px; }
+
+    .overlay { position:absolute; inset:0; background:rgba(13,32,53,0.55); }
+
+    .sheet { position:absolute; bottom:0; left:0; right:0; background:#fff; border-radius:30px 30px 0 0; padding:0 26px 38px; }
+    .handle { width:40px; height:4px; background:#D6E8F5; border-radius:2px; margin:14px auto 30px; }
+
+    .key-circle { width:64px; height:64px; border-radius:50%; background:rgba(46,109,164,0.08); display:flex; align-items:center; justify-content:center; margin:0 auto 18px; }
+    .key-circle svg { width:30px; height:30px; stroke:#2E6DA4; fill:none; stroke-width:2; stroke-linecap:round; }
+
+    .sheet-title { font-family:'DM Serif Display',serif; font-size:24px; color:#0D2035; text-align:center; margin-bottom:8px; }
+    .sheet-sub { font-size:14px; color:#8AAABF; text-align:center; line-height:1.5; margin-bottom:30px; }
+
+    .code-input { background:#F0F7FF; border-radius:14px; border:2px solid #2E6DA4; padding:20px; text-align:center; font-size:30px; font-weight:800; letter-spacing:10px; color:#2E6DA4; font-family:'DM Sans',sans-serif; margin-bottom:16px; }
+
+    .feedback { display:flex; align-items:center; justify-content:center; gap:9px; background:rgba(46,109,164,0.08); border-radius:12px; padding:12px 18px; margin-bottom:26px; }
+    .feedback svg { width:17px; height:17px; stroke:#2E6DA4; fill:none; stroke-width:2.5; stroke-linecap:round; flex-shrink:0; }
+    .feedback span { font-size:13px; font-weight:500; color:#2E6DA4; }
+
+    .unlock-btn { width:100%; height:54px; background:#2E6DA4; border-radius:15px; display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:600; color:#fff; gap:9px; }
+    .unlock-btn svg { width:19px; height:19px; stroke:#fff; fill:none; stroke-width:2; stroke-linecap:round; }
+  </style>
+</head>
+<body>
+  <div class="status"><span class="status-time">9:41</span><span class="status-icons">●●● WiFi 🔋</span></div>
+
+  <div class="bg-content">
+    <div class="bg-hero">
+      <div class="bg-hero-emoji">🏖️</div>
+      <div class="bg-hero-title">Voyage à Lisbonne</div>
+    </div>
+    <div class="bg-card"><div class="bg-dot" style="background:#E8F3FB;"></div><div class="bg-line"></div></div>
+    <div class="bg-card"><div class="bg-dot" style="background:#fef9c3;"></div><div class="bg-line"></div></div>
+    <div class="bg-card"><div class="bg-dot" style="background:#F0F7FF;"></div><div class="bg-line"></div></div>
+  </div>
+
+  <div class="overlay"></div>
+
+  <div class="sheet">
+    <div class="handle"></div>
+    <div class="key-circle">
+      <svg viewBox="0 0 24 24"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+    </div>
+    <div class="sheet-title">Entrez votre code</div>
+    <div class="sheet-sub">Chaque code débloque un élément<br/>de la surprise.</div>
+    <div class="code-input">LISBONNE</div>
+    <div class="feedback">
+      <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+      <span>Code accepté ! Un élément a été révélé. 🎉</span>
+    </div>
+    <div class="unlock-btn">
+      <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
+      Déverrouiller
+    </div>
+  </div>
+</body>
+</html>
