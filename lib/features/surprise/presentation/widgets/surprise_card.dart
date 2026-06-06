@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../domain/entities/surprise.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/utils/color_utils.dart';
+import '../../../unlock/presentation/providers/unlock_provider.dart';
+import '../../../../core/l10n/l10n.dart';
 
 class SurpriseCard extends StatelessWidget {
   final Surprise surprise;
@@ -20,6 +23,13 @@ class SurpriseCard extends StatelessWidget {
     final color = ColorUtils.fromHex(surprise.color);
     final colorLight = color.withValues(alpha: 0.1);
     final colorBorder = color.withValues(alpha: 0.25);
+
+    final total = surprise.elements.length;
+    final unlockProvider = context.watch<UnlockProvider>();
+    final unlocked = isOwner
+        ? total
+        : surprise.elements.where((e) => unlockProvider.isUnlocked(e.unlockCode)).length;
+    final showProgress = !isOwner && total > 0;
 
     return GestureDetector(
       onTap: onTap,
@@ -67,16 +77,27 @@ class SurpriseCard extends StatelessWidget {
                             fontSize: 17,
                           ),
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      surprise.subtitle,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: AppTheme.textLight,
-                            fontSize: 13,
-                          ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    if (showProgress) ...[
+                      const SizedBox(height: 10),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(4),
+                        child: LinearProgressIndicator(
+                          value: unlocked / total,
+                          minHeight: 4,
+                          backgroundColor: AppTheme.divider,
+                          valueColor: AlwaysStoppedAnimation(color),
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        '${context.l10n.revealedElements} $unlocked / $total',
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: color,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ),

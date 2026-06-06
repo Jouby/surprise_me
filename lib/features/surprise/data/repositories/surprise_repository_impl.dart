@@ -26,41 +26,66 @@ class SurpriseRepositoryImpl implements ISurpriseRepository {
     required String subtitle,
     required String color,
     required List<Map<String, dynamic>> elements,
-  }) =>
-      _remote.createSurprise(
-          emoji: emoji, title: title, subtitle: subtitle, color: color, elements: elements);
+  }) async {
+    final result = await _remote.createSurprise(
+      emoji: emoji,
+      title: title,
+      subtitle: subtitle,
+      color: color,
+      elements: elements,
+    );
+    await _local.saveCreatorToken(result.surpriseId, result.creatorToken);
+    return result.shareCode;
+  }
 
   @override
   Future<void> updateSurprise({
     required String id,
+    required String creatorToken,
     required String emoji,
     required String title,
     required String subtitle,
     required String color,
   }) =>
       _remote.updateSurprise(
-          id: id, emoji: emoji, title: title, subtitle: subtitle, color: color);
+        id: id,
+        creatorToken: creatorToken,
+        emoji: emoji,
+        title: title,
+        subtitle: subtitle,
+        color: color,
+      );
 
   @override
   Future<void> updateElement({
     required String id,
+    required String creatorToken,
     required String type,
     required String label,
     required String content,
     required String unlockCode,
   }) =>
       _remote.updateElement(
-          id: id, type: type, label: label, content: content, unlockCode: unlockCode);
+        id: id,
+        creatorToken: creatorToken,
+        type: type,
+        label: label,
+        content: content,
+        unlockCode: unlockCode,
+      );
 
   @override
-  Future<void> deleteSurprise(String id) => _remote.deleteSurprise(id);
+  Future<void> deleteSurprise({required String id, required String creatorToken}) =>
+      _remote.deleteSurprise(id: id, creatorToken: creatorToken);
 
   @override
-  Future<void> deleteElement(String id) => _remote.deleteElement(id);
+  Future<void> deleteElement({required String id, required String creatorToken}) =>
+      _remote.deleteElement(id: id, creatorToken: creatorToken);
 
   @override
   Future<void> addElement({
     required String surpriseId,
+    required String creatorToken,
     required String type,
     required String label,
     required String content,
@@ -68,12 +93,14 @@ class SurpriseRepositoryImpl implements ISurpriseRepository {
     required int sortOrder,
   }) =>
       _remote.addElement(
-          surpriseId: surpriseId,
-          type: type,
-          label: label,
-          content: content,
-          unlockCode: unlockCode,
-          sortOrder: sortOrder);
+        surpriseId: surpriseId,
+        creatorToken: creatorToken,
+        type: type,
+        label: label,
+        content: content,
+        unlockCode: unlockCode,
+        sortOrder: sortOrder,
+      );
 
   @override
   Future<String> uploadImage(File file) => _remote.uploadImage(file);
@@ -95,4 +122,12 @@ class SurpriseRepositoryImpl implements ISurpriseRepository {
 
   @override
   Future<void> removeCreatedCode(String code) => _local.removeCreatedCode(code);
+
+  @override
+  Future<void> saveCreatorToken(String surpriseId, String token) =>
+      _local.saveCreatorToken(surpriseId, token);
+
+  @override
+  Future<String?> getCreatorToken(String surpriseId) =>
+      _local.getCreatorToken(surpriseId);
 }

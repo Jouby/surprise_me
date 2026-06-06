@@ -9,12 +9,12 @@ class DeleteSurpriseUseCase {
     required String shareCode,
     required bool isOwner,
   }) async {
-    // Supprimer côté serveur uniquement si on est propriétaire
     if (isOwner) {
-      await _repository.deleteSurprise(surpriseId);
+      final token = await _repository.getCreatorToken(surpriseId);
+      if (token == null) throw Exception('creator_token introuvable pour cette surprise.');
+      await _repository.deleteSurprise(id: surpriseId, creatorToken: token);
       await _repository.removeCreatedCode(shareCode);
     }
-    // Dans tous les cas, retirer du stockage local (propriétaire ou visiteur)
     await _repository.removeSavedCode(shareCode);
   }
 }
