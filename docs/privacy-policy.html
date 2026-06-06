@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Politique de confidentialité – Surprise Me</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #f9f7f4;
+      color: #1a1a1a;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid #ebebeb;
+      padding: 24px 32px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    header .emoji { font-size: 32px; }
+
+    header h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+
+    header p {
+      margin: 2px 0 0;
+      font-size: 13px;
+      color: #888;
+    }
+
+    main {
+      max-width: 720px;
+      margin: 40px auto;
+      padding: 0 24px 80px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid #ebebeb;
+      padding: 32px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin: 0 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h2 .icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    p, li {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #444;
+      margin: 0 0 10px;
+    }
+
+    ul {
+      padding-left: 20px;
+      margin: 8px 0 0;
+    }
+
+    li { margin-bottom: 6px; }
+
+    .badge {
+      display: inline-block;
+      background: #f0fdf4;
+      color: #16a34a;
+      border: 1px solid #bbf7d0;
+      border-radius: 20px;
+      padding: 3px 10px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .badge.orange {
+      background: #fff7ed;
+      color: #c2410c;
+      border-color: #fed7aa;
+    }
+
+    a { color: #6366f1; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    footer {
+      text-align: center;
+      font-size: 12px;
+      color: #aaa;
+      padding: 40px 24px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <span class="emoji">🎁</span>
+  <div>
+    <h1>Surprise Me</h1>
+    <p>Politique de confidentialité</p>
+  </div>
+</header>
+
+<main>
+
+  <div class="card">
+    <h2>
+      <span class="icon" style="background:#f0f9ff;">📋</span>
+      En résumé
+    </h2>
+    <p>
+      <strong>Surprise Me</strong> ne collecte aucune donnée personnelle identifiable.
+      L'application ne nécessite pas de création de compte, ne suit pas votre comportement
+      et ne contient aucune publicité.
+    </p>
+    <p>
+      <span class="badge">✓ Aucun compte requis</span>&nbsp;
+      <span class="badge">✓ Aucune publicité</span>&nbsp;
+      <span class="badge">✓ Aucun tracking</span>
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>
+      <span class="icon" style="background:#fef9c3;">☁️</span>
+      Données stockées sur nos serveurs
+    </h2>
+    <p>Les informations suivantes sont enregistrées dans notre base de données afin de faire fonctionner l'application :</p>
+    <ul>
+      <li>Le contenu des surprises que vous créez : titre, sous-titre, emoji, couleur, éléments (texte, dates, lieux, images, jeux).</li>
+      <li>Un code de partage aléatoire permettant à d'autres utilisateurs de rejoindre votre surprise.</li>
+      <li>Un token de création (UUID aléatoire) permettant de vérifier que vous êtes bien l'auteur de la surprise.</li>
+      <li>Les images que vous uploadez, hébergées sur notre espace de stockage sécurisé.</li>
+    </ul>
+    <p>Ces données ne contiennent <strong>aucun nom, email, numéro de téléphone ou identifiant personnel</strong>.</p>
+  </div>
+
+  <div class="card">
+    <h2>
+      <span class="icon" style="background:#f0fdf4;">📱</span>
+      Données stockées localement sur votre appareil
+    </h2>
+    <p>Les informations suivantes restent exclusivement sur votre appareil et ne sont jamais envoyées :</p>
+    <ul>
+      <li>Les codes des surprises que vous avez créées ou rejointes.</li>
+      <li>Les codes de déverrouillage des éléments que vous avez révélés.</li>
+      <li>Le token de création de vos surprises (pour vous permettre de les modifier).</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>
+      <span class="icon" style="background:#fdf4ff;">📷</span>
+      Accès à la caméra et à la galerie
+    </h2>
+    <p>
+      L'application peut demander l'accès à votre appareil photo et à votre galerie
+      uniquement lorsque vous ajoutez une image à une surprise.
+      Ces permissions sont optionnelles et ne sont utilisées qu'à votre demande explicite.
+    </p>
+    <p>
+      <span class="badge orange">⚠ Aucune photo n'est collectée sans votre action</span>
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>
+      <span class="icon" style="background:#fff7ed;">🔗</span>
+      Services tiers
+    </h2>
+    <p>L'application utilise les services suivants :</p>
+    <ul>
+      <li>
+        <strong>Supabase</strong> – base de données et stockage des fichiers.
+        Vos données sont hébergées sur des serveurs sécurisés.
+        <a href="https://supabase.com/privacy" target="_blank">Politique de confidentialité Supabase →</a>
+      </li>
+    </ul>
+    <p>Aucun autre service tiers (analytics, publicité, réseaux sociaux) n'est intégré.</p>
+  </div>
+
+  <div class="card">
+    <h2>
+      <span class="icon" style="background:#f0fdf4;">🗑️</span>
+      Suppression des données
+    </h2>
+    <p>
+      Vous pouvez supprimer vos surprises directement depuis l'application.
+      Cette action supprime définitivement toutes les données associées sur nos serveurs.
+    </p>
+    <p>
+      Pour toute demande de suppression de données résiduelles, contactez-nous à l'adresse ci-dessous.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>
+      <span class="icon" style="background:#f0f9ff;">✉️</span>
+      Contact
+    </h2>
+    <p>
+      Pour toute question relative à cette politique de confidentialité ou à vos données,
+      vous pouvez nous contacter à :
+      <a href="mailto:aure.joubert@gmail.com">aure.joubert@gmail.com</a>
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>
+      <span class="icon" style="background:#fef9c3;">📅</span>
+      Mises à jour
+    </h2>
+    <p>
+      Cette politique peut être mise à jour lors de l'ajout de nouvelles fonctionnalités.
+      La date de dernière mise à jour est indiquée en bas de page.
+      L'utilisation continue de l'application après modification vaut acceptation.
+    </p>
+  </div>
+
+</main>
+
+<footer>
+  Dernière mise à jour : juin 2025 &nbsp;·&nbsp; Surprise Me &nbsp;·&nbsp; The Dead Masked Company
+</footer>
+
+</body>
+</html>
