@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=390"/>
+  <title>Screenshot 2 – Créer</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; -webkit-font-smoothing:antialiased; }
+    body { width:390px; height:844px; background:#F0F7FF; font-family:'DM Sans',sans-serif; overflow:hidden; }
+
+    .status { display:flex; justify-content:space-between; align-items:center; padding:14px 24px 0; }
+    .status-time { font-size:15px; font-weight:700; color:#0D2035; }
+    .status-icons { font-size:12px; color:#0D2035; }
+
+    .appbar { padding:10px 16px; display:flex; align-items:center; justify-content:space-between; }
+    .appbar-back { width:36px; height:36px; background:#fff; border-radius:10px; border:1px solid #D6E8F5; display:flex; align-items:center; justify-content:center; }
+    .appbar-back svg { width:16px; height:16px; stroke:#0D2035; fill:none; stroke-width:2.5; stroke-linecap:round; }
+    .appbar-title { font-family:'DM Serif Display',serif; font-size:20px; color:#0D2035; }
+
+    .scroll { padding:8px 20px 140px; overflow:hidden; }
+
+    .section-label { font-size:11px; font-weight:700; letter-spacing:1.2px; color:#8AAABF; text-transform:uppercase; margin-bottom:10px; }
+
+    .identity-card { background:#fff; border-radius:18px; border:1px solid #D6E8F5; padding:16px; margin-bottom:20px; }
+
+    .identity-row { display:flex; gap:12px; align-items:flex-start; margin-bottom:12px; }
+    .emoji-picker { width:72px; height:52px; background:#F0F7FF; border-radius:12px; border:1.5px solid #D6E8F5; display:flex; align-items:center; justify-content:center; font-size:26px; flex-shrink:0; position:relative; }
+    .emoji-edit { position:absolute; bottom:3px; right:3px; width:14px; height:14px; background:#2E6DA4; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+    .emoji-edit svg { width:7px; height:7px; stroke:#fff; fill:none; stroke-width:2.5; stroke-linecap:round; }
+
+    .input-field { flex:1; }
+    .input-label { font-size:12px; color:#4A6580; margin-bottom:4px; }
+    .input-box { background:#F0F7FF; border-radius:12px; border:1.5px solid #D6E8F5; padding:12px 14px; font-size:15px; color:#0D2035; font-weight:500; font-family:'DM Sans',sans-serif; }
+    .input-box.placeholder { color:#8AAABF; font-weight:400; }
+
+    .color-row { background:#F0F7FF; border-radius:12px; border:1.5px solid #D6E8F5; padding:12px 14px; display:flex; align-items:center; gap:12px; }
+    .color-dot { width:26px; height:26px; border-radius:50%; background:#2E6DA4; box-shadow:0 0 0 3px rgba(46,109,164,0.2); flex-shrink:0; }
+    .color-label { flex:1; font-size:14px; color:#4A6580; }
+    .color-chevron svg { width:18px; height:18px; stroke:#8AAABF; fill:none; stroke-width:2; stroke-linecap:round; }
+
+    .elements-header { margin-bottom:10px; }
+    .elements-hint { font-size:13px; color:#8AAABF; margin-bottom:12px; }
+
+    .element-tile { background:#fff; border-radius:14px; border:1px solid #D6E8F5; padding:12px 14px; margin-bottom:8px; }
+    .element-tile-row { display:flex; align-items:center; gap:8px; }
+    .element-icon { width:28px; height:28px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .element-icon svg { width:14px; height:14px; }
+    .element-label { font-size:13px; font-weight:600; color:#0D2035; flex:1; }
+    .element-content { font-size:12px; color:#4A6580; margin-top:4px; padding-left:36px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .element-code { display:inline-block; margin-top:6px; margin-left:36px; background:#F0F7FF; border:1px solid #D6E8F5; border-radius:6px; padding:2px 8px; font-size:11px; font-weight:600; color:#2E6DA4; letter-spacing:1px; }
+
+    .add-btn { background:#F0F7FF; border-radius:14px; border:1.5px dashed #D6E8F5; padding:14px; display:flex; align-items:center; justify-content:center; gap:8px; }
+    .add-btn svg { width:18px; height:18px; stroke:#2E6DA4; fill:none; stroke-width:2; stroke-linecap:round; }
+    .add-btn span { font-size:14px; font-weight:600; color:#2E6DA4; }
+
+    .bottom-bar { position:absolute; bottom:0; left:0; right:0; background:#F0F7FF; padding:16px 20px 34px; box-shadow:0 -4px 20px rgba(26,58,92,0.08); }
+    .save-btn { width:100%; height:52px; background:#1A3A5C; border-radius:14px; display:flex; align-items:center; justify-content:center; gap:8px; font-size:15px; font-weight:600; color:#fff; }
+    .save-btn svg { width:18px; height:18px; stroke:#fff; fill:none; stroke-width:2.5; stroke-linecap:round; }
+  </style>
+</head>
+<body>
+  <div class="status">
+    <span class="status-time">9:41</span>
+    <span class="status-icons">●●● WiFi 🔋</span>
+  </div>
+
+  <div class="appbar">
+    <div class="appbar-back"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></div>
+    <div class="appbar-title">Créer une surprise</div>
+    <div style="width:36px;"></div>
+  </div>
+
+  <div class="scroll">
+    <div class="section-label">Identité</div>
+
+    <div class="identity-card">
+      <div class="identity-row">
+        <div class="emoji-picker">
+          🏖️
+          <div class="emoji-edit"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg></div>
+        </div>
+        <div class="input-field">
+          <div class="input-label">Titre *</div>
+          <div class="input-box">Voyage à Lisbonne</div>
+        </div>
+      </div>
+      <div class="input-box placeholder" style="margin-bottom:12px;">Sous-titre (optionnel)</div>
+      <div class="color-row">
+        <div class="color-dot"></div>
+        <span class="color-label">Couleur thème</span>
+        <div class="color-chevron"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
+      </div>
+    </div>
+
+    <div class="section-label elements-header">Éléments (3)</div>
+    <div class="elements-hint">Chaque élément peut être révélé par un code distinct.</div>
+
+    <div class="element-tile">
+      <div class="element-tile-row">
+        <div class="element-icon" style="background:#E8F3FB;"><svg viewBox="0 0 24 24" fill="none" stroke="#2E6DA4" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+        <span class="element-label">Le lieu du rendez-vous</span>
+      </div>
+      <div class="element-content">Lisbonne, Portugal 🇵🇹</div>
+      <div class="element-code">LISBONNE</div>
+    </div>
+
+    <div class="element-tile">
+      <div class="element-tile-row">
+        <div class="element-icon" style="background:#fef9c3;"><svg viewBox="0 0 24 24" fill="none" stroke="#ca8a04" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+        <span class="element-label">La date du départ</span>
+      </div>
+      <div class="element-content">Samedi 14 Juin 2025 · 08h30</div>
+      <div class="element-code">DEPART</div>
+    </div>
+
+    <div class="element-tile">
+      <div class="element-tile-row">
+        <div class="element-icon" style="background:#fdf4ff;"><svg viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+        <span class="element-label">Surprise photo</span>
+      </div>
+      <div class="element-content">Image ajoutée ✓</div>
+      <div class="element-code">PHOTO1</div>
+    </div>
+
+    <div class="add-btn">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
+      <span>Ajouter un élément</span>
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <div class="save-btn">
+      <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+      Créer la surprise
+    </div>
+  </div>
+</body>
+</html>

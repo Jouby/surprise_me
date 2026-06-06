@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=600"/>
+  <title>Tablet 7" – Créer</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; -webkit-font-smoothing:antialiased; }
+    body { width:600px; height:960px; background:#F0F7FF; font-family:'DM Sans',sans-serif; overflow:hidden; position:relative; }
+
+    .status { display:flex; justify-content:space-between; align-items:center; padding:16px 28px 0; }
+    .status-time { font-size:15px; font-weight:700; color:#0D2035; }
+    .status-icons { font-size:12px; color:#0D2035; }
+
+    .appbar { padding:10px 20px; display:flex; align-items:center; justify-content:space-between; }
+    .appbar-back { width:38px; height:38px; background:#fff; border-radius:10px; border:1px solid #D6E8F5; display:flex; align-items:center; justify-content:center; }
+    .appbar-back svg { width:16px; height:16px; stroke:#0D2035; fill:none; stroke-width:2.5; stroke-linecap:round; }
+    .appbar-title { font-family:'DM Serif Display',serif; font-size:22px; color:#0D2035; }
+
+    .columns { display:flex; gap:16px; padding:0 28px 120px; overflow:hidden; height:calc(100% - 110px); }
+
+    .col { flex:1; overflow:hidden; }
+
+    .section-label { font-size:11px; font-weight:700; letter-spacing:1.2px; color:#8AAABF; text-transform:uppercase; margin-bottom:10px; }
+
+    .identity-card { background:#fff; border-radius:18px; border:1px solid #D6E8F5; padding:16px; margin-bottom:0; }
+    .identity-row { display:flex; gap:12px; align-items:flex-start; margin-bottom:12px; }
+    .emoji-picker { width:64px; height:50px; background:#F0F7FF; border-radius:12px; border:1.5px solid #D6E8F5; display:flex; align-items:center; justify-content:center; font-size:24px; flex-shrink:0; position:relative; }
+    .emoji-edit { position:absolute; bottom:3px; right:3px; width:14px; height:14px; background:#2E6DA4; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+    .input-box { background:#F0F7FF; border-radius:12px; border:1.5px solid #D6E8F5; padding:11px 14px; font-size:14px; color:#0D2035; font-weight:500; font-family:'DM Sans',sans-serif; width:100%; }
+    .input-box.placeholder { color:#8AAABF; font-weight:400; }
+    .color-row { background:#F0F7FF; border-radius:12px; border:1.5px solid #D6E8F5; padding:11px 14px; display:flex; align-items:center; gap:10px; }
+    .color-dot { width:22px; height:22px; border-radius:50%; background:#2E6DA4; box-shadow:0 0 0 3px rgba(46,109,164,0.15); flex-shrink:0; }
+    .color-label { flex:1; font-size:13px; color:#4A6580; }
+
+    /* Right col: elements */
+    .elements-hint { font-size:12px; color:#8AAABF; margin-bottom:12px; }
+
+    .element-tile { background:#fff; border-radius:14px; border:1px solid #D6E8F5; padding:11px 13px; margin-bottom:8px; }
+    .el-row { display:flex; align-items:center; gap:8px; }
+    .el-icon { width:26px; height:26px; border-radius:7px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .el-icon svg { width:13px; height:13px; fill:none; stroke-width:2; stroke-linecap:round; }
+    .el-label { font-size:12px; font-weight:600; color:#0D2035; flex:1; }
+    .el-content { font-size:11px; color:#4A6580; margin-top:3px; padding-left:34px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .el-code { display:inline-block; margin-top:5px; margin-left:34px; background:#F0F7FF; border:1px solid #D6E8F5; border-radius:5px; padding:2px 7px; font-size:10px; font-weight:600; color:#2E6DA4; letter-spacing:1px; }
+
+    .type-chips { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
+    .chip { padding:6px 12px; border-radius:10px; font-size:12px; font-weight:500; border:1px solid #D6E8F5; background:#fff; color:#4A6580; display:flex; align-items:center; gap:5px; }
+    .chip svg { width:12px; height:12px; fill:none; stroke-width:2; stroke-linecap:round; }
+    .chip.active { background:#1A3A5C; border-color:#1A3A5C; color:#fff; }
+    .chip.active svg { stroke:#fff; }
+
+    .add-btn { background:#F0F7FF; border-radius:12px; border:1.5px dashed #D6E8F5; padding:12px; display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:8px; }
+    .add-btn svg { width:16px; height:16px; stroke:#2E6DA4; fill:none; stroke-width:2; stroke-linecap:round; }
+    .add-btn span { font-size:13px; font-weight:600; color:#2E6DA4; }
+
+    .bottom-bar { position:absolute; bottom:0; left:0; right:0; background:#F0F7FF; padding:14px 28px 28px; box-shadow:0 -4px 20px rgba(26,58,92,0.08); display:flex; gap:12px; }
+    .save-btn { flex:1; height:50px; background:#1A3A5C; border-radius:14px; display:flex; align-items:center; justify-content:center; gap:8px; font-size:15px; font-weight:600; color:#fff; }
+    .save-btn svg { width:18px; height:18px; stroke:#fff; fill:none; stroke-width:2.5; stroke-linecap:round; }
+  </style>
+</head>
+<body>
+  <div class="status">
+    <span class="status-time">9:41</span>
+    <span class="status-icons">●●● WiFi 🔋</span>
+  </div>
+
+  <div class="appbar">
+    <div class="appbar-back"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></div>
+    <div class="appbar-title">Créer une surprise</div>
+    <div style="width:38px;"></div>
+  </div>
+
+  <div class="columns">
+    <!-- Left: identity -->
+    <div class="col">
+      <div class="section-label">Identité</div>
+      <div class="identity-card">
+        <div class="identity-row">
+          <div class="emoji-picker">
+            🏖️
+            <div class="emoji-edit">
+              <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg>
+            </div>
+          </div>
+          <div style="flex:1;"><input disabled style="width:100%;" class="input-box" value="Voyage à Lisbonne"/></div>
+        </div>
+        <div class="input-box placeholder" style="margin-bottom:12px;">Sous-titre (optionnel)</div>
+        <div class="color-row">
+          <div class="color-dot"></div>
+          <span class="color-label">Couleur thème</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8AAABF" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: elements -->
+    <div class="col">
+      <div class="section-label">Éléments (3)</div>
+      <div class="elements-hint">Chaque élément peut être révélé par un code distinct.</div>
+
+      <div class="type-chips">
+        <div class="chip active">
+          <svg viewBox="0 0 24 24" stroke="#fff"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Texte
+        </div>
+        <div class="chip"><svg viewBox="0 0 24 24" stroke="#4A6580"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Image</div>
+        <div class="chip"><svg viewBox="0 0 24 24" stroke="#4A6580"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Date</div>
+        <div class="chip"><svg viewBox="0 0 24 24" stroke="#4A6580"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/></svg>Lieu</div>
+      </div>
+
+      <div class="element-tile">
+        <div class="el-row">
+          <div class="el-icon" style="background:#E8F3FB;"><svg viewBox="0 0 24 24" stroke="#2E6DA4"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+          <span class="el-label">Le lieu du rendez-vous</span>
+        </div>
+        <div class="el-content">Lisbonne, Portugal 🇵🇹</div>
+        <div class="el-code">LISBONNE</div>
+      </div>
+
+      <div class="element-tile">
+        <div class="el-row">
+          <div class="el-icon" style="background:#fef9c3;"><svg viewBox="0 0 24 24" stroke="#ca8a04"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+          <span class="el-label">La date du départ</span>
+        </div>
+        <div class="el-content">Samedi 14 Juin 2025 · 08h30</div>
+        <div class="el-code">DEPART</div>
+      </div>
+
+      <div class="element-tile">
+        <div class="el-row">
+          <div class="el-icon" style="background:#fdf4ff;"><svg viewBox="0 0 24 24" stroke="#a855f7"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+          <span class="el-label">Surprise photo</span>
+        </div>
+        <div class="el-content">Image ajoutée ✓</div>
+        <div class="el-code">PHOTO1</div>
+      </div>
+
+      <div class="add-btn">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
+        <span>Ajouter un élément</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <div class="save-btn">
+      <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+      Créer la surprise
+    </div>
+  </div>
+</body>
+</html>

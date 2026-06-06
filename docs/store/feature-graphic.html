@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=1024"/>
+  <title>Feature Graphic – Surprise Me</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 1024px;
+      height: 500px;
+      overflow: hidden;
+      background: #1A3A5C;
+      font-family: 'DM Sans', sans-serif;
+      position: relative;
+    }
+
+    /* Background blobs */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.35;
+    }
+    .blob-1 { width: 400px; height: 400px; background: #2E6DA4; top: -100px; left: -80px; }
+    .blob-2 { width: 350px; height: 350px; background: #4A9FD4; bottom: -80px; right: 80px; }
+    .blob-3 { width: 200px; height: 200px; background: #ADD8F0; top: 60px; right: 320px; opacity: 0.2; }
+
+    /* Grid lines decoration */
+    .grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    .content {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      height: 100%;
+      padding: 0 80px;
+      gap: 80px;
+    }
+
+    /* Left: text */
+    .text-side { flex: 1; }
+
+    .app-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 20px;
+      padding: 6px 14px;
+      margin-bottom: 20px;
+    }
+    .app-label span { font-size: 13px; color: rgba(255,255,255,0.8); font-weight: 500; letter-spacing: 0.5px; }
+
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 62px;
+      line-height: 1.05;
+      color: #ffffff;
+      margin-bottom: 16px;
+    }
+    h1 em { color: #ADD8F0; font-style: normal; }
+
+    .tagline {
+      font-size: 16px;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.5;
+      max-width: 340px;
+    }
+
+    .badges {
+      display: flex;
+      gap: 10px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      padding: 7px 14px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.85);
+      font-weight: 500;
+    }
+
+    /* Right: phone mockup */
+    .phone-side {
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .phone {
+      width: 200px;
+      height: 400px;
+      background: #F0F7FF;
+      border-radius: 36px;
+      border: 6px solid rgba(255,255,255,0.15);
+      overflow: hidden;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.08);
+      position: relative;
+    }
+
+    .phone-notch {
+      width: 60px;
+      height: 8px;
+      background: #1A3A5C;
+      border-radius: 4px;
+      margin: 12px auto 0;
+    }
+
+    .phone-header {
+      padding: 12px 16px 8px;
+      font-family: 'DM Serif Display', serif;
+      font-size: 16px;
+      color: #0D2035;
+    }
+
+    .phone-card {
+      margin: 4px 10px;
+      background: #fff;
+      border-radius: 14px;
+      padding: 12px;
+      border: 1px solid #D6E8F5;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 2px 8px rgba(26,58,92,0.08);
+    }
+    .phone-card + .phone-card { margin-top: 6px; }
+
+    .card-emoji {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .card-info { flex: 1; min-width: 0; }
+    .card-title { font-size: 11px; font-weight: 700; color: #0D2035; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .card-progress {
+      margin-top: 5px;
+      height: 3px;
+      background: #D6E8F5;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .card-progress-fill { height: 100%; border-radius: 2px; }
+
+    .phone-code {
+      margin: 10px;
+      background: #1A3A5C;
+      border-radius: 12px;
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .code-text {
+      font-size: 18px;
+      font-weight: 800;
+      color: #ADD8F0;
+      letter-spacing: 6px;
+    }
+    .code-label { font-size: 9px; color: rgba(173,216,240,0.6); margin-top: 2px; }
+
+    /* Floating elements */
+    .float-card {
+      position: absolute;
+      background: white;
+      border-radius: 14px;
+      padding: 10px 14px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .float-1 {
+      top: -20px;
+      right: -50px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .float-1 .dot { width: 8px; height: 8px; border-radius: 50%; background: #4A9FD4; }
+    .float-1 span { font-size: 11px; color: #1A3A5C; font-weight: 600; white-space: nowrap; }
+
+    .float-2 {
+      bottom: 30px;
+      left: -60px;
+      text-align: center;
+    }
+    .float-2 .big { font-size: 22px; font-weight: 800; color: #1A3A5C; }
+    .float-2 .small { font-size: 10px; color: #4A6580; }
+  </style>
+</head>
+<body>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="grid"></div>
+
+  <div class="content">
+    <div class="text-side">
+      <div class="app-label">
+        <span>🎁</span>
+        <span>SURPRISE ME</span>
+      </div>
+      <h1>Révèle<br/>la <em>surprise</em><br/>étape par étape</h1>
+      <p class="tagline">Créez des surprises uniques que vos proches dévoilent grâce à des codes secrets.</p>
+      <div class="badges">
+        <div class="badge">🔐 Codes secrets</div>
+        <div class="badge">📍 Lieux & dates</div>
+        <div class="badge">🧩 Mini-jeux</div>
+      </div>
+    </div>
+
+    <div class="phone-side">
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-header">Vos Surprises</div>
+
+        <div class="phone-card">
+          <div class="card-emoji" style="background:#E8F3FB;">🏖️</div>
+          <div class="card-info">
+            <div class="card-title">Voyage à Lisbonne</div>
+            <div class="card-progress"><div class="card-progress-fill" style="width:60%;background:#2E6DA4;"></div></div>
+          </div>
+        </div>
+
+        <div class="phone-card">
+          <div class="card-emoji" style="background:#fdf4ff;">💍</div>
+          <div class="card-info">
+            <div class="card-title">Une grande nouvelle</div>
+            <div class="card-progress"><div class="card-progress-fill" style="width:25%;background:#a855f7;"></div></div>
+          </div>
+        </div>
+
+        <div class="phone-card">
+          <div class="card-emoji" style="background:#f0fdf4;">🎂</div>
+          <div class="card-info">
+            <div class="card-title">Anniversaire surprise</div>
+            <div class="card-progress"><div class="card-progress-fill" style="width:90%;background:#16a34a;"></div></div>
+          </div>
+        </div>
+
+        <div class="phone-code">
+          <div class="code-text">A7K2PX</div>
+          <div class="code-label">CODE DE PARTAGE</div>
+        </div>
+      </div>
+
+      <div class="float-card float-1">
+        <div class="dot"></div>
+        <span>Élément révélé ! 🎉</span>
+      </div>
+
+      <div class="float-card float-2">
+        <div class="big">3/5</div>
+        <div class="small">révélés</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=390"/>
+  <title>Screenshot 3 – Détail</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; -webkit-font-smoothing:antialiased; }
+    body { width:390px; height:844px; background:#F0F7FF; font-family:'DM Sans',sans-serif; overflow:hidden; position:relative; }
+
+    .status { display:flex; justify-content:space-between; align-items:center; padding:14px 24px 0; }
+    .status-time { font-size:15px; font-weight:700; color:#0D2035; }
+    .status-icons { font-size:12px; color:#0D2035; }
+
+    .appbar { padding:10px 16px; display:flex; align-items:center; justify-content:space-between; }
+    .appbar-back { width:36px; height:36px; background:#fff; border-radius:10px; border:1px solid #D6E8F5; display:flex; align-items:center; justify-content:center; }
+    .appbar-back svg { width:16px; height:16px; stroke:#0D2035; fill:none; stroke-width:2.5; stroke-linecap:round; }
+    .appbar-title { font-family:'DM Serif Display',serif; font-size:20px; color:#0D2035; }
+    .appbar-share { width:36px; height:36px; background:#fff; border-radius:10px; border:1px solid #D6E8F5; display:flex; align-items:center; justify-content:center; }
+    .appbar-share svg { width:16px; height:16px; stroke:#2E6DA4; fill:none; stroke-width:2; stroke-linecap:round; }
+
+    .hero {
+      margin:8px 20px 0;
+      border-radius:22px;
+      padding:22px;
+      background:linear-gradient(135deg, #2E6DA4, #4A9FD4);
+      box-shadow:0 8px 24px rgba(46,109,164,0.3);
+      text-align:center;
+    }
+    .hero-emoji { font-size:48px; }
+    .hero-title { font-size:20px; font-weight:600; color:#fff; margin-top:8px; }
+    .hero-sub { font-size:13px; color:rgba(255,255,255,0.75); margin-top:4px; }
+
+    .progress-card { margin:12px 20px 0; background:#fff; border-radius:16px; border:1px solid #D6E8F5; padding:14px 16px; }
+    .progress-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+    .progress-row span { font-size:13px; color:#4A6580; font-weight:500; }
+    .progress-row strong { font-size:13px; font-weight:700; color:#2E6DA4; }
+    .progress-bar { height:6px; background:#D6E8F5; border-radius:3px; overflow:hidden; }
+    .progress-fill { height:100%; border-radius:3px; background:#2E6DA4; width:40%; }
+
+    .elements { margin-top:12px; padding-bottom:100px; }
+
+    /* Unlocked element */
+    .el { margin:0 20px 10px; background:#fff; border-radius:18px; overflow:hidden; }
+    .el-unlocked { border:1.5px solid rgba(46,109,164,0.4); box-shadow:0 3px 16px rgba(46,109,164,0.08); }
+    .el-locked { border:1px solid #D6E8F5; }
+
+    .el-header { padding:14px 16px 0; display:flex; align-items:center; gap:8px; }
+    .el-type-icon { width:28px; height:28px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .el-type-icon svg { width:14px; height:14px; fill:none; stroke-width:2; stroke-linecap:round; }
+    .el-label { font-size:12px; font-weight:600; letter-spacing:0.8px; text-transform:uppercase; flex:1; }
+    .el-badge { padding:3px 10px; border-radius:20px; font-size:10px; font-weight:600; display:flex; align-items:center; gap:3px; }
+
+    .el-body { padding:10px 16px 16px; font-size:14px; color:#4A6580; line-height:1.6; }
+
+    /* Blur overlay */
+    .el-blur { position:relative; }
+    .el-blur-content { padding:14px 16px 16px; min-height:70px; filter:blur(6px); }
+    .el-blur-overlay {
+      position:absolute; inset:0;
+      background:rgba(232,243,251,0.85);
+      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px;
+      border-radius:18px;
+    }
+    .lock-circle { width:40px; height:40px; background:#fff; border-radius:50%; box-shadow:0 2px 12px rgba(46,109,164,0.15); display:flex; align-items:center; justify-content:center; }
+    .lock-circle svg { width:18px; height:18px; stroke:#2E6DA4; fill:none; stroke-width:2; stroke-linecap:round; }
+    .lock-label { font-size:12px; font-weight:500; color:#2E6DA4; }
+
+    .bottom-bar { position:absolute; bottom:0; left:0; right:0; background:#F0F7FF; padding:16px 20px 34px; box-shadow:0 -4px 20px rgba(26,58,92,0.08); }
+    .unlock-btn { width:100%; height:52px; background:#2E6DA4; border-radius:14px; display:flex; align-items:center; justify-content:center; gap:8px; font-size:15px; font-weight:600; color:#fff; }
+    .unlock-btn svg { width:18px; height:18px; stroke:#fff; fill:none; stroke-width:2; stroke-linecap:round; }
+  </style>
+</head>
+<body>
+  <div class="status">
+    <span class="status-time">9:41</span>
+    <span class="status-icons">●●● WiFi 🔋</span>
+  </div>
+
+  <div class="appbar">
+    <div class="appbar-back"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></div>
+    <div class="appbar-title">Voyage à Lisbonne</div>
+    <div class="appbar-share"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51L8.59 10.49"/></svg></div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-emoji">🏖️</div>
+    <div class="hero-title">Voyage à Lisbonne</div>
+    <div class="hero-sub">Une surprise rien que pour toi ✨</div>
+  </div>
+
+  <div class="progress-card">
+    <div class="progress-row">
+      <span>Éléments révélés</span>
+      <strong>2 / 5</strong>
+    </div>
+    <div class="progress-bar"><div class="progress-fill"></div></div>
+  </div>
+
+  <div class="elements">
+    <!-- Unlocked: date -->
+    <div class="el el-unlocked" style="margin-top:12px;">
+      <div class="el-header">
+        <div class="el-type-icon" style="background:rgba(46,109,164,0.12);">
+          <svg viewBox="0 0 24 24" stroke="#2E6DA4"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        </div>
+        <span class="el-label" style="color:#2E6DA4;">Date du départ</span>
+        <div class="el-badge" style="background:rgba(46,109,164,0.12); color:#2E6DA4;">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#2E6DA4" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Débloqué
+        </div>
+      </div>
+      <div class="el-body">Samedi 14 Juin 2025 · 08h30</div>
+    </div>
+
+    <!-- Unlocked: text -->
+    <div class="el el-unlocked">
+      <div class="el-header">
+        <div class="el-type-icon" style="background:rgba(46,109,164,0.12);">
+          <svg viewBox="0 0 24 24" stroke="#2E6DA4"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <span class="el-label" style="color:#2E6DA4;">Un message de moi</span>
+        <div class="el-badge" style="background:rgba(46,109,164,0.12); color:#2E6DA4;">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#2E6DA4" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Débloqué
+        </div>
+      </div>
+      <div class="el-body">Tu mérites cette surprise plus que quiconque. Profite de chaque instant ! ❤️</div>
+    </div>
+
+    <!-- Locked: location -->
+    <div class="el el-locked el-blur">
+      <div class="el-blur-content">
+        <div class="el-header" style="padding:0 0 8px;">
+          <div class="el-type-icon" style="background:#F0F7FF;">
+            <svg viewBox="0 0 24 24" stroke="#8AAABF"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <span class="el-label" style="color:#8AAABF;">Le lieu mystère</span>
+        </div>
+        <div style="font-size:14px; color:#aaa;">??? ??? ???</div>
+      </div>
+      <div class="el-blur-overlay">
+        <div class="lock-circle">
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <span class="lock-label">Entrez un code pour révéler</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <div class="unlock-btn">
+      <svg viewBox="0 0 24 24"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+      Entrer un code
+    </div>
+  </div>
+</body>
+</html>
