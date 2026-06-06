@@ -55,7 +55,7 @@
     // Le code est le dernier segment du path : /join/CODE
     // ou passé en query : /join?code=CODE
     function getCode() {
-      // Sur Vercel : /join/CODE  →  parts = ['join', 'CODE']
+      // Sur GitHub Pages : /surprise_me/join/CODE → parts = ['surprise_me', 'join', 'CODE']
       const parts = window.location.pathname.split('/').filter(Boolean);
       const joinIdx = parts.indexOf('join');
       if (joinIdx !== -1 && parts[joinIdx + 1]) {

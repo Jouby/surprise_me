@@ -602,7 +602,7 @@ class _ShareSheet extends StatelessWidget {
               Expanded(
                 child: OutlinedButton.icon(
                   onPressed: () {
-                    final link = 'https://surprise-99sj7mpha-jouby-s-projects.vercel.app/join/${surprise.shareCode}';
+                    final link = 'https://jouby.github.io/surprise_me/join/${surprise.shareCode}';
                     Clipboard.setData(ClipboardData(text: link));
                     Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -628,7 +628,7 @@ class _ShareSheet extends StatelessWidget {
               Expanded(
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    final link = 'https://surprise-99sj7mpha-jouby-s-projects.vercel.app/join/${surprise.shareCode}';
+                    final link = 'https://jouby.github.io/surprise_me/join/${surprise.shareCode}';
                     Share.share(
                       'J\'ai une surprise pour toi ! 🎁\nOuvre ce lien pour la découvrir : $link\n\nOu entre le code manuellement : ${surprise.shareCode}',
                     );
