@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script>
+    // GitHub Pages sert cette page pour toute URL inconnue.
+    // On extrait le code depuis le path et on redirige vers /join/?code=CODE
+    const parts = window.location.pathname.split('/').filter(Boolean);
+    const joinIdx = parts.indexOf('join');
+    if (joinIdx !== -1 && parts[joinIdx + 1]) {
+      const code = parts[joinIdx + 1].toUpperCase();
+      window.location.replace(
+        window.location.origin +
+        '/surprise_me/join/?code=' + code
+      );
+    } else {
+      window.location.replace('/surprise_me/');
+    }
+  </script>
+</head>
+<body></body>
+</html>
