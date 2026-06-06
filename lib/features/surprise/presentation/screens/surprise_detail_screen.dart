@@ -314,71 +314,14 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
   }
 
   Future<void> _showTokenRecoveryDialog(BuildContext context) async {
-    final controller = TextEditingController();
-    String? errorText;
-
-    await showDialog(
+    final linked = await showDialog<bool>(
       context: context,
-      builder: (ctx) => StatefulBuilder(
-        builder: (ctx, setDialogState) => AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          backgroundColor: AppTheme.cardBg,
-          title: const Text('Lier cet appareil'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Entrez le creator_token associé à cette surprise dans Supabase.',
-                style: TextStyle(fontSize: 13, color: AppTheme.textMid),
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: controller,
-                autofocus: true,
-                decoration: InputDecoration(
-                  labelText: 'Creator token (UUID)',
-                  hintText: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
-                  errorText: errorText,
-                ),
-                onChanged: (_) {
-                  if (errorText != null) setDialogState(() => errorText = null);
-                },
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(ctx),
-              child: Text(ctx.l10n.cancel,
-                  style: const TextStyle(color: AppTheme.textLight)),
-            ),
-            TextButton(
-              onPressed: () async {
-                final token = controller.text.trim();
-                if (token.isEmpty) return;
-
-                final repo = context.read<ISurpriseRepository>();
-                final valid = await repo.verifyAndSaveCreatorToken(
-                  surpriseId: surprise.id,
-                  token: token,
-                );
-
-                if (valid) {
-                  if (ctx.mounted) Navigator.pop(ctx);
-                  if (mounted) setState(() => _tokenMissing = false);
-                } else {
-                  setDialogState(() => errorText = 'Token invalide.');
-                }
-              },
-              child: const Text('Lier',
-                  style: TextStyle(fontWeight: FontWeight.w700)),
-            ),
-          ],
-        ),
+      builder: (_) => _TokenRecoveryDialog(
+        surpriseId: surprise.id,
+        repo: context.read<ISurpriseRepository>(),
       ),
     );
-    controller.dispose();
+    if (linked == true && mounted) setState(() => _tokenMissing = false);
   }
 
   Widget _buildOwnerBottomBar(BuildContext context) {
@@ -653,6 +596,101 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
           style: ElevatedButton.styleFrom(backgroundColor: themeColor),
         ),
       ),
+    );
+  }
+}
+
+// ─── Token recovery dialog ───────────────────────────────────────────────────
+
+class _TokenRecoveryDialog extends StatefulWidget {
+  final String surpriseId;
+  final ISurpriseRepository repo;
+
+  const _TokenRecoveryDialog({
+    required this.surpriseId,
+    required this.repo,
+  });
+
+  @override
+  State<_TokenRecoveryDialog> createState() => _TokenRecoveryDialogState();
+}
+
+class _TokenRecoveryDialogState extends State<_TokenRecoveryDialog> {
+  final _controller = TextEditingController();
+  String? _error;
+  bool _loading = false;
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  Future<void> _submit() async {
+    final token = _controller.text.trim();
+    if (token.isEmpty) return;
+
+    setState(() { _loading = true; _error = null; });
+
+    final valid = await widget.repo.verifyAndSaveCreatorToken(
+      surpriseId: widget.surpriseId,
+      token: token,
+    );
+
+    if (!mounted) return;
+
+    if (valid) {
+      Navigator.pop(context, true);
+    } else {
+      setState(() { _loading = false; _error = 'Token invalide.'; });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      backgroundColor: AppTheme.cardBg,
+      title: const Text('Lier cet appareil'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Entrez le creator_token associé à cette surprise dans Supabase.',
+            style: TextStyle(fontSize: 13, color: AppTheme.textMid),
+          ),
+          const SizedBox(height: 16),
+          TextField(
+            controller: _controller,
+            autofocus: true,
+            onChanged: (_) { if (_error != null) setState(() => _error = null); },
+            onSubmitted: (_) => _submit(),
+            decoration: InputDecoration(
+              labelText: 'Creator token (UUID)',
+              hintText: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+              errorText: _error,
+            ),
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context, false),
+          child: Text(context.l10n.cancel,
+              style: const TextStyle(color: AppTheme.textLight)),
+        ),
+        TextButton(
+          onPressed: _loading ? null : _submit,
+          child: _loading
+              ? const SizedBox(
+                  width: 16, height: 16,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+              : const Text('Lier',
+                  style: TextStyle(fontWeight: FontWeight.w700)),
+        ),
+      ],
     );
   }
 }
