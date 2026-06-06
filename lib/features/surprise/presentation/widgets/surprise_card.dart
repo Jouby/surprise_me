@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../domain/entities/surprise.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/utils/color_utils.dart';
 
 class SurpriseCard extends StatelessWidget {
   final Surprise surprise;
@@ -16,6 +17,10 @@ class SurpriseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final color = ColorUtils.fromHex(surprise.color);
+    final colorLight = color.withValues(alpha: 0.1);
+    final colorBorder = color.withValues(alpha: 0.25);
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -25,7 +30,7 @@ class SurpriseCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: AppTheme.primary.withValues(alpha: 0.08),
+              color: color.withValues(alpha: 0.12),
               blurRadius: 20,
               offset: const Offset(0, 4),
             ),
@@ -39,9 +44,9 @@ class SurpriseCard extends StatelessWidget {
                 width: 64,
                 height: 64,
                 decoration: BoxDecoration(
-                  color: AppTheme.surface,
+                  color: colorLight,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: AppTheme.divider),
+                  border: Border.all(color: colorBorder),
                 ),
                 child: Center(
                   child: Text(
@@ -55,18 +60,12 @@ class SurpriseCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            surprise.title,
-                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                  color: AppTheme.textDark,
-                                  fontSize: 17,
-                                ),
+                    Text(
+                      surprise.title,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            color: AppTheme.textDark,
+                            fontSize: 17,
                           ),
-                        ),
-                      ],
                     ),
                     const SizedBox(height: 4),
                     Text(
@@ -86,14 +85,14 @@ class SurpriseCard extends StatelessWidget {
                 width: 36,
                 height: 36,
                 decoration: BoxDecoration(
-                  color: AppTheme.surface,
+                  color: colorLight,
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: AppTheme.divider),
+                  border: Border.all(color: colorBorder),
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.arrow_forward_ios_rounded,
                   size: 14,
-                  color: AppTheme.primaryLight,
+                  color: color,
                 ),
               ),
             ],
