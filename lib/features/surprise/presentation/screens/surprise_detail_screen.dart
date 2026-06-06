@@ -602,12 +602,12 @@ class _ShareSheet extends StatelessWidget {
               Expanded(
                 child: OutlinedButton.icon(
                   onPressed: () {
-                    Clipboard.setData(
-                        ClipboardData(text: surprise.shareCode));
+                    final link = 'https://jouby.github.io/surprise_me/join/${surprise.shareCode}';
+                    Clipboard.setData(ClipboardData(text: link));
                     Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: const Text('Code copié dans le presse-papier'),
+                        content: const Text('Lien copié dans le presse-papier'),
                         behavior: SnackBarBehavior.floating,
                         backgroundColor: themeColor,
                       ),
@@ -628,8 +628,9 @@ class _ShareSheet extends StatelessWidget {
               Expanded(
                 child: ElevatedButton.icon(
                   onPressed: () {
+                    final link = 'https://jouby.github.io/surprise_me/join/${surprise.shareCode}';
                     Share.share(
-                      'J\'ai une surprise pour toi ! Entre ce code dans l\'app Surprise Me : ${surprise.shareCode}',
+                      'J\'ai une surprise pour toi ! 🎁\nOuvre ce lien pour la découvrir : $link\n\nOu entre le code manuellement : ${surprise.shareCode}',
                     );
                   },
                   icon: const Icon(Icons.share_rounded, size: 16),

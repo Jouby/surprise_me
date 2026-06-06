@@ -11,22 +11,20 @@ import 'surprise_detail_screen.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  void _showJoinSheet(BuildContext context) {
+  /// Ouvre la sheet de rejoindre depuis n'importe quel contexte (deep link).
+  static void openJoinSheet(BuildContext context, {String? initialCode}) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (_) => _JoinSheet(
-        // Retourne true = succès (sheet déjà fermée + navigation),
-        //          false = code invalide (sheet reste ouverte, erreur inline).
+        initialCode: initialCode,
         onJoin: (code) async {
           final provider = context.read<SurpriseProvider>();
           final surprise = await provider.joinByShareCode(code);
           if (!context.mounted) return false;
           if (surprise == null) return false;
-          // 1. Fermer la sheet depuis le contexte home (avant le push)
           Navigator.pop(context);
-          // 2. Naviguer vers le détail
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -38,6 +36,8 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+
+  void _showJoinSheet(BuildContext context) => openJoinSheet(context);
 
   @override
   Widget build(BuildContext context) {
@@ -326,17 +326,28 @@ class _SectionHeader extends StatelessWidget {
 class _JoinSheet extends StatefulWidget {
   // Retourne true si le code est valide (la sheet est déjà fermée côté home).
   final Future<bool> Function(String code) onJoin;
+  final String? initialCode;
 
-  const _JoinSheet({required this.onJoin});
+  const _JoinSheet({required this.onJoin, this.initialCode});
 
   @override
   State<_JoinSheet> createState() => _JoinSheetState();
 }
 
 class _JoinSheetState extends State<_JoinSheet> {
-  final _controller = TextEditingController();
+  late final TextEditingController _controller;
   bool _loading = false;
   String? _error;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.initialCode ?? '');
+    // Si un code est pré-rempli via deep link, on soumet automatiquement
+    if (widget.initialCode != null && widget.initialCode!.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _submit());
+    }
+  }
 
   @override
   void dispose() {

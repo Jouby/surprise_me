@@ -41,6 +41,19 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.example.surpriseMe</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>surpriseme</string>
+			</array>
+		</dict>
+	</array>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Accès à votre galerie pour ajouter une image à votre surprise.</string>
 	<key>NSCameraUsageDescription</key>

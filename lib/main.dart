@@ -1,3 +1,4 @@
+import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -90,12 +91,90 @@ Future<void> main() async {
   );
 }
 
-class SurpriseMeApp extends StatelessWidget {
+class SurpriseMeApp extends StatefulWidget {
   const SurpriseMeApp({super.key});
+
+  @override
+  State<SurpriseMeApp> createState() => _SurpriseMeAppState();
+}
+
+class _SurpriseMeAppState extends State<SurpriseMeApp> {
+  final _navigatorKey = GlobalKey<NavigatorState>();
+  late final AppLinks _appLinks;
+
+  @override
+  void initState() {
+    super.initState();
+    _initDeepLinks();
+  }
+
+  /// Extrait le code de partage depuis un URI deep link.
+  /// Formats supportés :
+  ///   surpriseme://join/CODE
+  ///   https://jouby.github.io/surprise_me/join/CODE
+  String? _extractCode(Uri uri) {
+    // Scheme custom
+    if (uri.scheme == 'surpriseme' && uri.host == 'join') {
+      final code = uri.pathSegments.firstOrNull?.trim().toUpperCase();
+      return (code?.isNotEmpty == true) ? code : null;
+    }
+    // Lien HTTPS GitHub Pages
+    if ((uri.scheme == 'https' || uri.scheme == 'http') &&
+        uri.host == 'jouby.github.io') {
+      final segments = uri.pathSegments;
+      // pathSegments = ['surprise_me', 'join', 'CODE']
+      final joinIdx = segments.indexOf('join');
+      if (joinIdx != -1 && joinIdx + 1 < segments.length) {
+        final code = segments[joinIdx + 1].trim().toUpperCase();
+        return code.isNotEmpty ? code : null;
+      }
+    }
+    return null;
+  }
+
+  void _handleIncomingLink(Uri uri) {
+    final code = _extractCode(uri);
+    if (code == null) return;
+
+    // Récupère le HomeScreen via la clé navigator et déclenche le join
+    final context = _navigatorKey.currentContext;
+    if (context == null) return;
+
+    // Remonte à la racine puis ouvre la sheet de join avec le code pré-rempli
+    _navigatorKey.currentState?.popUntil((route) => route.isFirst);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final ctx = _navigatorKey.currentContext;
+      if (ctx == null) return;
+      HomeScreen.openJoinSheet(ctx, initialCode: code);
+    });
+  }
+
+  Future<void> _initDeepLinks() async {
+    _appLinks = AppLinks();
+
+    // Lien qui a lancé l'app (cold start)
+    try {
+      final initialUri = await _appLinks.getInitialLink();
+      if (initialUri != null) {
+        // On attend que le widget tree soit monté
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _handleIncomingLink(initialUri);
+        });
+      }
+    } catch (_) {}
+
+    // Liens reçus pendant que l'app est en arrière-plan (warm start)
+    _appLinks.uriLinkStream.listen(
+      _handleIncomingLink,
+      onError: (_) {},
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: _navigatorKey,
       title: 'Surprise Me',
       theme: AppTheme.theme,
       debugShowCheckedModeBanner: false,
