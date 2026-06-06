@@ -9,7 +9,7 @@
     <!-- Réseau pour l'upload Supabase -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:label="surprise_me"
+        android:label="Surprise Me"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
