@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import '../../../../core/l10n/l10n.dart';
 
 import '../../domain/usecases/upload_image_usecase.dart';
 import '../../../../core/theme/app_theme.dart';
@@ -49,6 +50,7 @@ class _ImagePickerFieldState extends State<ImagePickerField> {
     });
     widget.onUploaded(null);
 
+    final uploadErrorMsg = context.l10n.uploadError;
     try {
       final url = await uploadImage(file);
       widget.onUploaded(url);
@@ -57,7 +59,7 @@ class _ImagePickerFieldState extends State<ImagePickerField> {
       debugPrint('❌ uploadImage error: $e');
       setState(() {
         _uploading = false;
-        _error = 'Erreur d\'envoi. Réessayez.';
+        _error = uploadErrorMsg;
         _file = null;
       });
       widget.onUploaded(null);
@@ -87,7 +89,7 @@ class _ImagePickerFieldState extends State<ImagePickerField> {
             ),
             const SizedBox(height: 20),
             Text(
-              'Ajouter une image',
+              context.l10n.addImage,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
@@ -100,7 +102,7 @@ class _ImagePickerFieldState extends State<ImagePickerField> {
                 Expanded(
                   child: _SourceButton(
                     icon: Icons.photo_library_outlined,
-                    label: 'Galerie',
+                    label: context.l10n.gallery,
                     onTap: () {
                       Navigator.pop(context);
                       _pick(ImageSource.gallery);
@@ -111,7 +113,7 @@ class _ImagePickerFieldState extends State<ImagePickerField> {
                 Expanded(
                   child: _SourceButton(
                     icon: Icons.camera_alt_outlined,
-                    label: 'Appareil photo',
+                    label: context.l10n.camera,
                     onTap: () {
                       Navigator.pop(context);
                       _pick(ImageSource.camera);
@@ -175,13 +177,13 @@ class _ImagePickerFieldState extends State<ImagePickerField> {
                 color: Colors.black.withValues(alpha: 0.55),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: const Row(
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.edit_rounded, size: 12, color: Colors.white),
-                  SizedBox(width: 4),
-                  Text('Changer',
-                      style: TextStyle(color: Colors.white, fontSize: 11)),
+                  const Icon(Icons.edit_rounded, size: 12, color: Colors.white),
+                  const SizedBox(width: 4),
+                  Text(context.l10n.change,
+                      style: const TextStyle(color: Colors.white, fontSize: 11)),
                 ],
               ),
             ),
@@ -213,7 +215,7 @@ class _ImagePickerFieldState extends State<ImagePickerField> {
                 size: 32, color: AppTheme.primaryLight),
             const SizedBox(height: 8),
             Text(
-              'Galerie ou appareil photo',
+              context.l10n.galleryOrCamera,
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
@@ -252,15 +254,15 @@ class _ImagePickerFieldState extends State<ImagePickerField> {
                 color: Colors.black.withValues(alpha: 0.45),
                 borderRadius: BorderRadius.circular(14),
               ),
-              child: const Center(
+              child: Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    CircularProgressIndicator(
+                    const CircularProgressIndicator(
                         color: Colors.white, strokeWidth: 2),
-                    SizedBox(height: 10),
-                    Text('Envoi en cours…',
-                        style: TextStyle(color: Colors.white, fontSize: 12)),
+                    const SizedBox(height: 10),
+                    Text(context.l10n.uploading,
+                        style: const TextStyle(color: Colors.white, fontSize: 12)),
                   ],
                 ),
               ),
@@ -299,13 +301,13 @@ class _ImagePickerFieldState extends State<ImagePickerField> {
                   color: Colors.black.withValues(alpha: 0.55),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.edit_rounded, size: 12, color: Colors.white),
-                    SizedBox(width: 4),
-                    Text('Changer',
-                        style: TextStyle(color: Colors.white, fontSize: 11)),
+                    const Icon(Icons.edit_rounded, size: 12, color: Colors.white),
+                    const SizedBox(width: 4),
+                    Text(context.l10n.change,
+                        style: const TextStyle(color: Colors.white, fontSize: 11)),
                   ],
                 ),
               ),

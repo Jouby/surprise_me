@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../providers/surprise_provider.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/utils/text_formatters.dart';
+import '../../../../core/l10n/l10n.dart';
 import '../widgets/surprise_card.dart';
 import 'create_surprise_screen.dart';
 import 'surprise_detail_screen.dart';
@@ -66,7 +67,7 @@ class HomeScreen extends StatelessWidget {
                   SliverToBoxAdapter(
                     child: _SectionHeader(
                       icon: Icons.edit_rounded,
-                      label: 'Mes créations',
+                      label: context.l10n.myCreations,
                     ),
                   ),
                   SliverList(
@@ -95,7 +96,7 @@ class HomeScreen extends StatelessWidget {
                   SliverToBoxAdapter(
                     child: _SectionHeader(
                       icon: Icons.celebration_outlined,
-                      label: 'Rejointes',
+                      label: context.l10n.joinedSurprises,
                     ),
                   ),
                   SliverList(
@@ -144,14 +145,14 @@ class HomeScreen extends StatelessWidget {
           child: IconButton(
             onPressed: provider.isLoading ? null : provider.load,
             icon: const Icon(Icons.refresh_rounded, color: AppTheme.textMid),
-            tooltip: 'Actualiser',
+            tooltip: context.l10n.refresh,
           ),
         ),
       ],
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: const EdgeInsets.fromLTRB(20, 0, 20, 18),
         title: Text(
-          'Vos Surprises',
+          context.l10n.yourSurprises,
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                 fontSize: 26,
                 color: AppTheme.textDark,
@@ -172,7 +173,7 @@ class HomeScreen extends StatelessWidget {
             const Text('🎁', style: TextStyle(fontSize: 56)),
             const SizedBox(height: 16),
             Text(
-              'Aucune surprise pour l\'instant',
+              context.l10n.noSurpriseYet,
               style: Theme.of(context)
                   .textTheme
                   .titleMedium
@@ -181,7 +182,7 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              'Créez une surprise ou entrez\nun code pour en rejoindre une.',
+              context.l10n.noSurpriseHint,
               style: TextStyle(color: AppTheme.textLight, fontSize: 13, height: 1.5),
               textAlign: TextAlign.center,
             ),
@@ -201,14 +202,14 @@ class HomeScreen extends StatelessWidget {
             const Icon(Icons.wifi_off_rounded, size: 40, color: AppTheme.textLight),
             const SizedBox(height: 16),
             Text(
-              'Impossible de charger les surprises',
+              context.l10n.loadError,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(color: AppTheme.textMid),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: provider.load,
-              child: const Text('Réessayer'),
+              child: Text(context.l10n.retry),
             ),
           ],
         ),
@@ -224,7 +225,7 @@ class HomeScreen extends StatelessWidget {
         children: [
           Expanded(
             child: _FabButton(
-              label: 'Rejoindre',
+              label: context.l10n.join,
               icon: Icons.qr_code_scanner_rounded,
               onTap: () => _showJoinSheet(context),
               outlined: true,
@@ -233,7 +234,7 @@ class HomeScreen extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: _FabButton(
-              label: 'Créer',
+              label: context.l10n.create,
               icon: Icons.add_rounded,
               onTap: () => Navigator.push(
                 context,
@@ -364,7 +365,7 @@ class _JoinSheetState extends State<_JoinSheet> {
     if (mounted && !success) {
       setState(() {
         _loading = false;
-        _error = 'Code introuvable. Vérifiez et réessayez.';
+        _error = context.l10n.codeNotFound;
       });
     }
   }
@@ -402,13 +403,13 @@ class _JoinSheetState extends State<_JoinSheet> {
           ),
           const SizedBox(height: 16),
           Text(
-            'Rejoindre une surprise',
+            context.l10n.joinSurpriseTitle,
             style:
                 Theme.of(context).textTheme.headlineMedium?.copyWith(fontSize: 22),
           ),
           const SizedBox(height: 8),
           Text(
-            'Entrez le code partagé par l\'organisateur.',
+            context.l10n.enterSharedCode,
             textAlign: TextAlign.center,
             style: TextStyle(color: AppTheme.textLight, fontSize: 14),
           ),
@@ -471,7 +472,7 @@ class _JoinSheetState extends State<_JoinSheet> {
                       child: CircularProgressIndicator(
                           strokeWidth: 2, color: Colors.white),
                     )
-                  : const Text('Rejoindre'),
+                  : Text(context.l10n.join),
             ),
           ),
         ],

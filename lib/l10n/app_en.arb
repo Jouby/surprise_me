@@ -1,0 +1,145 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "Surprise Me",
+
+  "myCreations": "My creations",
+  "joinedSurprises": "Joined",
+  "refresh": "Refresh",
+  "yourSurprises": "Your Surprises",
+  "noSurpriseYet": "No surprises yet",
+  "noSurpriseHint": "Create a surprise or enter\na code to join one.",
+  "loadError": "Unable to load surprises",
+  "retry": "Retry",
+  "join": "Join",
+  "create": "Create",
+  "joinSurpriseTitle": "Join a surprise",
+  "enterSharedCode": "Enter the code shared by the organiser.",
+  "codeNotFound": "Code not found. Check and try again.",
+
+  "createSurprise": "Create a surprise",
+  "identity": "Identity",
+  "elementsCount": "Elements ({count})",
+  "@elementsCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "elementsHint": "Each element can be revealed with a separate code.",
+  "titleLabel": "Title *",
+  "requiredField": "Required",
+  "subtitleLabel": "Subtitle (optional)",
+  "themeColor": "Theme colour",
+  "addElement": "Add an element",
+  "creating": "Creating…",
+  "createButton": "Create surprise",
+  "addAtLeastOneElement": "Add at least one element.",
+  "completeAllElements": "Complete all elements.",
+  "errorPrefix": "Error: {error}",
+  "@errorPrefix": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "linkCopied": "Link copied!",
+  "surpriseCreated": "Surprise created!",
+  "shareCodeHint": "Share this code so your loved ones\ncan discover the surprise.",
+  "copy": "Copy",
+  "share": "Share",
+  "shareMessage": "I have a surprise for you! 🎁\nOpen this link to discover it: {link}\n\nOr enter the code manually: {code}",
+  "@shareMessage": {
+    "placeholders": {
+      "link": { "type": "String" },
+      "code": { "type": "String" }
+    }
+  },
+  "backToHome": "Back to home",
+  "elementN": "Element {n}",
+  "@elementN": {
+    "placeholders": {
+      "n": { "type": "int" }
+    }
+  },
+  "codeLabel": "Code: {code}",
+  "@codeLabel": {
+    "placeholders": {
+      "code": { "type": "String" }
+    }
+  },
+
+  "editSurprise": "Edit surprise",
+  "editElementsHint": "Tap an element to edit it, drag to reorder.",
+  "titleRequired": "Title is required.",
+  "saving": "Saving…",
+  "saveButton": "Save changes",
+  "newBadge": "New",
+
+  "deleteDialogTitle": "Delete this surprise?",
+  "deleteOwnerContent": "This action is irreversible. The surprise and all its elements will be permanently deleted.",
+  "deleteGuestContent": "The surprise will be removed from your list. You can join it again with its code.",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "remove": "Remove",
+  "ownerBanner": "You are the creator · Tap a code to reveal it",
+  "shareWithCode": "Share · {code}",
+  "@shareWithCode": {
+    "placeholders": {
+      "code": { "type": "String" }
+    }
+  },
+  "revealedElements": "Revealed elements",
+  "enterCode": "Enter a code",
+  "shareSheetTitle": "Share \"{title}\"",
+  "@shareSheetTitle": {
+    "placeholders": {
+      "title": { "type": "String" }
+    }
+  },
+  "shareAccessHint": "Share this code so your loved ones\ncan access this surprise.",
+  "linkCopiedClipboard": "Link copied to clipboard",
+
+  "editElement": "Edit element",
+  "newElement": "New element",
+  "elementTitleLabel": "Element title *",
+  "fieldRequired": "This field is required",
+  "selectDate": "Select a date *",
+  "pleaseSelectDate": "Please select a date",
+  "pleaseAddImage": "Please add an image",
+  "pleaseEnterLocation": "Please enter a location",
+  "pleaseEnterWord": "Please enter a word",
+  "unlockCodeLabel": "Unlock code *",
+  "unlockCodeHint": "e.g. SECRET1",
+  "generateCode": "Generate a code",
+  "save": "Save",
+  "add": "Add",
+  "elementTypeText": "Text",
+  "elementTypeImage": "Image",
+  "elementTypeDate": "Date",
+  "elementTypeLocation": "Location",
+  "elementTypeWordGame": "Word game",
+  "elementTypePuzzle": "Puzzle",
+  "messageContent": "Message content *",
+  "wordToGuessLabel": "Word to guess *",
+  "wordToGuessHint": "e.g. SURPRISE",
+  "wordGameHint": "The letters will be shuffled. The player must put them back in the right order.",
+
+  "enterYourCode": "Enter your code",
+  "codeUnlocksElement": "Each code unlocks one element of the surprise.",
+  "codeAccepted": "Code accepted! An element has been revealed.",
+  "invalidCode": "Invalid code. Check and try again.",
+  "unlock": "Unlock",
+
+  "unlocked": "Unlocked",
+  "enterCodeToReveal": "Enter a code to reveal",
+
+  "congratulations": "Well done! You found the word!",
+  "shuffleAgain": "Shuffle again",
+
+  "uploadError": "Upload error. Please try again.",
+  "addImage": "Add an image",
+  "gallery": "Gallery",
+  "camera": "Camera",
+  "change": "Change",
+  "galleryOrCamera": "Gallery or camera",
+  "uploading": "Uploading…"
+}

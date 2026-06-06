@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../../../core/l10n/l10n.dart';
 
 import '../../domain/entities/element_draft.dart';
 import '../../domain/entities/surprise_element.dart';
@@ -154,21 +155,21 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
     setState(() => _selectedTime = time);
   }
 
-  String? get _contentError {
+  String? _contentError(BuildContext context) {
     if (!_submitted) return null;
     switch (_type) {
       case ElementType.date:
-        return _selectedDate == null ? 'Veuillez sélectionner une date' : null;
+        return _selectedDate == null ? context.l10n.pleaseSelectDate : null;
       case ElementType.image:
-        return _uploadedImageUrl == null ? 'Veuillez ajouter une image' : null;
+        return _uploadedImageUrl == null ? context.l10n.pleaseAddImage : null;
       case ElementType.location:
-        return _contentController.text.trim().isEmpty ? 'Veuillez indiquer un lieu' : null;
+        return _contentController.text.trim().isEmpty ? context.l10n.pleaseEnterLocation : null;
       case ElementType.wordGame:
-        return _wordGameWord.trim().isEmpty ? 'Veuillez saisir un mot' : null;
+        return _wordGameWord.trim().isEmpty ? context.l10n.pleaseEnterWord : null;
       case ElementType.puzzle:
-        return _puzzleImageUrl == null ? 'Veuillez ajouter une image' : null;
+        return _puzzleImageUrl == null ? context.l10n.pleaseAddImage : null;
       case ElementType.text:
-        return _contentController.text.trim().isEmpty ? 'Ce champ est requis' : null;
+        return _contentController.text.trim().isEmpty ? context.l10n.fieldRequired : null;
     }
   }
 
@@ -229,7 +230,7 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
             ),
             const SizedBox(height: 20),
             Text(
-              _isEditing ? 'Modifier l\'élément' : 'Nouvel élément',
+              _isEditing ? context.l10n.editElement : context.l10n.newElement,
               style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontSize: 20),
             ),
             const SizedBox(height: 20),
@@ -286,9 +287,9 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
               controller: _labelController,
               onChanged: (_) { if (_submitted) setState(() {}); },
               decoration: InputDecoration(
-                labelText: 'Titre de l\'élément *',
+                labelText: context.l10n.elementTitleLabel,
                 errorText: (_submitted && _labelController.text.trim().isEmpty)
-                    ? 'Ce champ est requis'
+                    ? context.l10n.fieldRequired
                     : null,
               ),
             ),
@@ -304,7 +305,7 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
                     color: AppTheme.surface,
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                      color: _contentError != null
+                      color: _contentError(context) != null
                           ? Colors.red.shade400
                           : AppTheme.divider,
                       width: 1.5,
@@ -314,14 +315,14 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
                     children: [
                       Icon(Icons.calendar_today_outlined,
                           size: 18,
-                          color: _contentError != null
+                          color: _contentError(context) != null
                               ? Colors.red.shade400
                               : AppTheme.primaryLight),
                       const SizedBox(width: 10),
                       Expanded(
                         child: Text(
                           _selectedDate == null
-                              ? 'Sélectionner une date *'
+                              ? context.l10n.selectDate
                               : _dateContent,
                           style: TextStyle(
                             fontSize: 14,
@@ -337,11 +338,11 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
                   ),
                 ),
               ),
-              if (_contentError != null)
+              if (_contentError(context) != null)
                 Padding(
                   padding: const EdgeInsets.only(top: 6, left: 14),
                   child: Text(
-                    _contentError!,
+                    _contentError(context)!,
                     style: TextStyle(fontSize: 12, color: Colors.red.shade400),
                   ),
                 ),
@@ -351,11 +352,11 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
                 initialUrl: _uploadedImageUrl,
                 onUploaded: (url) => setState(() => _uploadedImageUrl = url),
               ),
-              if (_contentError != null)
+              if (_contentError(context) != null)
                 Padding(
                   padding: const EdgeInsets.only(top: 6, left: 14),
                   child: Text(
-                    _contentError!,
+                    _contentError(context)!,
                     style: TextStyle(fontSize: 12, color: Colors.red.shade400),
                   ),
                 ),
@@ -369,14 +370,13 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
                   _contentController.text = v;
                   if (_submitted) setState(() {});
                 },
-                errorText: _contentError,
+                errorText: _contentError(context),
               )
             else if (_type == ElementType.puzzle)
               PuzzleGameFormField(
                 initialUrl: _puzzleImageUrl,
                 onUploaded: (url) => setState(() => _puzzleImageUrl = url),
-
-                errorText: _contentError,
+                errorText: _contentError(context),
               )
             else if (_type == ElementType.wordGame)
               WordGameFormField(
@@ -385,7 +385,7 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
                   _wordGameWord = v;
                   if (_submitted) setState(() {});
                 },
-                errorText: _contentError,
+                errorText: _contentError(context),
               )
             else
               TextField(
@@ -393,8 +393,8 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
                 maxLines: _type == ElementType.text ? 3 : 1,
                 onChanged: (_) { if (_submitted) setState(() {}); },
                 decoration: InputDecoration(
-                  labelText: _contentHint(_type),
-                  errorText: _contentError,
+                  labelText: _contentHint(context, _type),
+                  errorText: _contentError(context),
                 ),
               ),
             const SizedBox(height: 12),
@@ -410,17 +410,17 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
                     ],
                     onChanged: (_) { if (_submitted) setState(() {}); },
                     decoration: InputDecoration(
-                      labelText: 'Code de déverrouillage *',
-                      hintText: 'Ex : SECRET1',
+                      labelText: context.l10n.unlockCodeLabel,
+                      hintText: context.l10n.unlockCodeHint,
                       errorText: (_submitted && _codeController.text.trim().isEmpty)
-                          ? 'Ce champ est requis'
+                          ? context.l10n.fieldRequired
                           : null,
                     ),
                   ),
                 ),
                 const SizedBox(width: 8),
                 Tooltip(
-                  message: 'Générer un code',
+                  message: context.l10n.generateCode,
                   child: InkWell(
                     onTap: () => setState(() => _codeController.text = _generateCode()),
                     borderRadius: BorderRadius.circular(12),
@@ -444,7 +444,7 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
               child: ElevatedButton.icon(
                 onPressed: _submit,
                 icon: Icon(_isEditing ? Icons.check_rounded : Icons.add_rounded, size: 18),
-                label: Text(_isEditing ? 'Enregistrer' : 'Ajouter'),
+                label: Text(_isEditing ? context.l10n.save : context.l10n.add),
               ),
             ),
           ],
@@ -454,24 +454,26 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
   }
 
   String _labelFor(ElementType t) {
+    final l = context.l10n;
     switch (t) {
-      case ElementType.text:     return 'Texte';
-      case ElementType.image:    return 'Image';
-      case ElementType.date:     return 'Date';
-      case ElementType.location: return 'Lieu';
-      case ElementType.wordGame: return 'Mot mêlé';
-      case ElementType.puzzle:   return 'Taquin';
+      case ElementType.text:     return l.elementTypeText;
+      case ElementType.image:    return l.elementTypeImage;
+      case ElementType.date:     return l.elementTypeDate;
+      case ElementType.location: return l.elementTypeLocation;
+      case ElementType.wordGame: return l.elementTypeWordGame;
+      case ElementType.puzzle:   return l.elementTypePuzzle;
     }
   }
 
-  String _contentHint(ElementType t) {
+  String _contentHint(BuildContext context, ElementType t) {
+    final l = context.l10n;
     switch (t) {
-      case ElementType.text:     return 'Contenu du message *';
-      case ElementType.image:    return 'URL de l\'image *';
-      case ElementType.date:     return 'Ex : Samedi 15 Juillet 2026 · 20h00 *';
-      case ElementType.location: return 'Ex : Château de Versailles, 78000 *';
-      case ElementType.wordGame: return 'Mot à deviner *';
-      case ElementType.puzzle:   return 'Image du puzzle *';
+      case ElementType.text:     return l.messageContent;
+      case ElementType.image:    return l.elementTypeImage;
+      case ElementType.date:     return l.selectDate;
+      case ElementType.location: return l.pleaseEnterLocation;
+      case ElementType.wordGame: return l.wordToGuessLabel;
+      case ElementType.puzzle:   return l.pleaseAddImage;
     }
   }
 

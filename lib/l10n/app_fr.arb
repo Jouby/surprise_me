@@ -1,0 +1,320 @@
+{
+  "@@locale": "fr",
+
+  "appTitle": "Surprise Me",
+  "@appTitle": {},
+
+  "myCreations": "Mes créations",
+  "@myCreations": {},
+
+  "joinedSurprises": "Rejointes",
+  "@joinedSurprises": {},
+
+  "refresh": "Actualiser",
+  "@refresh": {},
+
+  "yourSurprises": "Vos Surprises",
+  "@yourSurprises": {},
+
+  "noSurpriseYet": "Aucune surprise pour l'instant",
+  "@noSurpriseYet": {},
+
+  "noSurpriseHint": "Créez une surprise ou entrez\nun code pour en rejoindre une.",
+  "@noSurpriseHint": {},
+
+  "loadError": "Impossible de charger les surprises",
+  "@loadError": {},
+
+  "retry": "Réessayer",
+  "@retry": {},
+
+  "join": "Rejoindre",
+  "@join": {},
+
+  "create": "Créer",
+  "@create": {},
+
+  "joinSurpriseTitle": "Rejoindre une surprise",
+  "@joinSurpriseTitle": {},
+
+  "enterSharedCode": "Entrez le code partagé par l'organisateur.",
+  "@enterSharedCode": {},
+
+  "codeNotFound": "Code introuvable. Vérifiez et réessayez.",
+  "@codeNotFound": {},
+
+  "createSurprise": "Créer une surprise",
+  "@createSurprise": {},
+
+  "identity": "Identité",
+  "@identity": {},
+
+  "elementsCount": "Éléments ({count})",
+  "@elementsCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "elementsHint": "Chaque élément peut être révélé par un code distinct.",
+  "@elementsHint": {},
+
+  "titleLabel": "Titre *",
+  "@titleLabel": {},
+
+  "requiredField": "Requis",
+  "@requiredField": {},
+
+  "subtitleLabel": "Sous-titre (optionnel)",
+  "@subtitleLabel": {},
+
+  "themeColor": "Couleur thème",
+  "@themeColor": {},
+
+  "addElement": "Ajouter un élément",
+  "@addElement": {},
+
+  "creating": "Création…",
+  "@creating": {},
+
+  "createButton": "Créer la surprise",
+  "@createButton": {},
+
+  "addAtLeastOneElement": "Ajoutez au moins un élément.",
+  "@addAtLeastOneElement": {},
+
+  "completeAllElements": "Complétez tous les éléments.",
+  "@completeAllElements": {},
+
+  "errorPrefix": "Erreur : {error}",
+  "@errorPrefix": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+
+  "linkCopied": "Lien copié !",
+  "@linkCopied": {},
+
+  "surpriseCreated": "Surprise créée !",
+  "@surpriseCreated": {},
+
+  "shareCodeHint": "Partagez ce code pour que vos proches\npuissent découvrir la surprise.",
+  "@shareCodeHint": {},
+
+  "copy": "Copier",
+  "@copy": {},
+
+  "share": "Partager",
+  "@share": {},
+
+  "shareMessage": "J'ai une surprise pour toi ! 🎁\nOuvre ce lien pour la découvrir : {link}\n\nOu entre le code manuellement : {code}",
+  "@shareMessage": {
+    "placeholders": {
+      "link": { "type": "String" },
+      "code": { "type": "String" }
+    }
+  },
+
+  "backToHome": "Retour à l'accueil",
+  "@backToHome": {},
+
+  "elementN": "Élément {n}",
+  "@elementN": {
+    "placeholders": {
+      "n": { "type": "int" }
+    }
+  },
+
+  "codeLabel": "Code : {code}",
+  "@codeLabel": {
+    "placeholders": {
+      "code": { "type": "String" }
+    }
+  },
+
+  "editSurprise": "Modifier la surprise",
+  "@editSurprise": {},
+
+  "editElementsHint": "Appuyez sur un élément pour le modifier, glissez pour réordonner.",
+  "@editElementsHint": {},
+
+  "titleRequired": "Le titre est requis.",
+  "@titleRequired": {},
+
+  "saving": "Sauvegarde…",
+  "@saving": {},
+
+  "saveButton": "Enregistrer les modifications",
+  "@saveButton": {},
+
+  "newBadge": "Nouveau",
+  "@newBadge": {},
+
+  "deleteDialogTitle": "Supprimer cette surprise ?",
+  "@deleteDialogTitle": {},
+
+  "deleteOwnerContent": "Cette action est irréversible. La surprise et tous ses éléments seront définitivement supprimés.",
+  "@deleteOwnerContent": {},
+
+  "deleteGuestContent": "La surprise sera retirée de votre liste. Vous pourrez la rejoindre à nouveau avec son code.",
+  "@deleteGuestContent": {},
+
+  "cancel": "Annuler",
+  "@cancel": {},
+
+  "delete": "Supprimer",
+  "@delete": {},
+
+  "remove": "Retirer",
+  "@remove": {},
+
+  "ownerBanner": "Vous êtes le créateur · Appuyez sur un code pour le révéler",
+  "@ownerBanner": {},
+
+  "shareWithCode": "Partager · {code}",
+  "@shareWithCode": {
+    "placeholders": {
+      "code": { "type": "String" }
+    }
+  },
+
+  "revealedElements": "Éléments révélés",
+  "@revealedElements": {},
+
+  "enterCode": "Entrer un code",
+  "@enterCode": {},
+
+  "shareSheetTitle": "Partager \"{title}\"",
+  "@shareSheetTitle": {
+    "placeholders": {
+      "title": { "type": "String" }
+    }
+  },
+
+  "shareAccessHint": "Partagez ce code pour que vos proches\npuissent accéder à cette surprise.",
+  "@shareAccessHint": {},
+
+  "linkCopiedClipboard": "Lien copié dans le presse-papier",
+  "@linkCopiedClipboard": {},
+
+  "editElement": "Modifier l'élément",
+  "@editElement": {},
+
+  "newElement": "Nouvel élément",
+  "@newElement": {},
+
+  "elementTitleLabel": "Titre de l'élément *",
+  "@elementTitleLabel": {},
+
+  "fieldRequired": "Ce champ est requis",
+  "@fieldRequired": {},
+
+  "selectDate": "Sélectionner une date *",
+  "@selectDate": {},
+
+  "pleaseSelectDate": "Veuillez sélectionner une date",
+  "@pleaseSelectDate": {},
+
+  "pleaseAddImage": "Veuillez ajouter une image",
+  "@pleaseAddImage": {},
+
+  "pleaseEnterLocation": "Veuillez indiquer un lieu",
+  "@pleaseEnterLocation": {},
+
+  "pleaseEnterWord": "Veuillez saisir un mot",
+  "@pleaseEnterWord": {},
+
+  "unlockCodeLabel": "Code de déverrouillage *",
+  "@unlockCodeLabel": {},
+
+  "unlockCodeHint": "Ex : SECRET1",
+  "@unlockCodeHint": {},
+
+  "generateCode": "Générer un code",
+  "@generateCode": {},
+
+  "save": "Enregistrer",
+  "@save": {},
+
+  "add": "Ajouter",
+  "@add": {},
+
+  "elementTypeText": "Texte",
+  "@elementTypeText": {},
+
+  "elementTypeImage": "Image",
+  "@elementTypeImage": {},
+
+  "elementTypeDate": "Date",
+  "@elementTypeDate": {},
+
+  "elementTypeLocation": "Lieu",
+  "@elementTypeLocation": {},
+
+  "elementTypeWordGame": "Mot mêlé",
+  "@elementTypeWordGame": {},
+
+  "elementTypePuzzle": "Taquin",
+  "@elementTypePuzzle": {},
+
+  "messageContent": "Contenu du message *",
+  "@messageContent": {},
+
+  "wordToGuessLabel": "Mot à deviner *",
+  "@wordToGuessLabel": {},
+
+  "wordToGuessHint": "Ex : SURPRISE",
+  "@wordToGuessHint": {},
+
+  "wordGameHint": "Les lettres seront mélangées. Le joueur devra les remettre dans le bon ordre.",
+  "@wordGameHint": {},
+
+  "enterYourCode": "Entrez votre code",
+  "@enterYourCode": {},
+
+  "codeUnlocksElement": "Chaque code débloque un élément de la surprise.",
+  "@codeUnlocksElement": {},
+
+  "codeAccepted": "Code accepté ! Un élément a été révélé.",
+  "@codeAccepted": {},
+
+  "invalidCode": "Code invalide. Vérifiez et réessayez.",
+  "@invalidCode": {},
+
+  "unlock": "Déverrouiller",
+  "@unlock": {},
+
+  "unlocked": "Débloqué",
+  "@unlocked": {},
+
+  "enterCodeToReveal": "Entrez un code pour révéler",
+  "@enterCodeToReveal": {},
+
+  "congratulations": "Bravo ! Tu as trouvé le mot !",
+  "@congratulations": {},
+
+  "shuffleAgain": "Mélanger à nouveau",
+  "@shuffleAgain": {},
+
+  "uploadError": "Erreur d'envoi. Réessayez.",
+  "@uploadError": {},
+
+  "addImage": "Ajouter une image",
+  "@addImage": {},
+
+  "gallery": "Galerie",
+  "@gallery": {},
+
+  "camera": "Appareil photo",
+  "@camera": {},
+
+  "change": "Changer",
+  "@change": {},
+
+  "galleryOrCamera": "Galerie ou appareil photo",
+  "@galleryOrCamera": {},
+
+  "uploading": "Envoi en cours…",
+  "@uploading": {}
+}

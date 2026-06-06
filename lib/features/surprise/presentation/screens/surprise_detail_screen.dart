@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show Clipboard, ClipboardData;
+import '../../../../core/l10n/l10n.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../domain/entities/surprise.dart';
@@ -107,23 +108,23 @@ class SurpriseDetailScreen extends StatelessWidget {
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         backgroundColor: AppTheme.cardBg,
-        title: const Text('Supprimer cette surprise ?'),
+        title: Text(ctx.l10n.deleteDialogTitle),
         content: Text(
           isOwner
-              ? 'Cette action est irréversible. La surprise et tous ses éléments seront définitivement supprimés.'
-              : 'La surprise sera retirée de votre liste. Vous pourrez la rejoindre à nouveau avec son code.',
+              ? ctx.l10n.deleteOwnerContent
+              : ctx.l10n.deleteGuestContent,
           style: const TextStyle(fontSize: 14, color: AppTheme.textMid),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: Text('Annuler',
-                style: TextStyle(color: AppTheme.textLight)),
+            child: Text(ctx.l10n.cancel,
+                style: const TextStyle(color: AppTheme.textLight)),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
             child: Text(
-              isOwner ? 'Supprimer' : 'Retirer',
+              isOwner ? ctx.l10n.delete : ctx.l10n.remove,
               style: const TextStyle(
                   color: Colors.redAccent, fontWeight: FontWeight.w700),
             ),
@@ -144,7 +145,7 @@ class SurpriseDetailScreen extends StatelessWidget {
     } catch (e) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Erreur : $e'),
+          content: Text(context.l10n.errorPrefix(e.toString())),
           behavior: SnackBarBehavior.floating,
           backgroundColor: themeColor,
         ));
@@ -240,7 +241,7 @@ class SurpriseDetailScreen extends StatelessWidget {
           const SizedBox(width: 10),
           Expanded(
             child: Text(
-              'Vous êtes le créateur · Appuyez sur un code pour le révéler',
+              context.l10n.ownerBanner,
               style: TextStyle(
                 fontSize: 12,
                 color: themeColor,
@@ -274,7 +275,7 @@ class SurpriseDetailScreen extends StatelessWidget {
             child: OutlinedButton.icon(
               onPressed: () => _showShareSheet(context),
               icon: const Icon(Icons.share_rounded, size: 16),
-              label: Text('Partager · ${surprise.shareCode}'),
+              label: Text(context.l10n.shareWithCode(surprise.shareCode)),
               style: OutlinedButton.styleFrom(
                 foregroundColor: themeColor,
                 side: BorderSide(color: themeColor, width: 1.5),
@@ -471,7 +472,7 @@ class SurpriseDetailScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Éléments révélés',
+                context.l10n.revealedElements,
                 style: TextStyle(
                     fontSize: 13,
                     color: AppTheme.textMid,
@@ -521,7 +522,7 @@ class SurpriseDetailScreen extends StatelessWidget {
         child: ElevatedButton.icon(
           onPressed: () => _showUnlockSheet(context, provider),
           icon: const Icon(Icons.vpn_key_outlined, size: 18),
-          label: const Text('Entrer un code'),
+          label: Text(context.l10n.enterCode),
           style: ElevatedButton.styleFrom(backgroundColor: themeColor),
         ),
       ),
@@ -565,7 +566,7 @@ class _ShareSheet extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            'Partager "${surprise.title}"',
+            context.l10n.shareSheetTitle(surprise.title),
             style: Theme.of(context)
                 .textTheme
                 .headlineMedium
@@ -574,7 +575,7 @@ class _ShareSheet extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'Partagez ce code pour que vos proches\npuissent accéder à cette surprise.',
+            context.l10n.shareAccessHint,
             textAlign: TextAlign.center,
             style: TextStyle(color: AppTheme.textLight, fontSize: 13, height: 1.5),
           ),
@@ -607,14 +608,14 @@ class _ShareSheet extends StatelessWidget {
                     Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: const Text('Lien copié dans le presse-papier'),
+                        content: Text(context.l10n.linkCopiedClipboard),
                         behavior: SnackBarBehavior.floating,
                         backgroundColor: themeColor,
                       ),
                     );
                   },
                   icon: const Icon(Icons.copy_rounded, size: 16),
-                  label: const Text('Copier'),
+                  label: Text(context.l10n.copy),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: themeColor,
                     side: BorderSide(color: themeColor.withValues(alpha: 0.4), width: 1.5),
@@ -630,11 +631,11 @@ class _ShareSheet extends StatelessWidget {
                   onPressed: () {
                     final link = 'https://jouby.github.io/surprise_me/join/${surprise.shareCode}';
                     Share.share(
-                      'J\'ai une surprise pour toi ! 🎁\nOuvre ce lien pour la découvrir : $link\n\nOu entre le code manuellement : ${surprise.shareCode}',
+                      context.l10n.shareMessage(link, surprise.shareCode),
                     );
                   },
                   icon: const Icon(Icons.share_rounded, size: 16),
-                  label: const Text('Partager'),
+                  label: Text(context.l10n.share),
                   style: ElevatedButton.styleFrom(backgroundColor: themeColor),
                 ),
               ),

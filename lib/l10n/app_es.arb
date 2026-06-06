@@ -1,0 +1,145 @@
+{
+  "@@locale": "es",
+
+  "appTitle": "Surprise Me",
+
+  "myCreations": "Mis creaciones",
+  "joinedSurprises": "Unidas",
+  "refresh": "Actualizar",
+  "yourSurprises": "Tus Sorpresas",
+  "noSurpriseYet": "Ninguna sorpresa por ahora",
+  "noSurpriseHint": "Crea una sorpresa o introduce\nun código para unirte a una.",
+  "loadError": "No se pueden cargar las sorpresas",
+  "retry": "Reintentar",
+  "join": "Unirse",
+  "create": "Crear",
+  "joinSurpriseTitle": "Unirse a una sorpresa",
+  "enterSharedCode": "Introduce el código compartido por el organizador.",
+  "codeNotFound": "Código no encontrado. Verifica e inténtalo de nuevo.",
+
+  "createSurprise": "Crear una sorpresa",
+  "identity": "Identidad",
+  "elementsCount": "Elementos ({count})",
+  "@elementsCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "elementsHint": "Cada elemento puede revelarse con un código distinto.",
+  "titleLabel": "Título *",
+  "requiredField": "Obligatorio",
+  "subtitleLabel": "Subtítulo (opcional)",
+  "themeColor": "Color del tema",
+  "addElement": "Añadir un elemento",
+  "creating": "Creando…",
+  "createButton": "Crear sorpresa",
+  "addAtLeastOneElement": "Añade al menos un elemento.",
+  "completeAllElements": "Completa todos los elementos.",
+  "errorPrefix": "Error: {error}",
+  "@errorPrefix": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "linkCopied": "¡Enlace copiado!",
+  "surpriseCreated": "¡Sorpresa creada!",
+  "shareCodeHint": "Comparte este código para que tus seres queridos\npuedan descubrir la sorpresa.",
+  "copy": "Copiar",
+  "share": "Compartir",
+  "shareMessage": "¡Tengo una sorpresa para ti! 🎁\nAbre este enlace para descubrirla: {link}\n\nO introduce el código manualmente: {code}",
+  "@shareMessage": {
+    "placeholders": {
+      "link": { "type": "String" },
+      "code": { "type": "String" }
+    }
+  },
+  "backToHome": "Volver al inicio",
+  "elementN": "Elemento {n}",
+  "@elementN": {
+    "placeholders": {
+      "n": { "type": "int" }
+    }
+  },
+  "codeLabel": "Código: {code}",
+  "@codeLabel": {
+    "placeholders": {
+      "code": { "type": "String" }
+    }
+  },
+
+  "editSurprise": "Editar sorpresa",
+  "editElementsHint": "Toca un elemento para editarlo, arrastra para reordenar.",
+  "titleRequired": "El título es obligatorio.",
+  "saving": "Guardando…",
+  "saveButton": "Guardar cambios",
+  "newBadge": "Nuevo",
+
+  "deleteDialogTitle": "¿Eliminar esta sorpresa?",
+  "deleteOwnerContent": "Esta acción es irreversible. La sorpresa y todos sus elementos serán eliminados permanentemente.",
+  "deleteGuestContent": "La sorpresa se eliminará de tu lista. Puedes volver a unirte con su código.",
+  "cancel": "Cancelar",
+  "delete": "Eliminar",
+  "remove": "Quitar",
+  "ownerBanner": "Eres el creador · Toca un código para revelarlo",
+  "shareWithCode": "Compartir · {code}",
+  "@shareWithCode": {
+    "placeholders": {
+      "code": { "type": "String" }
+    }
+  },
+  "revealedElements": "Elementos revelados",
+  "enterCode": "Introducir un código",
+  "shareSheetTitle": "Compartir \"{title}\"",
+  "@shareSheetTitle": {
+    "placeholders": {
+      "title": { "type": "String" }
+    }
+  },
+  "shareAccessHint": "Comparte este código para que tus seres queridos\npuedan acceder a esta sorpresa.",
+  "linkCopiedClipboard": "Enlace copiado al portapapeles",
+
+  "editElement": "Editar elemento",
+  "newElement": "Nuevo elemento",
+  "elementTitleLabel": "Título del elemento *",
+  "fieldRequired": "Este campo es obligatorio",
+  "selectDate": "Seleccionar una fecha *",
+  "pleaseSelectDate": "Por favor, selecciona una fecha",
+  "pleaseAddImage": "Por favor, añade una imagen",
+  "pleaseEnterLocation": "Por favor, indica un lugar",
+  "pleaseEnterWord": "Por favor, introduce una palabra",
+  "unlockCodeLabel": "Código de desbloqueo *",
+  "unlockCodeHint": "Ej: SECRETO1",
+  "generateCode": "Generar un código",
+  "save": "Guardar",
+  "add": "Añadir",
+  "elementTypeText": "Texto",
+  "elementTypeImage": "Imagen",
+  "elementTypeDate": "Fecha",
+  "elementTypeLocation": "Lugar",
+  "elementTypeWordGame": "Anagrama",
+  "elementTypePuzzle": "Puzle",
+  "messageContent": "Contenido del mensaje *",
+  "wordToGuessLabel": "Palabra a adivinar *",
+  "wordToGuessHint": "Ej: SORPRESA",
+  "wordGameHint": "Las letras se mezclarán. El jugador deberá ordenarlas correctamente.",
+
+  "enterYourCode": "Introduce tu código",
+  "codeUnlocksElement": "Cada código desbloquea un elemento de la sorpresa.",
+  "codeAccepted": "¡Código aceptado! Se ha revelado un elemento.",
+  "invalidCode": "Código no válido. Verifica e inténtalo de nuevo.",
+  "unlock": "Desbloquear",
+
+  "unlocked": "Desbloqueado",
+  "enterCodeToReveal": "Introduce un código para revelar",
+
+  "congratulations": "¡Enhorabuena! ¡Encontraste la palabra!",
+  "shuffleAgain": "Mezclar de nuevo",
+
+  "uploadError": "Error al subir. Inténtalo de nuevo.",
+  "addImage": "Añadir una imagen",
+  "gallery": "Galería",
+  "camera": "Cámara",
+  "change": "Cambiar",
+  "galleryOrCamera": "Galería o cámara",
+  "uploading": "Subiendo…"
+}

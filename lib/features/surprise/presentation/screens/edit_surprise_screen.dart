@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../../core/l10n/l10n.dart';
 
 import '../../domain/entities/element_draft.dart';
 import '../../domain/entities/surprise.dart';
@@ -52,15 +53,15 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
 
   Future<void> _save() async {
     if (_titleController.text.trim().isEmpty) {
-      _showSnack('Le titre est requis.');
+      _showSnack(context.l10n.titleRequired);
       return;
     }
     if (_elements.isEmpty) {
-      _showSnack('Ajoutez au moins un élément.');
+      _showSnack(context.l10n.addAtLeastOneElement);
       return;
     }
     if (_elements.any((e) => !e.isValid)) {
-      _showSnack('Complétez tous les éléments.');
+      _showSnack(context.l10n.completeAllElements);
       return;
     }
 
@@ -85,7 +86,7 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
     } catch (e) {
       if (mounted) {
         setState(() => _saving = false);
-        _showSnack('Erreur : $e');
+        _showSnack(context.l10n.errorPrefix(e.toString()));
       }
     }
   }
@@ -145,7 +146,7 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
           ),
         ),
         title: Text(
-          'Modifier la surprise',
+          context.l10n.editSurprise,
           style:
               Theme.of(context).textTheme.headlineMedium?.copyWith(fontSize: 20),
         ),
@@ -154,13 +155,13 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 8, 20, 120),
         children: [
-          _SectionLabel('Identité'),
+          _SectionLabel(context.l10n.identity),
           _buildIdentityCard(),
           const SizedBox(height: 24),
-          _SectionLabel('Éléments (${_elements.length})'),
+          _SectionLabel(context.l10n.elementsCount(_elements.length)),
           const SizedBox(height: 4),
           Text(
-            'Appuyez sur un élément pour le modifier, glissez pour réordonner.',
+            context.l10n.editElementsHint,
             style: TextStyle(fontSize: 13, color: AppTheme.textLight),
           ),
           const SizedBox(height: 12),
@@ -261,7 +262,7 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
               Expanded(
                 child: TextFormField(
                   controller: _titleController,
-                  decoration: const InputDecoration(labelText: 'Titre *'),
+                  decoration: InputDecoration(labelText: context.l10n.titleLabel),
                 ),
               ),
             ],
@@ -270,7 +271,7 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
           TextFormField(
             controller: _subtitleController,
             decoration:
-                const InputDecoration(labelText: 'Sous-titre (optionnel)'),
+                InputDecoration(labelText: context.l10n.subtitleLabel),
           ),
           const SizedBox(height: 12),
           _buildColorRow(),
@@ -315,10 +316,10 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
               ),
             ),
             const SizedBox(width: 12),
-            const Expanded(
+            Expanded(
               child: Text(
-                'Couleur thème',
-                style: TextStyle(fontSize: 14, color: AppTheme.textMid),
+                context.l10n.themeColor,
+                style: const TextStyle(fontSize: 14, color: AppTheme.textMid),
               ),
             ),
             const Icon(Icons.chevron_right_rounded,
@@ -346,7 +347,7 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
                 size: 18, color: AppTheme.primaryLight),
             const SizedBox(width: 8),
             Text(
-              'Ajouter un élément',
+              context.l10n.addElement,
               style: TextStyle(
                 color: AppTheme.primaryLight,
                 fontWeight: FontWeight.w600,
@@ -385,7 +386,7 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
                       strokeWidth: 2, color: Colors.white),
                 )
               : const Icon(Icons.check_rounded, size: 18),
-          label: Text(_saving ? 'Sauvegarde…' : 'Enregistrer les modifications'),
+          label: Text(_saving ? context.l10n.saving : context.l10n.saveButton),
         ),
       ),
     );
@@ -457,7 +458,7 @@ class _ElementDraftTile extends StatelessWidget {
                     const SizedBox(width: 5),
                     Text(
                       draft.label.isEmpty
-                          ? 'Élément ${index + 1}'
+                          ? context.l10n.elementN(index + 1)
                           : draft.label,
                       style: const TextStyle(
                         fontWeight: FontWeight.w600,
@@ -474,13 +475,13 @@ class _ElementDraftTile extends StatelessWidget {
                           color: AppTheme.accentLight.withValues(alpha: 0.4),
                           borderRadius: BorderRadius.circular(4),
                         ),
-                        child: Text(
-                          'Nouveau',
-                          style: TextStyle(
+                        child: Builder(builder: (ctx) => Text(
+                          ctx.l10n.newBadge,
+                          style: const TextStyle(
                               fontSize: 9,
                               fontWeight: FontWeight.w700,
                               color: AppTheme.primaryLight),
-                        ),
+                        )),
                       ),
                     ],
                   ],
@@ -502,7 +503,7 @@ class _ElementDraftTile extends StatelessWidget {
                     border: Border.all(color: AppTheme.divider),
                   ),
                   child: Text(
-                    'Code : ${draft.unlockCode.toUpperCase()}',
+                    context.l10n.codeLabel(draft.unlockCode.toUpperCase()),
                     style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.w600,

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import '../providers/unlock_provider.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/utils/text_formatters.dart';
+import '../../../../core/l10n/l10n.dart';
 
 class UnlockBottomSheet extends StatefulWidget {
   final UnlockProvider provider;
@@ -48,8 +49,8 @@ class _UnlockBottomSheetState extends State<UnlockBottomSheet> {
       _loading = false;
       _success = ok;
       _feedback = ok
-          ? 'Code accepté ! Un élément a été révélé.'
-          : 'Code invalide. Vérifiez et réessayez.';
+          ? context.l10n.codeAccepted
+          : context.l10n.invalidCode;
     });
 
     if (ok) {
@@ -91,12 +92,12 @@ class _UnlockBottomSheetState extends State<UnlockBottomSheet> {
           ),
           const SizedBox(height: 16),
           Text(
-            'Entrez votre code',
+            context.l10n.enterYourCode,
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontSize: 22),
           ),
           const SizedBox(height: 8),
           Text(
-            'Chaque code débloque un élément de la surprise.',
+            context.l10n.codeUnlocksElement,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: AppTheme.textLight,
@@ -181,7 +182,7 @@ class _UnlockBottomSheetState extends State<UnlockBottomSheet> {
                         color: Colors.white,
                       ),
                     )
-                  : const Text('Déverrouiller'),
+                  : Text(context.l10n.unlock),
             ),
           ),
         ],

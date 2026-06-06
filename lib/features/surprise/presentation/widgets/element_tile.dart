@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../../domain/entities/surprise_element.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/l10n/l10n.dart';
 import '../../../../features/word_game/presentation/widgets/word_game_tile.dart';
 import '../../../../features/puzzle_game/presentation/widgets/puzzle_game_tile.dart';
 
@@ -106,7 +107,7 @@ class ElementTile extends StatelessWidget {
                   Icon(Icons.lock_open_rounded, size: 11, color: themeColor),
                   const SizedBox(width: 3),
                   Text(
-                    'Débloqué',
+                    context.l10n.unlocked,
                     style: TextStyle(
                       fontSize: 10,
                       color: themeColor,
@@ -236,7 +237,7 @@ class ElementTile extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Entrez un code pour révéler',
+                    context.l10n.enterCodeToReveal,
                     style: TextStyle(
                       color: themeColor,
                       fontSize: 12,

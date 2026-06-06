@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import '../../../../core/l10n/l10n.dart';
 import '../../domain/entities/element_draft.dart';
 import '../../domain/entities/surprise_element.dart';
 import '../providers/surprise_provider.dart';
@@ -39,11 +40,11 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
     if (_elements.isEmpty) {
-      _showSnack('Ajoutez au moins un élément.');
+      _showSnack(context.l10n.addAtLeastOneElement);
       return;
     }
     if (_elements.any((e) => !e.isValid)) {
-      _showSnack('Complétez tous les éléments.');
+      _showSnack(context.l10n.completeAllElements);
       return;
     }
 
@@ -62,7 +63,7 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
       });
     } catch (e) {
       setState(() => _saving = false);
-      _showSnack('Erreur : $e');
+      _showSnack(context.l10n.errorPrefix(e.toString()));
     }
   }
 
@@ -109,7 +110,7 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
           ),
         ),
         title: Text(
-          'Créer une surprise',
+          context.l10n.createSurprise,
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontSize: 20),
         ),
         centerTitle: true,
@@ -119,13 +120,13 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
         child: ListView(
           padding: const EdgeInsets.fromLTRB(20, 8, 20, 120),
           children: [
-            _SectionLabel('Identité'),
+            _SectionLabel(context.l10n.identity),
             _buildIdentityFields(),
             const SizedBox(height: 24),
-            _SectionLabel('Éléments (${_elements.length})'),
+            _SectionLabel(context.l10n.elementsCount(_elements.length)),
             const SizedBox(height: 4),
             Text(
-              'Chaque élément peut être révélé par un code distinct.',
+              context.l10n.elementsHint,
               style: TextStyle(fontSize: 13, color: AppTheme.textLight),
             ),
             const SizedBox(height: 12),
@@ -207,9 +208,9 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
               Expanded(
                 child: TextFormField(
                   controller: _titleController,
-                  decoration: const InputDecoration(labelText: 'Titre *'),
+                  decoration: InputDecoration(labelText: context.l10n.titleLabel),
                   validator: (v) =>
-                      (v == null || v.trim().isEmpty) ? 'Requis' : null,
+                      (v == null || v.trim().isEmpty) ? context.l10n.requiredField : null,
                 ),
               ),
             ],
@@ -217,7 +218,7 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
           const SizedBox(height: 12),
           TextFormField(
             controller: _subtitleController,
-            decoration: const InputDecoration(labelText: 'Sous-titre (optionnel)'),
+            decoration: InputDecoration(labelText: context.l10n.subtitleLabel),
           ),
           const SizedBox(height: 12),
           _buildColorRow(),
@@ -262,10 +263,10 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
               ),
             ),
             const SizedBox(width: 12),
-            const Expanded(
+            Expanded(
               child: Text(
-                'Couleur thème',
-                style: TextStyle(fontSize: 14, color: AppTheme.textMid),
+                context.l10n.themeColor,
+                style: const TextStyle(fontSize: 14, color: AppTheme.textMid),
               ),
             ),
             const Icon(Icons.chevron_right_rounded,
@@ -292,7 +293,7 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
             Icon(Icons.add_circle_outline_rounded, size: 18, color: AppTheme.primaryLight),
             const SizedBox(width: 8),
             Text(
-              'Ajouter un élément',
+              context.l10n.addElement,
               style: TextStyle(
                 color: AppTheme.primaryLight,
                 fontWeight: FontWeight.w600,
@@ -330,7 +331,7 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
                   child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                 )
               : const Icon(Icons.check_rounded, size: 18),
-          label: Text(_saving ? 'Création…' : 'Créer la surprise'),
+          label: Text(_saving ? context.l10n.creating : context.l10n.createButton),
         ),
       ),
     );
@@ -356,7 +357,7 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
               ),
               const SizedBox(height: 24),
               Text(
-                'Surprise créée !',
+                context.l10n.surpriseCreated,
                 style: Theme.of(context)
                     .textTheme
                     .headlineMedium
@@ -364,7 +365,7 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
               ),
               const SizedBox(height: 10),
               Text(
-                'Partagez ce code pour que vos proches\npuissent découvrir la surprise.',
+                context.l10n.shareCodeHint,
                 textAlign: TextAlign.center,
                 style: TextStyle(color: AppTheme.textLight, fontSize: 14, height: 1.5),
               ),
@@ -400,10 +401,10 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
                       onPressed: () {
                         final link = 'https://jouby.github.io/surprise_me/join/$_createdCode';
                         Clipboard.setData(ClipboardData(text: link));
-                        _showSnack('Lien copié !');
+                        _showSnack(context.l10n.linkCopied);
                       },
                       icon: const Icon(Icons.copy_rounded, size: 16),
-                      label: const Text('Copier'),
+                      label: Text(context.l10n.copy),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: AppTheme.primary,
                         side: const BorderSide(color: AppTheme.divider, width: 1.5),
@@ -418,12 +419,10 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
                     child: ElevatedButton.icon(
                       onPressed: () {
                         final link = 'https://jouby.github.io/surprise_me/join/$_createdCode';
-                        Share.share(
-                          'J\'ai une surprise pour toi ! 🎁\nOuvre ce lien pour la découvrir : $link\n\nOu entre le code manuellement : $_createdCode',
-                        );
+                        Share.share(context.l10n.shareMessage(link, _createdCode!));
                       },
                       icon: const Icon(Icons.share_rounded, size: 16),
-                      label: const Text('Partager'),
+                      label: Text(context.l10n.share),
                     ),
                   ),
                 ],
@@ -432,7 +431,7 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
               TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: Text(
-                  'Retour à l\'accueil',
+                  context.l10n.backToHome,
                   style: TextStyle(color: AppTheme.textLight, fontSize: 14),
                 ),
               ),
@@ -500,7 +499,7 @@ class _ElementDraftTile extends StatelessWidget {
               Icon(_iconFor(draft.type), size: 15, color: AppTheme.primaryLight),
               const SizedBox(width: 6),
               Text(
-                draft.label.isEmpty ? 'Élément ${index + 1}' : draft.label,
+                draft.label.isEmpty ? context.l10n.elementN(index + 1) : draft.label,
                 style: const TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 13,
@@ -537,7 +536,7 @@ class _ElementDraftTile extends StatelessWidget {
               border: Border.all(color: AppTheme.divider),
             ),
             child: Text(
-              'Code : ${draft.unlockCode.toUpperCase()}',
+              context.l10n.codeLabel(draft.unlockCode.toUpperCase()),
               style: const TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w600,

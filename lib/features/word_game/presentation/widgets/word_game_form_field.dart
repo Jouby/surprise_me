@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/l10n/l10n.dart';
 
 /// Form field used when creating a word-game element.
 /// The creator types the word to guess; it is stored as plain uppercase text.
@@ -49,15 +50,15 @@ class _WordGameFormFieldState extends State<WordGameFormField> {
           ],
           onChanged: widget.onChanged,
           decoration: InputDecoration(
-            labelText: 'Mot à deviner *',
-            hintText: 'Ex : SURPRISE',
+            labelText: context.l10n.wordToGuessLabel,
+            hintText: context.l10n.wordToGuessHint,
             prefixIcon: const Icon(Icons.casino_outlined, size: 20),
             errorText: widget.errorText,
           ),
         ),
         const SizedBox(height: 6),
         Text(
-          'Les lettres seront mélangées. Le joueur devra les remettre dans le bon ordre.',
+          context.l10n.wordGameHint,
           style: TextStyle(
             fontSize: 12,
             color: AppTheme.textLight,

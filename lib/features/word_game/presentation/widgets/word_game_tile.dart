@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../domain/entities/word_game_state.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/l10n/l10n.dart';
 
 /// Renders the drag-and-drop word game inside an ElementTile.
 ///
@@ -193,7 +194,7 @@ class _WordGameTileState extends State<WordGameTile>
                 size: 18, color: Colors.green.shade600),
             const SizedBox(width: 8),
             Text(
-              'Bravo ! Tu as trouvé le mot !',
+              context.l10n.congratulations,
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
@@ -213,7 +214,7 @@ class _WordGameTileState extends State<WordGameTile>
       onPressed: () => _update(_state.reset()),
       icon: Icon(Icons.refresh_rounded, size: 14, color: AppTheme.textLight),
       label: Text(
-        'Mélanger à nouveau',
+        context.l10n.shuffleAgain,
         style: TextStyle(fontSize: 12, color: AppTheme.textLight),
       ),
       style: TextButton.styleFrom(
