@@ -1,13 +1,13 @@
 import 'surprise_element.dart';
 
 class ElementDraft {
-  String? id;
-  ElementType type;
-  String label;
-  String content;
-  String unlockCode;
+  final String? id;
+  final ElementType type;
+  final String label;
+  final String content;
+  final String unlockCode;
 
-  ElementDraft({
+  const ElementDraft({
     this.id,
     required this.type,
     required this.label,
@@ -21,6 +21,20 @@ class ElementDraft {
     label: e.label,
     content: e.content,
     unlockCode: e.unlockCode,
+  );
+
+  ElementDraft copyWith({
+    String? id,
+    ElementType? type,
+    String? label,
+    String? content,
+    String? unlockCode,
+  }) => ElementDraft(
+    id: id ?? this.id,
+    type: type ?? this.type,
+    label: label ?? this.label,
+    content: content ?? this.content,
+    unlockCode: unlockCode ?? this.unlockCode,
   );
 
   bool get isNew => id == null;
