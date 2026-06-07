@@ -15,7 +15,6 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   String? _userToken;
-  List<String> _savedShareCodes = [];
   bool _loading = true;
 
   @override
@@ -28,12 +27,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final repo = context.read<ISurpriseRepository>();
 
     final userToken = await repo.getUserToken();
-    final savedCodes = await repo.getSavedCodes();
 
     if (mounted) {
       setState(() {
         _userToken = userToken;
-        _savedShareCodes = savedCodes;
         _loading = false;
       });
     }
@@ -94,37 +91,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 child: _UserTokenCard(
                   token: _userToken,
                   onCopy: _userToken != null ? _copyToken : null,
-                ),
-              ),
-            ),
-
-            // ── Section données locales ─────────────────────────────────────
-            SliverToBoxAdapter(
-              child: _SectionHeader(
-                icon: Icons.storage_rounded,
-                label: context.l10n.localData,
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
-                child: Text(
-                  context.l10n.localDataHint,
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: AppTheme.textLight,
-                    height: 1.5,
-                  ),
-                ),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: _DataRow(
-                  icon: Icons.qr_code_rounded,
-                  label: context.l10n.savedShareCodes,
-                  value: _savedShareCodes.length.toString(),
                 ),
               ),
             ),
@@ -310,65 +276,6 @@ class _SectionHeader extends StatelessWidget {
               fontWeight: FontWeight.w700,
               letterSpacing: 1.2,
               color: AppTheme.textLight,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ─── Data row ─────────────────────────────────────────────────────────────────
-
-class _DataRow extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final String value;
-
-  const _DataRow({
-    required this.icon,
-    required this.label,
-    required this.value,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      decoration: BoxDecoration(
-        color: AppTheme.cardBg,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppTheme.divider),
-      ),
-      child: Row(
-        children: [
-          Icon(icon, size: 16, color: AppTheme.textLight),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              label,
-              style: const TextStyle(
-                fontSize: 13,
-                color: AppTheme.textMid,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-          Container(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            decoration: BoxDecoration(
-              color: AppTheme.surface,
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: AppTheme.divider),
-            ),
-            child: Text(
-              value,
-              style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w700,
-                color: AppTheme.textDark,
-              ),
             ),
           ),
         ],
