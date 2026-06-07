@@ -42,8 +42,10 @@ class _PuzzleGameTileState extends State<PuzzleGameTile>
       vsync: this,
       duration: const Duration(milliseconds: 700),
     );
-    _successAnim =
-        CurvedAnimation(parent: _successCtrl, curve: Curves.elasticOut);
+    _successAnim = CurvedAnimation(
+      parent: _successCtrl,
+      curve: Curves.elasticOut,
+    );
     _loadImage();
   }
 
@@ -59,16 +61,18 @@ class _PuzzleGameTileState extends State<PuzzleGameTile>
   void _loadImage() {
     final provider = NetworkImage(widget.imageUrl);
     final stream = provider.resolve(ImageConfiguration.empty);
-    stream.addListener(ImageStreamListener(
-      (info, _) {
-        if (!mounted) return;
-        setState(() => _image = info.image);
-      },
-      onError: (_, __) {
-        if (!mounted) return;
-        setState(() => _imageError = true);
-      },
-    ));
+    stream.addListener(
+      ImageStreamListener(
+        (info, _) {
+          if (!mounted) return;
+          setState(() => _image = info.image);
+        },
+        onError: (_, __) {
+          if (!mounted) return;
+          setState(() => _imageError = true);
+        },
+      ),
+    );
   }
 
   // ── Interaction ───────────────────────────────────────────────────────────
@@ -116,8 +120,8 @@ class _PuzzleGameTileState extends State<PuzzleGameTile>
       child: _imageError
           ? _buildErrorPlaceholder()
           : _image == null
-              ? _buildLoadingPlaceholder()
-              : _buildTileGrid(),
+          ? _buildLoadingPlaceholder()
+          : _buildTileGrid(),
     );
   }
 
@@ -168,8 +172,7 @@ class _PuzzleGameTileState extends State<PuzzleGameTile>
                           ),
                           if (canSlide && !_state.isSolved)
                             Container(
-                              color:
-                                  widget.themeColor.withValues(alpha: 0.15),
+                              color: widget.themeColor.withValues(alpha: 0.15),
                             ),
                         ],
                       ),
@@ -195,8 +198,11 @@ class _PuzzleGameTileState extends State<PuzzleGameTile>
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.broken_image_outlined,
-              color: AppTheme.textLight, size: 32),
+          Icon(
+            Icons.broken_image_outlined,
+            color: AppTheme.textLight,
+            size: 32,
+          ),
           const SizedBox(height: 6),
           Text(
             'Image introuvable',
@@ -222,8 +228,11 @@ class _PuzzleGameTileState extends State<PuzzleGameTile>
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.check_circle_rounded,
-                size: 18, color: Colors.green.shade600),
+            Icon(
+              Icons.check_circle_rounded,
+              size: 18,
+              color: Colors.green.shade600,
+            ),
             const SizedBox(width: 8),
             Text(
               'Bravo ! Puzzle reconstitué !',
@@ -284,15 +293,15 @@ class _TilePainter extends CustomPainter {
     final tileW = image.width / gridN;
     final tileH = image.height / gridN;
 
-    final src = Rect.fromLTWH(
-      col * tileW,
-      row * tileH,
-      tileW,
-      tileH,
-    );
+    final src = Rect.fromLTWH(col * tileW, row * tileH, tileW, tileH);
     final dst = Rect.fromLTWH(0, 0, size.width, size.height);
 
-    canvas.drawImageRect(image, src, dst, Paint()..filterQuality = FilterQuality.medium);
+    canvas.drawImageRect(
+      image,
+      src,
+      dst,
+      Paint()..filterQuality = FilterQuality.medium,
+    );
   }
 
   @override

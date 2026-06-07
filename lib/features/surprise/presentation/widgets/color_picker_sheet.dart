@@ -41,7 +41,11 @@ class ColorPickerSheet extends StatelessWidget {
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
       padding: EdgeInsets.fromLTRB(
-          24, 0, 24, 24 + MediaQuery.of(context).padding.bottom),
+        24,
+        0,
+        24,
+        24 + MediaQuery.of(context).padding.bottom,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,10 +66,9 @@ class ColorPickerSheet extends StatelessWidget {
             children: [
               Text(
                 'Couleur thème',
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineMedium
-                    ?.copyWith(fontSize: 18),
+                style: Theme.of(
+                  context,
+                ).textTheme.headlineMedium?.copyWith(fontSize: 18),
               ),
               const Spacer(),
               // Aperçu de la couleur sélectionnée
@@ -118,15 +121,20 @@ class ColorPickerSheet extends StatelessWidget {
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: color.withValues(alpha: isSelected ? 0.6 : 0.25),
+                          color: color.withValues(
+                            alpha: isSelected ? 0.6 : 0.25,
+                          ),
                           blurRadius: isSelected ? 10 : 4,
                           spreadRadius: isSelected ? 1 : 0,
                         ),
                       ],
                     ),
                     child: isSelected
-                        ? const Icon(Icons.check_rounded,
-                            size: 18, color: Colors.white)
+                        ? const Icon(
+                            Icons.check_rounded,
+                            size: 18,
+                            color: Colors.white,
+                          )
                         : null,
                   ),
                 ),

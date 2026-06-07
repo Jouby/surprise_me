@@ -12,7 +12,11 @@ class ImagePickerField extends StatefulWidget {
   final ValueChanged<String?> onUploaded;
   final String? initialUrl;
 
-  const ImagePickerField({super.key, required this.onUploaded, this.initialUrl});
+  const ImagePickerField({
+    super.key,
+    required this.onUploaded,
+    this.initialUrl,
+  });
 
   @override
   State<ImagePickerField> createState() => _ImagePickerFieldState();
@@ -162,7 +166,11 @@ class _ImagePickerFieldState extends State<ImagePickerField> {
                 color: Colors.black.withValues(alpha: 0.55),
                 shape: BoxShape.circle,
               ),
-              child: const Icon(Icons.close_rounded, size: 16, color: Colors.white),
+              child: const Icon(
+                Icons.close_rounded,
+                size: 16,
+                color: Colors.white,
+              ),
             ),
           ),
         ),
@@ -182,8 +190,10 @@ class _ImagePickerFieldState extends State<ImagePickerField> {
                 children: [
                   const Icon(Icons.edit_rounded, size: 12, color: Colors.white),
                   const SizedBox(width: 4),
-                  Text(context.l10n.change,
-                      style: const TextStyle(color: Colors.white, fontSize: 11)),
+                  Text(
+                    context.l10n.change,
+                    style: const TextStyle(color: Colors.white, fontSize: 11),
+                  ),
                 ],
               ),
             ),
@@ -211,8 +221,11 @@ class _ImagePickerFieldState extends State<ImagePickerField> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.add_photo_alternate_outlined,
-                size: 32, color: AppTheme.primaryLight),
+            Icon(
+              Icons.add_photo_alternate_outlined,
+              size: 32,
+              color: AppTheme.primaryLight,
+            ),
             const SizedBox(height: 8),
             Text(
               context.l10n.galleryOrCamera,
@@ -259,10 +272,14 @@ class _ImagePickerFieldState extends State<ImagePickerField> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const CircularProgressIndicator(
-                        color: Colors.white, strokeWidth: 2),
+                      color: Colors.white,
+                      strokeWidth: 2,
+                    ),
                     const SizedBox(height: 10),
-                    Text(context.l10n.uploading,
-                        style: const TextStyle(color: Colors.white, fontSize: 12)),
+                    Text(
+                      context.l10n.uploading,
+                      style: const TextStyle(color: Colors.white, fontSize: 12),
+                    ),
                   ],
                 ),
               ),
@@ -283,8 +300,11 @@ class _ImagePickerFieldState extends State<ImagePickerField> {
                   color: Colors.black.withValues(alpha: 0.55),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.close_rounded,
-                    size: 16, color: Colors.white),
+                child: const Icon(
+                  Icons.close_rounded,
+                  size: 16,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
@@ -295,8 +315,10 @@ class _ImagePickerFieldState extends State<ImagePickerField> {
             child: GestureDetector(
               onTap: _showSourcePicker,
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.black.withValues(alpha: 0.55),
                   borderRadius: BorderRadius.circular(8),
@@ -304,10 +326,16 @@ class _ImagePickerFieldState extends State<ImagePickerField> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.edit_rounded, size: 12, color: Colors.white),
+                    const Icon(
+                      Icons.edit_rounded,
+                      size: 12,
+                      color: Colors.white,
+                    ),
                     const SizedBox(width: 4),
-                    Text(context.l10n.change,
-                        style: const TextStyle(color: Colors.white, fontSize: 11)),
+                    Text(
+                      context.l10n.change,
+                      style: const TextStyle(color: Colors.white, fontSize: 11),
+                    ),
                   ],
                 ),
               ),

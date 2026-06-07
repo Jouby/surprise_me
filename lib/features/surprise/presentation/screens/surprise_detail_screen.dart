@@ -113,7 +113,9 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
                       (context, index) => ElementTile(
                         element: surprise.elements[index],
                         isUnlocked: provider.isUnlocked(
-                            surprise.id, surprise.elements[index].unlockCode),
+                          surprise.id,
+                          surprise.elements[index].unlockCode,
+                        ),
                         themeColor: ColorUtils.fromHex(surprise.color),
                       ),
                       childCount: surprise.elements.length,
@@ -144,23 +146,25 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
         backgroundColor: AppTheme.cardBg,
         title: Text(ctx.l10n.deleteDialogTitle),
         content: Text(
-          isOwner
-              ? ctx.l10n.deleteOwnerContent
-              : ctx.l10n.deleteGuestContent,
+          isOwner ? ctx.l10n.deleteOwnerContent : ctx.l10n.deleteGuestContent,
           style: const TextStyle(fontSize: 14, color: AppTheme.textMid),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: Text(ctx.l10n.cancel,
-                style: const TextStyle(color: AppTheme.textLight)),
+            child: Text(
+              ctx.l10n.cancel,
+              style: const TextStyle(color: AppTheme.textLight),
+            ),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
             child: Text(
               isOwner ? ctx.l10n.delete : ctx.l10n.remove,
               style: const TextStyle(
-                  color: Colors.redAccent, fontWeight: FontWeight.w700),
+                color: Colors.redAccent,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
         ],
@@ -171,18 +175,20 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
 
     try {
       await context.read<SurpriseProvider>().deleteSurprise(
-            surpriseId: surprise.id,
-            shareCode: surprise.shareCode,
-            isOwner: isOwner,
-          );
+        surpriseId: surprise.id,
+        shareCode: surprise.shareCode,
+        isOwner: isOwner,
+      );
       if (context.mounted) Navigator.pop(context); // retour à l'accueil
     } catch (e) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(context.l10n.errorPrefix(e.toString())),
-          behavior: SnackBarBehavior.floating,
-          backgroundColor: themeColor,
-        ));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(context.l10n.errorPrefix(e.toString())),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: themeColor,
+          ),
+        );
       }
     }
   }
@@ -190,9 +196,7 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
   void _openEdit(BuildContext context) async {
     final updated = await Navigator.push<bool>(
       context,
-      MaterialPageRoute(
-        builder: (_) => EditSurpriseScreen(surprise: surprise),
-      ),
+      MaterialPageRoute(builder: (_) => EditSurpriseScreen(surprise: surprise)),
     );
     // Si des modifs ont été sauvegardées, on récupère la version fraîche
     // depuis le provider et on remplace la surprise dans la navigation.
@@ -205,10 +209,8 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (_) => SurpriseDetailScreen(
-              surprise: fresh,
-              isOwner: true,
-            ),
+            builder: (_) =>
+                SurpriseDetailScreen(surprise: fresh, isOwner: true),
           ),
         );
       }
@@ -355,7 +357,11 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
         ],
       ),
       padding: EdgeInsets.fromLTRB(
-          20, 16, 20, 16 + MediaQuery.of(context).padding.bottom),
+        20,
+        16,
+        20,
+        16 + MediaQuery.of(context).padding.bottom,
+      ),
       child: SizedBox(
         width: double.infinity,
         child: OutlinedButton.icon(
@@ -367,7 +373,8 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
             side: const BorderSide(color: previewColor, width: 1.5),
             padding: const EdgeInsets.symmetric(vertical: 14),
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(14)),
+              borderRadius: BorderRadius.circular(14),
+            ),
           ),
         ),
       ),
@@ -426,8 +433,11 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
                 ),
               ),
             ),
-            const Icon(Icons.chevron_right_rounded,
-                size: 16, color: Colors.orange),
+            const Icon(
+              Icons.chevron_right_rounded,
+              size: 16,
+              color: Colors.orange,
+            ),
           ],
         ),
       ),
@@ -460,7 +470,11 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
         ],
       ),
       padding: EdgeInsets.fromLTRB(
-          20, 16, 20, 16 + MediaQuery.of(context).padding.bottom),
+        20,
+        16,
+        20,
+        16 + MediaQuery.of(context).padding.bottom,
+      ),
       child: Row(
         children: [
           // Bouton aperçu
@@ -468,10 +482,8 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) => SurpriseDetailScreen(
-                  surprise: surprise,
-                  previewMode: true,
-                ),
+                builder: (_) =>
+                    SurpriseDetailScreen(surprise: surprise, previewMode: true),
               ),
             ),
             style: OutlinedButton.styleFrom(
@@ -479,7 +491,8 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
               side: const BorderSide(color: previewColor, width: 1.5),
               padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(14)),
+                borderRadius: BorderRadius.circular(14),
+              ),
             ),
             child: const Icon(Icons.visibility_rounded, size: 18),
           ),
@@ -495,7 +508,8 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
                 side: BorderSide(color: themeColor, width: 1.5),
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14)),
+                  borderRadius: BorderRadius.circular(14),
+                ),
               ),
             ),
           ),
@@ -519,15 +533,19 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
               borderRadius: BorderRadius.circular(10),
               border: Border.all(color: AppTheme.divider),
             ),
-            child: const Icon(Icons.arrow_back_ios_rounded,
-                size: 16, color: AppTheme.textDark),
+            child: const Icon(
+              Icons.arrow_back_ios_rounded,
+              size: 16,
+              color: AppTheme.textDark,
+            ),
           ),
         ),
       ),
       title: Text(
         surprise.title,
-        style:
-            Theme.of(context).textTheme.headlineMedium?.copyWith(fontSize: 20),
+        style: Theme.of(
+          context,
+        ).textTheme.headlineMedium?.copyWith(fontSize: 20),
       ),
       centerTitle: true,
       actions: [
@@ -542,8 +560,11 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(color: AppTheme.divider),
               ),
-              child: Icon(Icons.edit_rounded,
-                  size: 16, color: ColorUtils.fromHex(surprise.color)),
+              child: Icon(
+                Icons.edit_rounded,
+                size: 16,
+                color: ColorUtils.fromHex(surprise.color),
+              ),
             ),
           ),
         ),
@@ -558,8 +579,11 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(color: AppTheme.divider),
               ),
-              child: const Icon(Icons.delete_outline_rounded,
-                  size: 16, color: Colors.redAccent),
+              child: const Icon(
+                Icons.delete_outline_rounded,
+                size: 16,
+                color: Colors.redAccent,
+              ),
             ),
           ),
         ),
@@ -582,14 +606,19 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
               borderRadius: BorderRadius.circular(10),
               border: Border.all(color: AppTheme.divider),
             ),
-            child: const Icon(Icons.arrow_back_ios_rounded,
-                size: 16, color: AppTheme.textDark),
+            child: const Icon(
+              Icons.arrow_back_ios_rounded,
+              size: 16,
+              color: AppTheme.textDark,
+            ),
           ),
         ),
       ),
       title: Text(
         surprise.title,
-        style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontSize: 20),
+        style: Theme.of(
+          context,
+        ).textTheme.headlineMedium?.copyWith(fontSize: 20),
       ),
       centerTitle: true,
       actions: [
@@ -604,8 +633,11 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(color: AppTheme.divider),
               ),
-              child: Icon(Icons.share_rounded,
-                  size: 16, color: ColorUtils.fromHex(surprise.color)),
+              child: Icon(
+                Icons.share_rounded,
+                size: 16,
+                color: ColorUtils.fromHex(surprise.color),
+              ),
             ),
           ),
         ),
@@ -620,8 +652,11 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(color: AppTheme.divider),
               ),
-              child: const Icon(Icons.delete_outline_rounded,
-                  size: 16, color: Colors.redAccent),
+              child: const Icon(
+                Icons.delete_outline_rounded,
+                size: 16,
+                color: Colors.redAccent,
+              ),
             ),
           ),
         ),
@@ -657,14 +692,19 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
           Text(
             surprise.title,
             style: const TextStyle(
-                fontSize: 22, fontWeight: FontWeight.w600, color: Colors.white),
+              fontSize: 22,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+            ),
           ),
           const SizedBox(height: 4),
           Text(
             surprise.subtitle,
             textAlign: TextAlign.center,
             style: TextStyle(
-                fontSize: 13, color: Colors.white.withValues(alpha: 0.75)),
+              fontSize: 13,
+              color: Colors.white.withValues(alpha: 0.75),
+            ),
           ),
         ],
       ),
@@ -688,16 +728,18 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
               Text(
                 context.l10n.revealedElements,
                 style: TextStyle(
-                    fontSize: 13,
-                    color: AppTheme.textMid,
-                    fontWeight: FontWeight.w500),
+                  fontSize: 13,
+                  color: AppTheme.textMid,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
               Text(
                 '$unlocked / $total',
                 style: TextStyle(
-                    fontSize: 13,
-                    color: themeColor,
-                    fontWeight: FontWeight.w700),
+                  fontSize: 13,
+                  color: themeColor,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ],
           ),
@@ -730,7 +772,11 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
         ],
       ),
       padding: EdgeInsets.fromLTRB(
-          20, 16, 20, 16 + MediaQuery.of(context).padding.bottom),
+        20,
+        16,
+        20,
+        16 + MediaQuery.of(context).padding.bottom,
+      ),
       child: SizedBox(
         width: double.infinity,
         child: ElevatedButton.icon(
@@ -750,10 +796,7 @@ class _TokenRecoveryDialog extends StatefulWidget {
   final String surpriseId;
   final ISurpriseRepository repo;
 
-  const _TokenRecoveryDialog({
-    required this.surpriseId,
-    required this.repo,
-  });
+  const _TokenRecoveryDialog({required this.surpriseId, required this.repo});
 
   @override
   State<_TokenRecoveryDialog> createState() => _TokenRecoveryDialogState();
@@ -774,7 +817,10 @@ class _TokenRecoveryDialogState extends State<_TokenRecoveryDialog> {
     final token = _controller.text.trim();
     if (token.isEmpty) return;
 
-    setState(() { _loading = true; _error = null; });
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
 
     final valid = await widget.repo.verifyAndSaveCreatorToken(
       surpriseId: widget.surpriseId,
@@ -786,7 +832,10 @@ class _TokenRecoveryDialogState extends State<_TokenRecoveryDialog> {
     if (valid) {
       Navigator.pop(context, true);
     } else {
-      setState(() { _loading = false; _error = 'Token invalide.'; });
+      setState(() {
+        _loading = false;
+        _error = 'Token invalide.';
+      });
     }
   }
 
@@ -808,7 +857,9 @@ class _TokenRecoveryDialogState extends State<_TokenRecoveryDialog> {
           TextField(
             controller: _controller,
             autofocus: true,
-            onChanged: (_) { if (_error != null) setState(() => _error = null); },
+            onChanged: (_) {
+              if (_error != null) setState(() => _error = null);
+            },
             onSubmitted: (_) => _submit(),
             decoration: InputDecoration(
               labelText: 'Creator token (UUID)',
@@ -821,18 +872,23 @@ class _TokenRecoveryDialogState extends State<_TokenRecoveryDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context, false),
-          child: Text(context.l10n.cancel,
-              style: const TextStyle(color: AppTheme.textLight)),
+          child: Text(
+            context.l10n.cancel,
+            style: const TextStyle(color: AppTheme.textLight),
+          ),
         ),
         TextButton(
           onPressed: _loading ? null : _submit,
           child: _loading
               ? const SizedBox(
-                  width: 16, height: 16,
+                  width: 16,
+                  height: 16,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
-              : const Text('Lier',
-                  style: TextStyle(fontWeight: FontWeight.w700)),
+              : const Text(
+                  'Lier',
+                  style: TextStyle(fontWeight: FontWeight.w700),
+                ),
         ),
       ],
     );
@@ -855,7 +911,11 @@ class _ShareSheet extends StatelessWidget {
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
       padding: EdgeInsets.fromLTRB(
-          24, 0, 24, 24 + MediaQuery.of(context).padding.bottom),
+        24,
+        0,
+        24,
+        24 + MediaQuery.of(context).padding.bottom,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -869,24 +929,24 @@ class _ShareSheet extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 28),
-          Text(
-            surprise.emoji,
-            style: const TextStyle(fontSize: 40),
-          ),
+          Text(surprise.emoji, style: const TextStyle(fontSize: 40)),
           const SizedBox(height: 10),
           Text(
             context.l10n.shareSheetTitle(surprise.title),
-            style: Theme.of(context)
-                .textTheme
-                .headlineMedium
-                ?.copyWith(fontSize: 20),
+            style: Theme.of(
+              context,
+            ).textTheme.headlineMedium?.copyWith(fontSize: 20),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 8),
           Text(
             context.l10n.shareAccessHint,
             textAlign: TextAlign.center,
-            style: TextStyle(color: AppTheme.textLight, fontSize: 13, height: 1.5),
+            style: TextStyle(
+              color: AppTheme.textLight,
+              fontSize: 13,
+              height: 1.5,
+            ),
           ),
           const SizedBox(height: 24),
           Container(
@@ -912,7 +972,8 @@ class _ShareSheet extends StatelessWidget {
               Expanded(
                 child: OutlinedButton.icon(
                   onPressed: () {
-                    final link = 'https://jouby.github.io/surprise_me/join/${surprise.shareCode}';
+                    final link =
+                        'https://jouby.github.io/surprise_me/join/${surprise.shareCode}';
                     Clipboard.setData(ClipboardData(text: link));
                     Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -927,10 +988,14 @@ class _ShareSheet extends StatelessWidget {
                   label: Text(context.l10n.copy),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: themeColor,
-                    side: BorderSide(color: themeColor.withValues(alpha: 0.4), width: 1.5),
+                    side: BorderSide(
+                      color: themeColor.withValues(alpha: 0.4),
+                      width: 1.5,
+                    ),
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14)),
+                      borderRadius: BorderRadius.circular(14),
+                    ),
                   ),
                 ),
               ),
@@ -938,7 +1003,8 @@ class _ShareSheet extends StatelessWidget {
               Expanded(
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    final link = 'https://jouby.github.io/surprise_me/join/${surprise.shareCode}';
+                    final link =
+                        'https://jouby.github.io/surprise_me/join/${surprise.shareCode}';
                     Share.share(
                       context.l10n.shareMessage(link, surprise.shareCode),
                     );

@@ -56,9 +56,7 @@ class PuzzleGameState {
     int lastBlank = -1;
     for (int i = 0; i < 200; i++) {
       final blank = state.blankIndex;
-      final neighbors = _neighbors(blank)
-          .where((n) => n != lastBlank)
-          .toList();
+      final neighbors = _neighbors(blank).where((n) => n != lastBlank).toList();
       final pick = neighbors[rng.nextInt(neighbors.length)];
       lastBlank = blank;
       state = state.slide(pick);

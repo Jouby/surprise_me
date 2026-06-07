@@ -28,7 +28,8 @@ class UpdateSurpriseUseCase {
 
   Future<void> call(UpdateSurpriseParams params) async {
     final token = await _repository.getCreatorToken(params.surpriseId);
-    if (token == null) throw Exception('creator_token introuvable pour cette surprise.');
+    if (token == null)
+      throw Exception('creator_token introuvable pour cette surprise.');
 
     // 1. Mise à jour de l'identité
     await _repository.updateSurprise(

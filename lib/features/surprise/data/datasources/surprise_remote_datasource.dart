@@ -16,8 +16,9 @@ class SurpriseRemoteDatasource {
   /// Retourne deux listes : [owned] (token correspond) et [joined] (token différent).
   /// Deux requêtes distinctes pour que Supabase ne renvoie jamais le creator_token.
   Future<({List<SurpriseModel> owned, List<SurpriseModel> joined})>
-      getSurprises(List<String> codes, String userToken) async {
-    if (codes.isEmpty) return (owned: <SurpriseModel>[], joined: <SurpriseModel>[]);
+  getSurprises(List<String> codes, String userToken) async {
+    if (codes.isEmpty)
+      return (owned: <SurpriseModel>[], joined: <SurpriseModel>[]);
 
     final ownedRes = await _client
         .from('surprises')
@@ -61,25 +62,35 @@ class SurpriseRemoteDatasource {
     required String creatorToken,
   }) async {
     final shareCode = _generateCode();
-    final row = await _client.from('surprises').insert({
-      'emoji': emoji,
-      'title': title,
-      'subtitle': subtitle,
-      'color': color,
-      'share_code': shareCode,
-      'creator_token': creatorToken,
-    }).select('id, share_code').single();
+    final row = await _client
+        .from('surprises')
+        .insert({
+          'emoji': emoji,
+          'title': title,
+          'subtitle': subtitle,
+          'color': color,
+          'share_code': shareCode,
+          'creator_token': creatorToken,
+        })
+        .select('id, share_code')
+        .single();
 
     final surpriseId = row['id'] as String;
 
-    final rows = elements.asMap().entries.map((entry) => {
-          'surprise_id': surpriseId,
-          'type': entry.value['type'],
-          'label': entry.value['label'],
-          'content': entry.value['content'],
-          'unlock_code': (entry.value['unlock_code'] as String).toUpperCase(),
-          'sort_order': entry.key,
-        }).toList();
+    final rows = elements
+        .asMap()
+        .entries
+        .map(
+          (entry) => {
+            'surprise_id': surpriseId,
+            'type': entry.value['type'],
+            'label': entry.value['label'],
+            'content': entry.value['content'],
+            'unlock_code': (entry.value['unlock_code'] as String).toUpperCase(),
+            'sort_order': entry.key,
+          },
+        )
+        .toList();
     await _client.from('surprise_elements').insert(rows);
 
     return (shareCode: shareCode, surpriseId: surpriseId);
@@ -92,15 +103,17 @@ class SurpriseRemoteDatasource {
     required String title,
     required String subtitle,
     required String color,
-  }) =>
-      _client.rpc('update_surprise', params: {
-        'p_id': id,
-        'p_token': creatorToken,
-        'p_emoji': emoji,
-        'p_title': title,
-        'p_subtitle': subtitle,
-        'p_color': color,
-      });
+  }) => _client.rpc(
+    'update_surprise',
+    params: {
+      'p_id': id,
+      'p_token': creatorToken,
+      'p_emoji': emoji,
+      'p_title': title,
+      'p_subtitle': subtitle,
+      'p_color': color,
+    },
+  );
 
   Future<void> updateElement({
     required String id,
@@ -109,33 +122,33 @@ class SurpriseRemoteDatasource {
     required String label,
     required String content,
     required String unlockCode,
-  }) =>
-      _client.rpc('update_surprise_element', params: {
-        'p_id': id,
-        'p_token': creatorToken,
-        'p_type': type,
-        'p_label': label,
-        'p_content': content,
-        'p_unlock_code': unlockCode.toUpperCase(),
-      });
+  }) => _client.rpc(
+    'update_surprise_element',
+    params: {
+      'p_id': id,
+      'p_token': creatorToken,
+      'p_type': type,
+      'p_label': label,
+      'p_content': content,
+      'p_unlock_code': unlockCode.toUpperCase(),
+    },
+  );
 
   Future<void> deleteSurprise({
     required String id,
     required String creatorToken,
-  }) =>
-      _client.rpc('delete_surprise', params: {
-        'p_id': id,
-        'p_token': creatorToken,
-      });
+  }) => _client.rpc(
+    'delete_surprise',
+    params: {'p_id': id, 'p_token': creatorToken},
+  );
 
   Future<void> deleteElement({
     required String id,
     required String creatorToken,
-  }) =>
-      _client.rpc('delete_surprise_element', params: {
-        'p_id': id,
-        'p_token': creatorToken,
-      });
+  }) => _client.rpc(
+    'delete_surprise_element',
+    params: {'p_id': id, 'p_token': creatorToken},
+  );
 
   Future<void> addElement({
     required String surpriseId,
@@ -145,25 +158,27 @@ class SurpriseRemoteDatasource {
     required String content,
     required String unlockCode,
     required int sortOrder,
-  }) =>
-      _client.rpc('add_surprise_element', params: {
-        'p_surprise_id': surpriseId,
-        'p_token': creatorToken,
-        'p_type': type,
-        'p_label': label,
-        'p_content': content,
-        'p_unlock_code': unlockCode.toUpperCase(),
-        'p_sort_order': sortOrder,
-      });
+  }) => _client.rpc(
+    'add_surprise_element',
+    params: {
+      'p_surprise_id': surpriseId,
+      'p_token': creatorToken,
+      'p_type': type,
+      'p_label': label,
+      'p_content': content,
+      'p_unlock_code': unlockCode.toUpperCase(),
+      'p_sort_order': sortOrder,
+    },
+  );
 
   Future<bool> verifyCreatorToken({
     required String surpriseId,
     required String token,
   }) async {
-    final result = await _client.rpc('verify_creator_token', params: {
-      'p_id': surpriseId,
-      'p_token': token,
-    });
+    final result = await _client.rpc(
+      'verify_creator_token',
+      params: {'p_id': surpriseId, 'p_token': token},
+    );
     return result as bool? ?? false;
   }
 
@@ -174,15 +189,21 @@ class SurpriseRemoteDatasource {
         ? baseName.substring(dotIndex + 1).toLowerCase()
         : 'jpg';
 
-    final safeExt = (ext == 'jpeg' || ext == 'heic' || ext == 'heif') ? 'jpg' : ext;
-    final mimeType = safeExt == 'png' ? 'image/png'
-        : safeExt == 'webp' ? 'image/webp'
+    final safeExt = (ext == 'jpeg' || ext == 'heic' || ext == 'heif')
+        ? 'jpg'
+        : ext;
+    final mimeType = safeExt == 'png'
+        ? 'image/png'
+        : safeExt == 'webp'
+        ? 'image/webp'
         : 'image/jpeg';
 
     final name = '${DateTime.now().millisecondsSinceEpoch}.$safeExt';
     final path = 'elements/$name';
 
-    await _client.storage.from('surprise-images').upload(
+    await _client.storage
+        .from('surprise-images')
+        .upload(
           path,
           file,
           fileOptions: FileOptions(contentType: mimeType, upsert: false),

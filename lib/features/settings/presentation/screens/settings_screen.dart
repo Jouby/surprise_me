@@ -97,7 +97,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
             SliverToBoxAdapter(
               child: SizedBox(
-                  height: 40 + MediaQuery.of(context).padding.bottom),
+                height: 40 + MediaQuery.of(context).padding.bottom,
+              ),
             ),
           ],
         ],
@@ -120,15 +121,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
               borderRadius: BorderRadius.circular(10),
               border: Border.all(color: AppTheme.divider),
             ),
-            child: const Icon(Icons.arrow_back_ios_rounded,
-                size: 16, color: AppTheme.textDark),
+            child: const Icon(
+              Icons.arrow_back_ios_rounded,
+              size: 16,
+              color: AppTheme.textDark,
+            ),
           ),
         ),
       ),
       title: Text(
         context.l10n.settings,
-        style:
-            Theme.of(context).textTheme.headlineMedium?.copyWith(fontSize: 20),
+        style: Theme.of(
+          context,
+        ).textTheme.headlineMedium?.copyWith(fontSize: 20),
       ),
       centerTitle: true,
     );
@@ -180,8 +185,11 @@ class _UserTokenCardState extends State<_UserTokenCard> {
                   color: AppTheme.primary.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: const Icon(Icons.fingerprint_rounded,
-                    size: 22, color: AppTheme.primary),
+                child: const Icon(
+                  Icons.fingerprint_rounded,
+                  size: 22,
+                  color: AppTheme.primary,
+                ),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -238,10 +246,14 @@ class _UserTokenCardState extends State<_UserTokenCard> {
                       color: AppTheme.primary.withValues(alpha: 0.08),
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
-                          color: AppTheme.primary.withValues(alpha: 0.2)),
+                        color: AppTheme.primary.withValues(alpha: 0.2),
+                      ),
                     ),
-                    child: const Icon(Icons.copy_rounded,
-                        size: 16, color: AppTheme.primary),
+                    child: const Icon(
+                      Icons.copy_rounded,
+                      size: 16,
+                      color: AppTheme.primary,
+                    ),
                   ),
                 ),
               ],

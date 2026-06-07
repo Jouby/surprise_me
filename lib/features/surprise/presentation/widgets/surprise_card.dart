@@ -28,7 +28,11 @@ class SurpriseCard extends StatelessWidget {
     final unlockProvider = context.watch<UnlockProvider>();
     final unlocked = isOwner
         ? total
-        : surprise.elements.where((e) => unlockProvider.isUnlocked(surprise.id, e.unlockCode)).length;
+        : surprise.elements
+              .where(
+                (e) => unlockProvider.isUnlocked(surprise.id, e.unlockCode),
+              )
+              .length;
     final showProgress = !isOwner && total > 0;
 
     return GestureDetector(
@@ -73,9 +77,9 @@ class SurpriseCard extends StatelessWidget {
                     Text(
                       surprise.title,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            color: AppTheme.textDark,
-                            fontSize: 17,
-                          ),
+                        color: AppTheme.textDark,
+                        fontSize: 17,
+                      ),
                     ),
                     if (showProgress) ...[
                       const SizedBox(height: 10),

@@ -7,6 +7,7 @@ class Surprise {
   final String subtitle;
   final String shareCode;
   final List<SurpriseElement> elements;
+
   /// Couleur thème au format hex (#RRGGBB). Par défaut : bleu de l'app.
   final String color;
 

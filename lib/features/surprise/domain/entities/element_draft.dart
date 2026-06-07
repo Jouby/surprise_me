@@ -16,12 +16,12 @@ class ElementDraft {
   });
 
   factory ElementDraft.fromElement(SurpriseElement e) => ElementDraft(
-        id: e.id,
-        type: e.type,
-        label: e.label,
-        content: e.content,
-        unlockCode: e.unlockCode,
-      );
+    id: e.id,
+    type: e.type,
+    label: e.label,
+    content: e.content,
+    unlockCode: e.unlockCode,
+  );
 
   bool get isNew => id == null;
 
@@ -31,9 +31,9 @@ class ElementDraft {
       unlockCode.trim().isNotEmpty;
 
   Map<String, dynamic> toMap() => {
-        'type': type.dbName,
-        'label': label.trim(),
-        'content': content.trim(),
-        'unlock_code': unlockCode.trim().toUpperCase(),
-      };
+    'type': type.dbName,
+    'label': label.trim(),
+    'content': content.trim(),
+    'unlock_code': unlockCode.trim().toUpperCase(),
+  };
 }

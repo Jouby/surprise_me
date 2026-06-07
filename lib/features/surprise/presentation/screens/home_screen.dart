@@ -72,25 +72,22 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        final s = provider.createdSurprises[index];
-                        return SurpriseCard(
-                          surprise: s,
-                          isOwner: true,
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => SurpriseDetailScreen(
-                                surprise: s,
-                                isOwner: true,
-                              ),
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      final s = provider.createdSurprises[index];
+                      return SurpriseCard(
+                        surprise: s,
+                        isOwner: true,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => SurpriseDetailScreen(
+                              surprise: s,
+                              isOwner: true,
                             ),
                           ),
-                        );
-                      },
-                      childCount: provider.createdSurprises.length,
-                    ),
+                        ),
+                      );
+                    }, childCount: provider.createdSurprises.length),
                   ),
                 ],
                 if (provider.joinedSurprises.isNotEmpty) ...[
@@ -101,22 +98,19 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        final s = provider.joinedSurprises[index];
-                        return SurpriseCard(
-                          surprise: s,
-                          isOwner: false,
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => SurpriseDetailScreen(surprise: s),
-                            ),
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      final s = provider.joinedSurprises[index];
+                      return SurpriseCard(
+                        surprise: s,
+                        isOwner: false,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => SurpriseDetailScreen(surprise: s),
                           ),
-                        );
-                      },
-                      childCount: provider.joinedSurprises.length,
-                    ),
+                        ),
+                      );
+                    }, childCount: provider.joinedSurprises.length),
                   ),
                 ],
                 SliverToBoxAdapter(
@@ -163,9 +157,9 @@ class HomeScreen extends StatelessWidget {
         title: Text(
           context.l10n.yourSurprises,
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                fontSize: 26,
-                color: AppTheme.textDark,
-              ),
+            fontSize: 26,
+            color: AppTheme.textDark,
+          ),
         ),
         background: const ColoredBox(color: AppTheme.surface),
       ),
@@ -183,16 +177,19 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 16),
             Text(
               context.l10n.noSurpriseYet,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium
-                  ?.copyWith(color: AppTheme.textMid),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(color: AppTheme.textMid),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8),
             Text(
               context.l10n.noSurpriseHint,
-              style: TextStyle(color: AppTheme.textLight, fontSize: 13, height: 1.5),
+              style: TextStyle(
+                color: AppTheme.textLight,
+                fontSize: 13,
+                height: 1.5,
+              ),
               textAlign: TextAlign.center,
             ),
           ],
@@ -208,11 +205,17 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.wifi_off_rounded, size: 40, color: AppTheme.textLight),
+            const Icon(
+              Icons.wifi_off_rounded,
+              size: 40,
+              color: AppTheme.textLight,
+            ),
             const SizedBox(height: 16),
             Text(
               context.l10n.loadError,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(color: AppTheme.textMid),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(color: AppTheme.textMid),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 16),
@@ -281,7 +284,9 @@ class _FabButton extends StatelessWidget {
           foregroundColor: AppTheme.primary,
           side: const BorderSide(color: AppTheme.primary, width: 1.5),
           padding: const EdgeInsets.symmetric(vertical: 14),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
           backgroundColor: AppTheme.cardBg,
           textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
         ),
@@ -367,7 +372,10 @@ class _JoinSheetState extends State<_JoinSheet> {
 
   Future<void> _submit() async {
     if (_controller.text.trim().isEmpty) return;
-    setState(() { _loading = true; _error = null; });
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
     final success = await widget.onJoin(_controller.text.trim());
     // Si succès, la sheet a été fermée par le callback — inutile d'agir ici.
     // Si échec, on reste ouvert et on affiche l'erreur.
@@ -407,14 +415,18 @@ class _JoinSheetState extends State<_JoinSheet> {
               color: AppTheme.surface,
               shape: BoxShape.circle,
             ),
-            child: const Icon(Icons.celebration_outlined,
-                size: 28, color: AppTheme.primary),
+            child: const Icon(
+              Icons.celebration_outlined,
+              size: 28,
+              color: AppTheme.primary,
+            ),
           ),
           const SizedBox(height: 16),
           Text(
             context.l10n.joinSurpriseTitle,
-            style:
-                Theme.of(context).textTheme.headlineMedium?.copyWith(fontSize: 22),
+            style: Theme.of(
+              context,
+            ).textTheme.headlineMedium?.copyWith(fontSize: 22),
           ),
           const SizedBox(height: 8),
           Text(
@@ -447,7 +459,9 @@ class _JoinSheetState extends State<_JoinSheet> {
                 color: AppTheme.textLight.withValues(alpha: 0.5),
               ),
             ),
-            onChanged: (_) { if (_error != null) setState(() => _error = null); },
+            onChanged: (_) {
+              if (_error != null) setState(() => _error = null);
+            },
             onSubmitted: (_) => _submit(),
           ),
           if (_error != null) ...[
@@ -455,8 +469,11 @@ class _JoinSheetState extends State<_JoinSheet> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.error_outline_rounded,
-                    size: 15, color: Colors.red.shade400),
+                Icon(
+                  Icons.error_outline_rounded,
+                  size: 15,
+                  color: Colors.red.shade400,
+                ),
                 const SizedBox(width: 6),
                 Text(
                   _error!,
@@ -479,7 +496,9 @@ class _JoinSheetState extends State<_JoinSheet> {
                       height: 20,
                       width: 20,
                       child: CircularProgressIndicator(
-                          strokeWidth: 2, color: Colors.white),
+                        strokeWidth: 2,
+                        color: Colors.white,
+                      ),
                     )
                   : Text(context.l10n.join),
             ),

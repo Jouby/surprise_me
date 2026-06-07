@@ -21,10 +21,7 @@ class PuzzleGameFormField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ImagePickerField(
-          initialUrl: initialUrl,
-          onUploaded: onUploaded,
-        ),
+        ImagePickerField(initialUrl: initialUrl, onUploaded: onUploaded),
         const SizedBox(height: 6),
         Text(
           'L\'image sera découpée en 9 pièces mélangées. Le joueur devra les remettre dans le bon ordre.',

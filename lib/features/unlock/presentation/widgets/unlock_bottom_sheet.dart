@@ -50,9 +50,7 @@ class _UnlockBottomSheetState extends State<UnlockBottomSheet> {
     setState(() {
       _loading = false;
       _success = ok;
-      _feedback = ok
-          ? context.l10n.codeAccepted
-          : context.l10n.invalidCode;
+      _feedback = ok ? context.l10n.codeAccepted : context.l10n.invalidCode;
     });
 
     if (ok) {
@@ -95,16 +93,18 @@ class _UnlockBottomSheetState extends State<UnlockBottomSheet> {
           const SizedBox(height: 16),
           Text(
             context.l10n.enterYourCode,
-            style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontSize: 22),
+            style: Theme.of(
+              context,
+            ).textTheme.headlineMedium?.copyWith(fontSize: 22),
           ),
           const SizedBox(height: 8),
           Text(
             context.l10n.codeUnlocksElement,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppTheme.textLight,
-                  fontSize: 14,
-                ),
+              color: AppTheme.textLight,
+              fontSize: 14,
+            ),
           ),
           const SizedBox(height: 28),
           TextField(

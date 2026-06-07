@@ -51,12 +51,12 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
     setState(() => _saving = true);
     try {
       final code = await context.read<SurpriseProvider>().create(
-            emoji: _selectedEmoji,
-            title: _titleController.text.trim(),
-            subtitle: _subtitleController.text.trim(),
-            color: _selectedColor,
-            elements: _elements.map((e) => e.toMap()).toList(),
-          );
+        emoji: _selectedEmoji,
+        title: _titleController.text.trim(),
+        subtitle: _subtitleController.text.trim(),
+        color: _selectedColor,
+        elements: _elements.map((e) => e.toMap()).toList(),
+      );
       setState(() {
         _saving = false;
         _createdCode = code;
@@ -105,13 +105,19 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(color: AppTheme.divider),
               ),
-              child: const Icon(Icons.close_rounded, size: 18, color: AppTheme.textDark),
+              child: const Icon(
+                Icons.close_rounded,
+                size: 18,
+                color: AppTheme.textDark,
+              ),
             ),
           ),
         ),
         title: Text(
           context.l10n.createSurprise,
-          style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontSize: 20),
+          style: Theme.of(
+            context,
+          ).textTheme.headlineMedium?.copyWith(fontSize: 20),
         ),
         centerTitle: true,
       ),
@@ -130,20 +136,24 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
               style: TextStyle(fontSize: 13, color: AppTheme.textLight),
             ),
             const SizedBox(height: 12),
-            ..._elements.asMap().entries.map((e) => _ElementDraftTile(
-                  draft: e.value,
-                  index: e.key,
-                  onDelete: () => setState(() => _elements.removeAt(e.key)),
-                  onDuplicate: () => setState(() => _elements.insert(
-                        e.key + 1,
-                        ElementDraft(
-                          type: e.value.type,
-                          label: e.value.label,
-                          content: e.value.content,
-                          unlockCode: e.value.unlockCode,
-                        ),
-                      )),
-                )),
+            ..._elements.asMap().entries.map(
+              (e) => _ElementDraftTile(
+                draft: e.value,
+                index: e.key,
+                onDelete: () => setState(() => _elements.removeAt(e.key)),
+                onDuplicate: () => setState(
+                  () => _elements.insert(
+                    e.key + 1,
+                    ElementDraft(
+                      type: e.value.type,
+                      label: e.value.label,
+                      content: e.value.content,
+                      unlockCode: e.value.unlockCode,
+                    ),
+                  ),
+                ),
+              ),
+            ),
             _buildAddElementButton(),
           ],
         ),
@@ -186,7 +196,10 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      Text(_selectedEmoji, style: const TextStyle(fontSize: 28)),
+                      Text(
+                        _selectedEmoji,
+                        style: const TextStyle(fontSize: 28),
+                      ),
                       Positioned(
                         bottom: 4,
                         right: 4,
@@ -196,8 +209,11 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
                             color: AppTheme.primaryLight,
                             shape: BoxShape.circle,
                           ),
-                          child: const Icon(Icons.edit_rounded,
-                              size: 8, color: Colors.white),
+                          child: const Icon(
+                            Icons.edit_rounded,
+                            size: 8,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ],
@@ -208,9 +224,12 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
               Expanded(
                 child: TextFormField(
                   controller: _titleController,
-                  decoration: InputDecoration(labelText: context.l10n.titleLabel),
-                  validator: (v) =>
-                      (v == null || v.trim().isEmpty) ? context.l10n.requiredField : null,
+                  decoration: InputDecoration(
+                    labelText: context.l10n.titleLabel,
+                  ),
+                  validator: (v) => (v == null || v.trim().isEmpty)
+                      ? context.l10n.requiredField
+                      : null,
                 ),
               ),
             ],
@@ -255,10 +274,7 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
                 color: color,
                 shape: BoxShape.circle,
                 boxShadow: [
-                  BoxShadow(
-                    color: color.withValues(alpha: 0.4),
-                    blurRadius: 6,
-                  ),
+                  BoxShadow(color: color.withValues(alpha: 0.4), blurRadius: 6),
                 ],
               ),
             ),
@@ -269,8 +285,11 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
                 style: const TextStyle(fontSize: 14, color: AppTheme.textMid),
               ),
             ),
-            const Icon(Icons.chevron_right_rounded,
-                size: 18, color: AppTheme.textLight),
+            const Icon(
+              Icons.chevron_right_rounded,
+              size: 18,
+              color: AppTheme.textLight,
+            ),
           ],
         ),
       ),
@@ -290,7 +309,11 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.add_circle_outline_rounded, size: 18, color: AppTheme.primaryLight),
+            Icon(
+              Icons.add_circle_outline_rounded,
+              size: 18,
+              color: AppTheme.primaryLight,
+            ),
             const SizedBox(width: 8),
             Text(
               context.l10n.addElement,
@@ -319,7 +342,11 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
         ],
       ),
       padding: EdgeInsets.fromLTRB(
-          20, 16, 20, 16 + MediaQuery.of(context).padding.bottom),
+        20,
+        16,
+        20,
+        16 + MediaQuery.of(context).padding.bottom,
+      ),
       child: SizedBox(
         width: double.infinity,
         child: ElevatedButton.icon(
@@ -328,10 +355,15 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
               ? const SizedBox(
                   width: 18,
                   height: 18,
-                  child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Colors.white,
+                  ),
                 )
               : const Icon(Icons.check_rounded, size: 18),
-          label: Text(_saving ? context.l10n.creating : context.l10n.createButton),
+          label: Text(
+            _saving ? context.l10n.creating : context.l10n.createButton,
+          ),
         ),
       ),
     );
@@ -352,26 +384,35 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
                   color: AppTheme.accentLight.withValues(alpha: 0.3),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.celebration_rounded,
-                    size: 48, color: AppTheme.primary),
+                child: const Icon(
+                  Icons.celebration_rounded,
+                  size: 48,
+                  color: AppTheme.primary,
+                ),
               ),
               const SizedBox(height: 24),
               Text(
                 context.l10n.surpriseCreated,
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineMedium
-                    ?.copyWith(fontSize: 26),
+                style: Theme.of(
+                  context,
+                ).textTheme.headlineMedium?.copyWith(fontSize: 26),
               ),
               const SizedBox(height: 10),
               Text(
                 context.l10n.shareCodeHint,
                 textAlign: TextAlign.center,
-                style: TextStyle(color: AppTheme.textLight, fontSize: 14, height: 1.5),
+                style: TextStyle(
+                  color: AppTheme.textLight,
+                  fontSize: 14,
+                  height: 1.5,
+                ),
               ),
               const SizedBox(height: 36),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32,
+                  vertical: 20,
+                ),
                 decoration: BoxDecoration(
                   color: AppTheme.cardBg,
                   borderRadius: BorderRadius.circular(20),
@@ -399,7 +440,8 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
                   Expanded(
                     child: OutlinedButton.icon(
                       onPressed: () {
-                        final link = 'https://jouby.github.io/surprise_me/join/$_createdCode';
+                        final link =
+                            'https://jouby.github.io/surprise_me/join/$_createdCode';
                         Clipboard.setData(ClipboardData(text: link));
                         _showSnack(context.l10n.linkCopied);
                       },
@@ -407,10 +449,14 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
                       label: Text(context.l10n.copy),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: AppTheme.primary,
-                        side: const BorderSide(color: AppTheme.divider, width: 1.5),
+                        side: const BorderSide(
+                          color: AppTheme.divider,
+                          width: 1.5,
+                        ),
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14)),
+                          borderRadius: BorderRadius.circular(14),
+                        ),
                       ),
                     ),
                   ),
@@ -418,8 +464,11 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
                   Expanded(
                     child: ElevatedButton.icon(
                       onPressed: () {
-                        final link = 'https://jouby.github.io/surprise_me/join/$_createdCode';
-                        Share.share(context.l10n.shareMessage(link, _createdCode!));
+                        final link =
+                            'https://jouby.github.io/surprise_me/join/$_createdCode';
+                        Share.share(
+                          context.l10n.shareMessage(link, _createdCode!),
+                        );
                       },
                       icon: const Icon(Icons.share_rounded, size: 16),
                       label: Text(context.l10n.share),
@@ -496,10 +545,16 @@ class _ElementDraftTile extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(_iconFor(draft.type), size: 15, color: AppTheme.primaryLight),
+              Icon(
+                _iconFor(draft.type),
+                size: 15,
+                color: AppTheme.primaryLight,
+              ),
               const SizedBox(width: 6),
               Text(
-                draft.label.isEmpty ? context.l10n.elementN(index + 1) : draft.label,
+                draft.label.isEmpty
+                    ? context.l10n.elementN(index + 1)
+                    : draft.label,
                 style: const TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 13,
@@ -509,14 +564,20 @@ class _ElementDraftTile extends StatelessWidget {
               const Spacer(),
               GestureDetector(
                 onTap: onDuplicate,
-                child: const Icon(Icons.copy_all_rounded,
-                    size: 16, color: AppTheme.textLight),
+                child: const Icon(
+                  Icons.copy_all_rounded,
+                  size: 16,
+                  color: AppTheme.textLight,
+                ),
               ),
               const SizedBox(width: 10),
               GestureDetector(
                 onTap: onDelete,
-                child: const Icon(Icons.close_rounded,
-                    size: 18, color: AppTheme.textLight),
+                child: const Icon(
+                  Icons.close_rounded,
+                  size: 18,
+                  color: AppTheme.textLight,
+                ),
               ),
             ],
           ),
@@ -552,12 +613,18 @@ class _ElementDraftTile extends StatelessWidget {
 
   IconData _iconFor(ElementType type) {
     switch (type) {
-      case ElementType.text: return Icons.notes_rounded;
-      case ElementType.image: return Icons.photo_outlined;
-      case ElementType.date: return Icons.calendar_today_outlined;
-      case ElementType.location: return Icons.place_outlined;
-      case ElementType.wordGame: return Icons.casino_outlined;
-      case ElementType.puzzle:   return Icons.grid_view_rounded;
+      case ElementType.text:
+        return Icons.notes_rounded;
+      case ElementType.image:
+        return Icons.photo_outlined;
+      case ElementType.date:
+        return Icons.calendar_today_outlined;
+      case ElementType.location:
+        return Icons.place_outlined;
+      case ElementType.wordGame:
+        return Icons.casino_outlined;
+      case ElementType.puzzle:
+        return Icons.grid_view_rounded;
     }
   }
 }

@@ -33,44 +33,66 @@ class _FakeSurpriseRepository implements ISurpriseRepository {
   Future<String?> getCreatorToken(String surpriseId) async => creatorToken;
 
   @override
-  Future<void> deleteSurprise({required String id, required String creatorToken}) async =>
-      deletedSurpriseIds.add(id);
+  Future<void> deleteSurprise({
+    required String id,
+    required String creatorToken,
+  }) async => deletedSurpriseIds.add(id);
 
   // ── Stubs non utilisés dans ces tests ────────────────────────────────────
 
   @override
   Future<({List<Surprise> owned, List<Surprise> joined})> getSurprises(
-          List<String> codes) async =>
-      (owned: <Surprise>[], joined: <Surprise>[]);
+    List<String> codes,
+  ) async => (owned: <Surprise>[], joined: <Surprise>[]);
 
   @override
   Future<Surprise?> fetchByShareCode(String code) async => null;
 
   @override
-  Future<void> updateSurprise({required String id, required String creatorToken,
-    required String emoji, required String title, required String subtitle,
-    required String color}) async {}
+  Future<void> updateSurprise({
+    required String id,
+    required String creatorToken,
+    required String emoji,
+    required String title,
+    required String subtitle,
+    required String color,
+  }) async {}
 
   @override
-  Future<void> updateElement({required String id, required String creatorToken,
-    required String type, required String label, required String content,
-    required String unlockCode}) async {}
+  Future<void> updateElement({
+    required String id,
+    required String creatorToken,
+    required String type,
+    required String label,
+    required String content,
+    required String unlockCode,
+  }) async {}
 
   @override
-  Future<void> deleteElement({required String id, required String creatorToken}) async {}
+  Future<void> deleteElement({
+    required String id,
+    required String creatorToken,
+  }) async {}
 
   @override
-  Future<void> addElement({required String surpriseId, required String creatorToken,
-    required String type, required String label, required String content,
-    required String unlockCode, required int sortOrder}) async {}
+  Future<void> addElement({
+    required String surpriseId,
+    required String creatorToken,
+    required String type,
+    required String label,
+    required String content,
+    required String unlockCode,
+    required int sortOrder,
+  }) async {}
 
   @override
   Future<String> uploadImage(File file) async => '';
 
   @override
-  Future<bool> verifyAndSaveCreatorToken(
-          {required String surpriseId, required String token}) async =>
-      false;
+  Future<bool> verifyAndSaveCreatorToken({
+    required String surpriseId,
+    required String token,
+  }) async => false;
 
   @override
   Future<List<String>> getSavedCodes() async => List.from(savedCodes);
@@ -90,7 +112,11 @@ void main() {
     test('retourne le share code', () async {
       final useCase = CreateSurpriseUseCase(repo);
       final code = await useCase(
-        emoji: '🎁', title: 'Test', subtitle: '', color: '#000000', elements: [],
+        emoji: '🎁',
+        title: 'Test',
+        subtitle: '',
+        color: '#000000',
+        elements: [],
       );
       expect(code, equals('SHARE1'));
     });
@@ -98,21 +124,28 @@ void main() {
     test('sauvegarde le share code en local', () async {
       final useCase = CreateSurpriseUseCase(repo);
       await useCase(
-        emoji: '🎁', title: 'Test', subtitle: '', color: '#000000', elements: [],
+        emoji: '🎁',
+        title: 'Test',
+        subtitle: '',
+        color: '#000000',
+        elements: [],
       );
       expect(repo.savedCodes, contains('SHARE1'));
     });
   });
 
   group('DeleteSurpriseUseCase', () {
-    test('propriétaire : supprime sur Supabase et retire le code local', () async {
-      repo.savedCodes.add('SHARE1');
-      final useCase = DeleteSurpriseUseCase(repo);
-      await useCase(surpriseId: 'id-1', shareCode: 'SHARE1', isOwner: true);
+    test(
+      'propriétaire : supprime sur Supabase et retire le code local',
+      () async {
+        repo.savedCodes.add('SHARE1');
+        final useCase = DeleteSurpriseUseCase(repo);
+        await useCase(surpriseId: 'id-1', shareCode: 'SHARE1', isOwner: true);
 
-      expect(repo.deletedSurpriseIds, contains('id-1'));
-      expect(repo.savedCodes, isNot(contains('SHARE1')));
-    });
+        expect(repo.deletedSurpriseIds, contains('id-1'));
+        expect(repo.savedCodes, isNot(contains('SHARE1')));
+      },
+    );
 
     test('non-propriétaire : retire uniquement le code local', () async {
       repo.savedCodes.add('SHARE1');
@@ -123,13 +156,16 @@ void main() {
       expect(repo.savedCodes, isNot(contains('SHARE1')));
     });
 
-    test('lève une exception si le token est manquant pour un propriétaire', () async {
-      repo.creatorToken = null;
-      final useCase = DeleteSurpriseUseCase(repo);
-      expect(
-        () => useCase(surpriseId: 'id-1', shareCode: 'SHARE1', isOwner: true),
-        throwsException,
-      );
-    });
+    test(
+      'lève une exception si le token est manquant pour un propriétaire',
+      () async {
+        repo.creatorToken = null;
+        final useCase = DeleteSurpriseUseCase(repo);
+        expect(
+          () => useCase(surpriseId: 'id-1', shareCode: 'SHARE1', isOwner: true),
+          throwsException,
+        );
+      },
+    );
   });
 }

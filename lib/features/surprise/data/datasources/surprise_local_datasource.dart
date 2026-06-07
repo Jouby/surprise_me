@@ -6,7 +6,6 @@ class SurpriseLocalDatasource {
   static const _allCodesKey = 'joined_surprise_codes';
   static const _userTokenKey = 'user_creator_token';
 
-
   // ── Token utilisateur ──────────────────────────────────────────────────────
 
   /// Retourne le token utilisateur unique. Le génère et le persiste s'il n'existe pas encore.

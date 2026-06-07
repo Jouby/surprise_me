@@ -19,10 +19,10 @@ class SurpriseProvider extends ChangeNotifier {
     required CreateSurpriseUseCase createSurprise,
     required JoinSurpriseUseCase joinSurprise,
     required DeleteSurpriseUseCase deleteSurprise,
-  })  : _fetchSurprises = fetchSurprises,
-        _createSurprise = createSurprise,
-        _joinSurprise = joinSurprise,
-        _deleteSurprise = deleteSurprise {
+  }) : _fetchSurprises = fetchSurprises,
+       _createSurprise = createSurprise,
+       _joinSurprise = joinSurprise,
+       _deleteSurprise = deleteSurprise {
     load();
   }
 

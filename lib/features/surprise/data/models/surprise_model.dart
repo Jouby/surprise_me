@@ -14,8 +14,9 @@ class SurpriseModel extends Surprise {
 
   factory SurpriseModel.fromJson(Map<String, dynamic> json) {
     final rawElements = (json['surprise_elements'] as List? ?? [])
-      ..sort((a, b) =>
-          (a['sort_order'] as int).compareTo(b['sort_order'] as int));
+      ..sort(
+        (a, b) => (a['sort_order'] as int).compareTo(b['sort_order'] as int),
+      );
 
     return SurpriseModel(
       id: json['id'] as String,

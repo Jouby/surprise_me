@@ -13,9 +13,9 @@ class UnlockProvider extends ChangeNotifier {
     required TryUnlockUseCase tryUnlock,
     required IsUnlockedUseCase isUnlocked,
     required IUnlockRepository repository,
-  })  : _tryUnlock = tryUnlock,
-        _isUnlocked = isUnlocked,
-        _repository = repository;
+  }) : _tryUnlock = tryUnlock,
+       _isUnlocked = isUnlocked,
+       _repository = repository;
 
   /// Charge les codes débloqués pour une surprise donnée (idempotent).
   Future<void> loadCodesForSurprise(String surpriseId) async {

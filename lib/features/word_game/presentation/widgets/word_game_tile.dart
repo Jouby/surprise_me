@@ -36,7 +36,9 @@ class _WordGameTileState extends State<WordGameTile>
       duration: const Duration(milliseconds: 600),
     );
     _successAnim = CurvedAnimation(
-        parent: _successCtrl, curve: Curves.elasticOut);
+      parent: _successCtrl,
+      curve: Curves.elasticOut,
+    );
   }
 
   @override
@@ -91,9 +93,7 @@ class _WordGameTileState extends State<WordGameTile>
           builder: (context, candidates, rejected) {
             final isHovered = candidates.isNotEmpty;
             return GestureDetector(
-              onTap: letter != null
-                  ? () => _update(_state.recall(i))
-                  : null,
+              onTap: letter != null ? () => _update(_state.recall(i)) : null,
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 150),
                 width: _tileSize,
@@ -102,20 +102,20 @@ class _WordGameTileState extends State<WordGameTile>
                 decoration: BoxDecoration(
                   color: letter != null
                       ? (_state.isSolved
-                          ? Colors.green.shade50
-                          : widget.themeColor.withValues(alpha: 0.1))
+                            ? Colors.green.shade50
+                            : widget.themeColor.withValues(alpha: 0.1))
                       : isHovered
-                          ? widget.themeColor.withValues(alpha: 0.18)
-                          : AppTheme.surface,
+                      ? widget.themeColor.withValues(alpha: 0.18)
+                      : AppTheme.surface,
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
                     color: letter != null
                         ? (_state.isSolved
-                            ? Colors.green.shade400
-                            : widget.themeColor)
+                              ? Colors.green.shade400
+                              : widget.themeColor)
                         : isHovered
-                            ? widget.themeColor
-                            : AppTheme.divider,
+                        ? widget.themeColor
+                        : AppTheme.divider,
                     width: 1.5,
                   ),
                 ),
@@ -190,8 +190,11 @@ class _WordGameTileState extends State<WordGameTile>
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.check_circle_rounded,
-                size: 18, color: Colors.green.shade600),
+            Icon(
+              Icons.check_circle_rounded,
+              size: 18,
+              color: Colors.green.shade600,
+            ),
             const SizedBox(width: 8),
             Text(
               context.l10n.congratulations,
@@ -265,14 +268,9 @@ class _LetterChip extends StatelessWidget {
       height: size,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: faded
-            ? AppTheme.surface
-            : color.withValues(alpha: 0.12),
+        color: faded ? AppTheme.surface : color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: faded ? AppTheme.divider : color,
-          width: 1.5,
-        ),
+        border: Border.all(color: faded ? AppTheme.divider : color, width: 1.5),
         boxShadow: shadow
             ? [
                 BoxShadow(

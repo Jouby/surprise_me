@@ -23,8 +23,7 @@ class LocationAutocompleteField extends StatefulWidget {
       _LocationAutocompleteFieldState();
 }
 
-class _LocationAutocompleteFieldState
-    extends State<LocationAutocompleteField> {
+class _LocationAutocompleteFieldState extends State<LocationAutocompleteField> {
   final _controller = TextEditingController();
   final _focusNode = FocusNode();
   Timer? _debounce;
@@ -75,9 +74,10 @@ class _LocationAutocompleteFieldState
         'limit': '5',
         'accept-language': 'fr',
       });
-      final resp = await http.get(uri, headers: {
-        'User-Agent': 'SurpriseMe/1.0',
-      });
+      final resp = await http.get(
+        uri,
+        headers: {'User-Agent': 'SurpriseMe/1.0'},
+      );
       if (resp.statusCode == 200) {
         final data = jsonDecode(resp.body) as List<dynamic>;
         setState(() {
@@ -160,11 +160,16 @@ class _LocationAutocompleteFieldState
                   borderRadius: BorderRadius.circular(12),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 14, vertical: 12),
+                      horizontal: 14,
+                      vertical: 12,
+                    ),
                     child: Row(
                       children: [
-                        Icon(Icons.place_outlined,
-                            size: 16, color: AppTheme.primaryLight),
+                        Icon(
+                          Icons.place_outlined,
+                          size: 16,
+                          color: AppTheme.primaryLight,
+                        ),
                         const SizedBox(width: 10),
                         Expanded(
                           child: Column(
@@ -212,7 +217,11 @@ class _Place {
   final String name;
   final String address;
 
-  _Place({required this.displayName, required this.name, required this.address});
+  _Place({
+    required this.displayName,
+    required this.name,
+    required this.address,
+  });
 
   factory _Place.fromJson(Map<String, dynamic> json) {
     final addr = json['address'] as Map<String, dynamic>? ?? {};
@@ -220,8 +229,15 @@ class _Place {
     // Build a clean short name from the most relevant fields
     final nameParts = <String>[];
     for (final key in [
-      'tourism', 'amenity', 'building', 'shop', 'historic',
-      'leisure', 'name', 'road', 'house_number'
+      'tourism',
+      'amenity',
+      'building',
+      'shop',
+      'historic',
+      'leisure',
+      'name',
+      'road',
+      'house_number',
     ]) {
       final v = addr[key] as String?;
       if (v != null && v.isNotEmpty) {
@@ -234,7 +250,8 @@ class _Place {
 
     // Build address line: city + postcode + country
     final addrParts = <String>[];
-    final city = addr['city'] as String? ??
+    final city =
+        addr['city'] as String? ??
         addr['town'] as String? ??
         addr['village'] as String? ??
         addr['municipality'] as String?;
@@ -251,7 +268,9 @@ class _Place {
 
     return _Place(
       displayName: displayName,
-      name: shortName.isNotEmpty ? shortName : (parts.isNotEmpty ? parts.first : full),
+      name: shortName.isNotEmpty
+          ? shortName
+          : (parts.isNotEmpty ? parts.first : full),
       address: addrParts.join(', '),
     );
   }

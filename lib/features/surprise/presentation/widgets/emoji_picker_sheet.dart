@@ -2,13 +2,125 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_theme.dart';
 
 const _categories = [
-  (label: 'Fêtes', emojis: ['🎉', '🎊', '🎈', '🥳', '🎁', '🎀', '🎂', '🍾', '🥂', '🎆', '🎇', '✨']),
-  (label: 'Voyages', emojis: ['✈️', '🏖️', '🏝️', '🏔️', '🗺️', '🚢', '🚂', '🏕️', '🌅', '🌍', '🗼', '🎡']),
-  (label: 'Musique', emojis: ['🎵', '🎶', '🎸', '🎹', '🎺', '🎻', '🥁', '🎤', '🎧', '🎼', '🎙️', '🪗']),
-  (label: 'Gastronomie', emojis: ['🍽️', '🍷', '🥐', '🍣', '🥗', '🍰', '🧁', '🫶', '🍫', '☕', '🍕', '🥩']),
-  (label: 'Activités', emojis: ['🎭', '🎨', '🎬', '🎮', '⚽', '🎾', '🏊', '🧗', '🎯', '🏇', '🎠', '🎪']),
-  (label: 'Nature', emojis: ['🌸', '🌻', '🌙', '⭐', '🌈', '🦋', '🌿', '🌊', '🍀', '🦚', '🌺', '🐬']),
-  (label: 'Amour', emojis: ['❤️', '💌', '💐', '💍', '🥰', '😍', '💑', '👫', '🫂', '💕', '🌹', '💝']),
+  (
+    label: 'Fêtes',
+    emojis: [
+      '🎉',
+      '🎊',
+      '🎈',
+      '🥳',
+      '🎁',
+      '🎀',
+      '🎂',
+      '🍾',
+      '🥂',
+      '🎆',
+      '🎇',
+      '✨',
+    ],
+  ),
+  (
+    label: 'Voyages',
+    emojis: [
+      '✈️',
+      '🏖️',
+      '🏝️',
+      '🏔️',
+      '🗺️',
+      '🚢',
+      '🚂',
+      '🏕️',
+      '🌅',
+      '🌍',
+      '🗼',
+      '🎡',
+    ],
+  ),
+  (
+    label: 'Musique',
+    emojis: [
+      '🎵',
+      '🎶',
+      '🎸',
+      '🎹',
+      '🎺',
+      '🎻',
+      '🥁',
+      '🎤',
+      '🎧',
+      '🎼',
+      '🎙️',
+      '🪗',
+    ],
+  ),
+  (
+    label: 'Gastronomie',
+    emojis: [
+      '🍽️',
+      '🍷',
+      '🥐',
+      '🍣',
+      '🥗',
+      '🍰',
+      '🧁',
+      '🫶',
+      '🍫',
+      '☕',
+      '🍕',
+      '🥩',
+    ],
+  ),
+  (
+    label: 'Activités',
+    emojis: [
+      '🎭',
+      '🎨',
+      '🎬',
+      '🎮',
+      '⚽',
+      '🎾',
+      '🏊',
+      '🧗',
+      '🎯',
+      '🏇',
+      '🎠',
+      '🎪',
+    ],
+  ),
+  (
+    label: 'Nature',
+    emojis: [
+      '🌸',
+      '🌻',
+      '🌙',
+      '⭐',
+      '🌈',
+      '🦋',
+      '🌿',
+      '🌊',
+      '🍀',
+      '🦚',
+      '🌺',
+      '🐬',
+    ],
+  ),
+  (
+    label: 'Amour',
+    emojis: [
+      '❤️',
+      '💌',
+      '💐',
+      '💍',
+      '🥰',
+      '😍',
+      '💑',
+      '👫',
+      '🫂',
+      '💕',
+      '🌹',
+      '💝',
+    ],
+  ),
 ];
 
 class EmojiPickerSheet extends StatefulWidget {
@@ -67,15 +179,13 @@ class _EmojiPickerSheetState extends State<EmojiPickerSheet>
               children: [
                 Text(
                   'Choisir un emoji',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineMedium
-                      ?.copyWith(fontSize: 18),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.headlineMedium?.copyWith(fontSize: 18),
                 ),
                 const Spacer(),
                 if (widget.selected.isNotEmpty)
-                  Text(widget.selected,
-                      style: const TextStyle(fontSize: 28)),
+                  Text(widget.selected, style: const TextStyle(fontSize: 28)),
               ],
             ),
           ),
@@ -94,9 +204,7 @@ class _EmojiPickerSheetState extends State<EmojiPickerSheet>
             ),
             dividerColor: AppTheme.divider,
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            tabs: _categories
-                .map((c) => Tab(text: c.label))
-                .toList(),
+            tabs: _categories.map((c) => Tab(text: c.label)).toList(),
           ),
           Expanded(
             child: TabBarView(

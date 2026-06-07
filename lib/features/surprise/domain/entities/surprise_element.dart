@@ -4,8 +4,10 @@ extension ElementTypeX on ElementType {
   /// Serialized name used in the database (snake_case).
   String get dbName {
     switch (this) {
-      case ElementType.wordGame: return 'word_game';
-      default:                   return name;
+      case ElementType.wordGame:
+        return 'word_game';
+      default:
+        return name;
     }
   }
 }

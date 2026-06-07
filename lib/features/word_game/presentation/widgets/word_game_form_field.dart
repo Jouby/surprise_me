@@ -73,6 +73,7 @@ class _WordGameFormFieldState extends State<WordGameFormField> {
 class _UpperCaseFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
-      TextEditingValue old, TextEditingValue value) =>
-      value.copyWith(text: value.text.toUpperCase());
+    TextEditingValue old,
+    TextEditingValue value,
+  ) => value.copyWith(text: value.text.toUpperCase());
 }

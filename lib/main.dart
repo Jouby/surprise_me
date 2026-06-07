@@ -51,7 +51,10 @@ Future<void> main() async {
   // Surprise
   final surpriseRemoteDs = SurpriseRemoteDatasource(supabaseClient);
   final surpriseLocalDs = SurpriseLocalDatasource();
-  final surpriseRepo = SurpriseRepositoryImpl(surpriseRemoteDs, surpriseLocalDs);
+  final surpriseRepo = SurpriseRepositoryImpl(
+    surpriseRemoteDs,
+    surpriseLocalDs,
+  );
 
   // Génère le token utilisateur dès le démarrage s'il n'existe pas encore.
   await surpriseLocalDs.getUserToken();
@@ -171,10 +174,7 @@ class _SurpriseMeAppState extends State<SurpriseMeApp> {
     } catch (_) {}
 
     // Liens reçus pendant que l'app est en arrière-plan (warm start)
-    _appLinks.uriLinkStream.listen(
-      _handleIncomingLink,
-      onError: (_) {},
-    );
+    _appLinks.uriLinkStream.listen(_handleIncomingLink, onError: (_) {});
   }
 
   @override

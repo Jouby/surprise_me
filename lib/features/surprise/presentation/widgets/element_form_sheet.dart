@@ -19,11 +19,7 @@ class ElementFormSheet extends StatefulWidget {
   final ElementDraft? initial;
   final void Function(ElementDraft) onConfirm;
 
-  const ElementFormSheet({
-    super.key,
-    this.initial,
-    required this.onConfirm,
-  });
+  const ElementFormSheet({super.key, this.initial, required this.onConfirm});
 
   @override
   State<ElementFormSheet> createState() => _ElementFormSheetState();
@@ -52,7 +48,8 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
     _type = init?.type ?? ElementType.text;
     _labelController = TextEditingController(text: init?.label ?? '');
     _contentController = TextEditingController(
-      text: (init != null &&
+      text:
+          (init != null &&
               init.type != ElementType.date &&
               init.type != ElementType.image)
           ? init.content
@@ -78,9 +75,18 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
     // Format: "Samedi 12 Juillet 2025 · 19h30"
     try {
       final months = {
-        'Janvier': 1, 'Février': 2, 'Mars': 3, 'Avril': 4,
-        'Mai': 5, 'Juin': 6, 'Juillet': 7, 'Août': 8,
-        'Septembre': 9, 'Octobre': 10, 'Novembre': 11, 'Décembre': 12,
+        'Janvier': 1,
+        'Février': 2,
+        'Mars': 3,
+        'Avril': 4,
+        'Mai': 5,
+        'Juin': 6,
+        'Juillet': 7,
+        'Août': 8,
+        'Septembre': 9,
+        'Octobre': 10,
+        'Novembre': 11,
+        'Décembre': 12,
       };
       final parts = content.split(' · ');
       final datePart = parts[0];
@@ -125,10 +131,31 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
   String get _dateContent {
     if (_selectedDate == null) return '';
     final d = _selectedDate!;
-    final weekdays = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
-    final months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
-      'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
-    final base = '${weekdays[d.weekday - 1]} ${d.day} ${months[d.month - 1]} ${d.year}';
+    final weekdays = [
+      'Lundi',
+      'Mardi',
+      'Mercredi',
+      'Jeudi',
+      'Vendredi',
+      'Samedi',
+      'Dimanche',
+    ];
+    final months = [
+      'Janvier',
+      'Février',
+      'Mars',
+      'Avril',
+      'Mai',
+      'Juin',
+      'Juillet',
+      'Août',
+      'Septembre',
+      'Octobre',
+      'Novembre',
+      'Décembre',
+    ];
+    final base =
+        '${weekdays[d.weekday - 1]} ${d.day} ${months[d.month - 1]} ${d.year}';
     if (_selectedTime != null) {
       final h = _selectedTime!.hour.toString().padLeft(2, '0');
       final m = _selectedTime!.minute.toString().padLeft(2, '0');
@@ -163,13 +190,19 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
       case ElementType.image:
         return _uploadedImageUrl == null ? context.l10n.pleaseAddImage : null;
       case ElementType.location:
-        return _contentController.text.trim().isEmpty ? context.l10n.pleaseEnterLocation : null;
+        return _contentController.text.trim().isEmpty
+            ? context.l10n.pleaseEnterLocation
+            : null;
       case ElementType.wordGame:
-        return _wordGameWord.trim().isEmpty ? context.l10n.pleaseEnterWord : null;
+        return _wordGameWord.trim().isEmpty
+            ? context.l10n.pleaseEnterWord
+            : null;
       case ElementType.puzzle:
         return _puzzleImageUrl == null ? context.l10n.pleaseAddImage : null;
       case ElementType.text:
-        return _contentController.text.trim().isEmpty ? context.l10n.fieldRequired : null;
+        return _contentController.text.trim().isEmpty
+            ? context.l10n.fieldRequired
+            : null;
     }
   }
 
@@ -193,13 +226,15 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
 
     if (label.isEmpty || content.isEmpty || code.isEmpty) return;
 
-    widget.onConfirm(ElementDraft(
-      id: widget.initial?.id,
-      type: _type,
-      label: label,
-      content: content,
-      unlockCode: code.toUpperCase(),
-    ));
+    widget.onConfirm(
+      ElementDraft(
+        id: widget.initial?.id,
+        type: _type,
+        label: label,
+        content: content,
+        unlockCode: code.toUpperCase(),
+      ),
+    );
     Navigator.pop(context);
   }
 
@@ -231,7 +266,9 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
             const SizedBox(height: 20),
             Text(
               _isEditing ? context.l10n.editElement : context.l10n.newElement,
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontSize: 20),
+              style: Theme.of(
+                context,
+              ).textTheme.headlineMedium?.copyWith(fontSize: 20),
             ),
             const SizedBox(height: 20),
             // Type selector
@@ -254,7 +291,10 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 180),
                       margin: const EdgeInsets.only(right: 8),
-                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 9,
+                      ),
                       decoration: BoxDecoration(
                         color: selected ? AppTheme.primary : AppTheme.surface,
                         borderRadius: BorderRadius.circular(10),
@@ -264,8 +304,11 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
                       ),
                       child: Row(
                         children: [
-                          Icon(_iconFor(t), size: 14,
-                              color: selected ? Colors.white : AppTheme.textMid),
+                          Icon(
+                            _iconFor(t),
+                            size: 14,
+                            color: selected ? Colors.white : AppTheme.textMid,
+                          ),
                           const SizedBox(width: 6),
                           Text(
                             _labelFor(t),
@@ -285,7 +328,9 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
             const SizedBox(height: 16),
             TextField(
               controller: _labelController,
-              onChanged: (_) { if (_submitted) setState(() {}); },
+              onChanged: (_) {
+                if (_submitted) setState(() {});
+              },
               decoration: InputDecoration(
                 labelText: context.l10n.elementTitleLabel,
                 errorText: (_submitted && _labelController.text.trim().isEmpty)
@@ -300,7 +345,10 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
                 onTap: _pickDate,
                 child: Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 16,
+                  ),
                   decoration: BoxDecoration(
                     color: AppTheme.surface,
                     borderRadius: BorderRadius.circular(12),
@@ -313,11 +361,13 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
                   ),
                   child: Row(
                     children: [
-                      Icon(Icons.calendar_today_outlined,
-                          size: 18,
-                          color: _contentError(context) != null
-                              ? Colors.red.shade400
-                              : AppTheme.primaryLight),
+                      Icon(
+                        Icons.calendar_today_outlined,
+                        size: 18,
+                        color: _contentError(context) != null
+                            ? Colors.red.shade400
+                            : AppTheme.primaryLight,
+                      ),
                       const SizedBox(width: 10),
                       Expanded(
                         child: Text(
@@ -332,8 +382,11 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
                           ),
                         ),
                       ),
-                      Icon(Icons.chevron_right_rounded,
-                          size: 18, color: AppTheme.textLight),
+                      Icon(
+                        Icons.chevron_right_rounded,
+                        size: 18,
+                        color: AppTheme.textLight,
+                      ),
                     ],
                   ),
                 ),
@@ -346,8 +399,7 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
                     style: TextStyle(fontSize: 12, color: Colors.red.shade400),
                   ),
                 ),
-            ]
-            else if (_type == ElementType.image) ...[
+            ] else if (_type == ElementType.image) ...[
               ImagePickerField(
                 initialUrl: _uploadedImageUrl,
                 onUploaded: (url) => setState(() => _uploadedImageUrl = url),
@@ -360,8 +412,7 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
                     style: TextStyle(fontSize: 12, color: Colors.red.shade400),
                   ),
                 ),
-            ]
-            else if (_type == ElementType.location)
+            ] else if (_type == ElementType.location)
               LocationAutocompleteField(
                 initialValue: _contentController.text.isNotEmpty
                     ? _contentController.text
@@ -391,7 +442,9 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
               TextField(
                 controller: _contentController,
                 maxLines: _type == ElementType.text ? 3 : 1,
-                onChanged: (_) { if (_submitted) setState(() {}); },
+                onChanged: (_) {
+                  if (_submitted) setState(() {});
+                },
                 decoration: InputDecoration(
                   labelText: _contentHint(context, _type),
                   errorText: _contentError(context),
@@ -408,11 +461,14 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
                       FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
                       UpperCaseTextFormatter(),
                     ],
-                    onChanged: (_) { if (_submitted) setState(() {}); },
+                    onChanged: (_) {
+                      if (_submitted) setState(() {});
+                    },
                     decoration: InputDecoration(
                       labelText: context.l10n.unlockCodeLabel,
                       hintText: context.l10n.unlockCodeHint,
-                      errorText: (_submitted && _codeController.text.trim().isEmpty)
+                      errorText:
+                          (_submitted && _codeController.text.trim().isEmpty)
                           ? context.l10n.fieldRequired
                           : null,
                     ),
@@ -422,7 +478,8 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
                 Tooltip(
                   message: context.l10n.generateCode,
                   child: InkWell(
-                    onTap: () => setState(() => _codeController.text = _generateCode()),
+                    onTap: () =>
+                        setState(() => _codeController.text = _generateCode()),
                     borderRadius: BorderRadius.circular(12),
                     child: Container(
                       padding: const EdgeInsets.all(14),
@@ -431,8 +488,11 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(color: AppTheme.divider, width: 1.5),
                       ),
-                      child: Icon(Icons.auto_awesome_rounded,
-                          size: 20, color: AppTheme.primaryLight),
+                      child: Icon(
+                        Icons.auto_awesome_rounded,
+                        size: 20,
+                        color: AppTheme.primaryLight,
+                      ),
                     ),
                   ),
                 ),
@@ -443,7 +503,10 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
               width: double.infinity,
               child: ElevatedButton.icon(
                 onPressed: _submit,
-                icon: Icon(_isEditing ? Icons.check_rounded : Icons.add_rounded, size: 18),
+                icon: Icon(
+                  _isEditing ? Icons.check_rounded : Icons.add_rounded,
+                  size: 18,
+                ),
                 label: Text(_isEditing ? context.l10n.save : context.l10n.add),
               ),
             ),
@@ -456,35 +519,53 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
   String _labelFor(ElementType t) {
     final l = context.l10n;
     switch (t) {
-      case ElementType.text:     return l.elementTypeText;
-      case ElementType.image:    return l.elementTypeImage;
-      case ElementType.date:     return l.elementTypeDate;
-      case ElementType.location: return l.elementTypeLocation;
-      case ElementType.wordGame: return l.elementTypeWordGame;
-      case ElementType.puzzle:   return l.elementTypePuzzle;
+      case ElementType.text:
+        return l.elementTypeText;
+      case ElementType.image:
+        return l.elementTypeImage;
+      case ElementType.date:
+        return l.elementTypeDate;
+      case ElementType.location:
+        return l.elementTypeLocation;
+      case ElementType.wordGame:
+        return l.elementTypeWordGame;
+      case ElementType.puzzle:
+        return l.elementTypePuzzle;
     }
   }
 
   String _contentHint(BuildContext context, ElementType t) {
     final l = context.l10n;
     switch (t) {
-      case ElementType.text:     return l.messageContent;
-      case ElementType.image:    return l.elementTypeImage;
-      case ElementType.date:     return l.selectDate;
-      case ElementType.location: return l.pleaseEnterLocation;
-      case ElementType.wordGame: return l.wordToGuessLabel;
-      case ElementType.puzzle:   return l.pleaseAddImage;
+      case ElementType.text:
+        return l.messageContent;
+      case ElementType.image:
+        return l.elementTypeImage;
+      case ElementType.date:
+        return l.selectDate;
+      case ElementType.location:
+        return l.pleaseEnterLocation;
+      case ElementType.wordGame:
+        return l.wordToGuessLabel;
+      case ElementType.puzzle:
+        return l.pleaseAddImage;
     }
   }
 
   IconData _iconFor(ElementType t) {
     switch (t) {
-      case ElementType.text:     return Icons.notes_rounded;
-      case ElementType.image:    return Icons.photo_outlined;
-      case ElementType.date:     return Icons.calendar_today_outlined;
-      case ElementType.location: return Icons.place_outlined;
-      case ElementType.wordGame: return Icons.casino_outlined;
-      case ElementType.puzzle:   return Icons.grid_view_rounded;
+      case ElementType.text:
+        return Icons.notes_rounded;
+      case ElementType.image:
+        return Icons.photo_outlined;
+      case ElementType.date:
+        return Icons.calendar_today_outlined;
+      case ElementType.location:
+        return Icons.place_outlined;
+      case ElementType.wordGame:
+        return Icons.casino_outlined;
+      case ElementType.puzzle:
+        return Icons.grid_view_rounded;
     }
   }
 }

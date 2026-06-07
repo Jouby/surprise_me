@@ -37,9 +37,7 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
     _selectedColor = widget.surprise.color;
     _titleController = TextEditingController(text: widget.surprise.title);
     _subtitleController = TextEditingController(text: widget.surprise.subtitle);
-    _elements = widget.surprise.elements
-        .map(ElementDraft.fromElement)
-        .toList();
+    _elements = widget.surprise.elements.map(ElementDraft.fromElement).toList();
   }
 
   @override
@@ -68,15 +66,17 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
     setState(() => _saving = true);
     try {
       final updateUseCase = context.read<UpdateSurpriseUseCase>();
-      await updateUseCase(UpdateSurpriseParams(
-        surpriseId: widget.surprise.id,
-        emoji: _selectedEmoji,
-        title: _titleController.text.trim(),
-        subtitle: _subtitleController.text.trim(),
-        color: _selectedColor,
-        originalElements: widget.surprise.elements,
-        updatedElements: _elements,
-      ));
+      await updateUseCase(
+        UpdateSurpriseParams(
+          surpriseId: widget.surprise.id,
+          emoji: _selectedEmoji,
+          title: _titleController.text.trim(),
+          subtitle: _subtitleController.text.trim(),
+          color: _selectedColor,
+          originalElements: widget.surprise.elements,
+          updatedElements: _elements,
+        ),
+      );
 
       if (!mounted) return;
       await context.read<SurpriseProvider>().load();
@@ -140,15 +140,19 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(color: AppTheme.divider),
               ),
-              child: const Icon(Icons.close_rounded,
-                  size: 18, color: AppTheme.textDark),
+              child: const Icon(
+                Icons.close_rounded,
+                size: 18,
+                color: AppTheme.textDark,
+              ),
             ),
           ),
         ),
         title: Text(
           context.l10n.editSurprise,
-          style:
-              Theme.of(context).textTheme.headlineMedium?.copyWith(fontSize: 20),
+          style: Theme.of(
+            context,
+          ).textTheme.headlineMedium?.copyWith(fontSize: 20),
         ),
         centerTitle: true,
       ),
@@ -180,21 +184,21 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
               key: ValueKey(_elements[index].hashCode + index),
               draft: _elements[index],
               index: index,
-              onEdit: () => _openElementSheet(
-                  initial: _elements[index], index: index),
+              onEdit: () =>
+                  _openElementSheet(initial: _elements[index], index: index),
               onDelete: () => setState(() => _elements.removeAt(index)),
               onDuplicate: () => setState(() {
-                    final src = _elements[index];
-                    _elements.insert(
-                      index + 1,
-                      ElementDraft(
-                        type: src.type,
-                        label: src.label,
-                        content: src.content,
-                        unlockCode: src.unlockCode,
-                      ),
-                    );
-                  }),
+                final src = _elements[index];
+                _elements.insert(
+                  index + 1,
+                  ElementDraft(
+                    type: src.type,
+                    label: src.label,
+                    content: src.content,
+                    unlockCode: src.unlockCode,
+                  ),
+                );
+              }),
             ),
           ),
           const SizedBox(height: 10),
@@ -239,8 +243,10 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      Text(_selectedEmoji,
-                          style: const TextStyle(fontSize: 28)),
+                      Text(
+                        _selectedEmoji,
+                        style: const TextStyle(fontSize: 28),
+                      ),
                       Positioned(
                         bottom: 4,
                         right: 4,
@@ -250,8 +256,11 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
                             color: AppTheme.primaryLight,
                             shape: BoxShape.circle,
                           ),
-                          child: const Icon(Icons.edit_rounded,
-                              size: 8, color: Colors.white),
+                          child: const Icon(
+                            Icons.edit_rounded,
+                            size: 8,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ],
@@ -262,7 +271,9 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
               Expanded(
                 child: TextFormField(
                   controller: _titleController,
-                  decoration: InputDecoration(labelText: context.l10n.titleLabel),
+                  decoration: InputDecoration(
+                    labelText: context.l10n.titleLabel,
+                  ),
                 ),
               ),
             ],
@@ -270,8 +281,7 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
           const SizedBox(height: 12),
           TextFormField(
             controller: _subtitleController,
-            decoration:
-                InputDecoration(labelText: context.l10n.subtitleLabel),
+            decoration: InputDecoration(labelText: context.l10n.subtitleLabel),
           ),
           const SizedBox(height: 12),
           _buildColorRow(),
@@ -308,10 +318,7 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
                 color: color,
                 shape: BoxShape.circle,
                 boxShadow: [
-                  BoxShadow(
-                    color: color.withValues(alpha: 0.4),
-                    blurRadius: 6,
-                  ),
+                  BoxShadow(color: color.withValues(alpha: 0.4), blurRadius: 6),
                 ],
               ),
             ),
@@ -322,8 +329,11 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
                 style: const TextStyle(fontSize: 14, color: AppTheme.textMid),
               ),
             ),
-            const Icon(Icons.chevron_right_rounded,
-                size: 18, color: AppTheme.textLight),
+            const Icon(
+              Icons.chevron_right_rounded,
+              size: 18,
+              color: AppTheme.textLight,
+            ),
           ],
         ),
       ),
@@ -343,8 +353,11 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.add_circle_outline_rounded,
-                size: 18, color: AppTheme.primaryLight),
+            Icon(
+              Icons.add_circle_outline_rounded,
+              size: 18,
+              color: AppTheme.primaryLight,
+            ),
             const SizedBox(width: 8),
             Text(
               context.l10n.addElement,
@@ -373,7 +386,11 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
         ],
       ),
       padding: EdgeInsets.fromLTRB(
-          20, 16, 20, 16 + MediaQuery.of(context).padding.bottom),
+        20,
+        16,
+        20,
+        16 + MediaQuery.of(context).padding.bottom,
+      ),
       child: SizedBox(
         width: double.infinity,
         child: ElevatedButton.icon(
@@ -383,7 +400,9 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
                   width: 18,
                   height: 18,
                   child: CircularProgressIndicator(
-                      strokeWidth: 2, color: Colors.white),
+                    strokeWidth: 2,
+                    color: Colors.white,
+                  ),
                 )
               : const Icon(Icons.check_rounded, size: 18),
           label: Text(_saving ? context.l10n.saving : context.l10n.saveButton),
@@ -444,8 +463,11 @@ class _ElementDraftTile extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.drag_handle_rounded,
-              size: 18, color: AppTheme.textLight),
+          const Icon(
+            Icons.drag_handle_rounded,
+            size: 18,
+            color: AppTheme.textLight,
+          ),
           const SizedBox(width: 10),
           Expanded(
             child: Column(
@@ -453,8 +475,11 @@ class _ElementDraftTile extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Icon(_iconFor(draft.type),
-                        size: 13, color: AppTheme.primaryLight),
+                    Icon(
+                      _iconFor(draft.type),
+                      size: 13,
+                      color: AppTheme.primaryLight,
+                    ),
                     const SizedBox(width: 5),
                     Text(
                       draft.label.isEmpty
@@ -470,18 +495,23 @@ class _ElementDraftTile extends StatelessWidget {
                       const SizedBox(width: 6),
                       Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 6, vertical: 2),
+                          horizontal: 6,
+                          vertical: 2,
+                        ),
                         decoration: BoxDecoration(
                           color: AppTheme.accentLight.withValues(alpha: 0.4),
                           borderRadius: BorderRadius.circular(4),
                         ),
-                        child: Builder(builder: (ctx) => Text(
-                          ctx.l10n.newBadge,
-                          style: const TextStyle(
+                        child: Builder(
+                          builder: (ctx) => Text(
+                            ctx.l10n.newBadge,
+                            style: const TextStyle(
                               fontSize: 9,
                               fontWeight: FontWeight.w700,
-                              color: AppTheme.primaryLight),
-                        )),
+                              color: AppTheme.primaryLight,
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ],
@@ -491,12 +521,14 @@ class _ElementDraftTile extends StatelessWidget {
                   draft.content.isEmpty ? '—' : draft.content,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                      fontSize: 12, color: AppTheme.textMid),
+                  style: const TextStyle(fontSize: 12, color: AppTheme.textMid),
                 ),
                 const SizedBox(height: 4),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 7,
+                    vertical: 2,
+                  ),
                   decoration: BoxDecoration(
                     color: AppTheme.surface,
                     borderRadius: BorderRadius.circular(5),
@@ -527,8 +559,11 @@ class _ElementDraftTile extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(color: AppTheme.divider),
                   ),
-                  child: const Icon(Icons.edit_rounded,
-                      size: 14, color: AppTheme.primaryLight),
+                  child: const Icon(
+                    Icons.edit_rounded,
+                    size: 14,
+                    color: AppTheme.primaryLight,
+                  ),
                 ),
               ),
               const SizedBox(height: 6),
@@ -541,8 +576,11 @@ class _ElementDraftTile extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(color: AppTheme.divider),
                   ),
-                  child: const Icon(Icons.copy_all_rounded,
-                      size: 14, color: AppTheme.textLight),
+                  child: const Icon(
+                    Icons.copy_all_rounded,
+                    size: 14,
+                    color: AppTheme.textLight,
+                  ),
                 ),
               ),
               const SizedBox(height: 6),
@@ -555,8 +593,11 @@ class _ElementDraftTile extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(color: AppTheme.divider),
                   ),
-                  child: const Icon(Icons.delete_outline_rounded,
-                      size: 14, color: Colors.redAccent),
+                  child: const Icon(
+                    Icons.delete_outline_rounded,
+                    size: 14,
+                    color: Colors.redAccent,
+                  ),
                 ),
               ),
             ],
@@ -568,12 +609,18 @@ class _ElementDraftTile extends StatelessWidget {
 
   IconData _iconFor(ElementType type) {
     switch (type) {
-      case ElementType.text: return Icons.notes_rounded;
-      case ElementType.image: return Icons.photo_outlined;
-      case ElementType.date: return Icons.calendar_today_outlined;
-      case ElementType.location: return Icons.place_outlined;
-      case ElementType.wordGame: return Icons.casino_outlined;
-      case ElementType.puzzle:   return Icons.grid_view_rounded;
+      case ElementType.text:
+        return Icons.notes_rounded;
+      case ElementType.image:
+        return Icons.photo_outlined;
+      case ElementType.date:
+        return Icons.calendar_today_outlined;
+      case ElementType.location:
+        return Icons.place_outlined;
+      case ElementType.wordGame:
+        return Icons.casino_outlined;
+      case ElementType.puzzle:
+        return Icons.grid_view_rounded;
     }
   }
 }

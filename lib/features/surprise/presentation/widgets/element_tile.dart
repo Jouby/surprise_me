@@ -30,7 +30,9 @@ class ElementTile extends StatelessWidget {
         color: AppTheme.cardBg,
         borderRadius: BorderRadius.circular(18),
         border: Border.all(
-          color: _revealed ? themeColor.withValues(alpha: 0.4) : AppTheme.divider,
+          color: _revealed
+              ? themeColor.withValues(alpha: 0.4)
+              : AppTheme.divider,
           width: _revealed ? 1.5 : 1,
         ),
         boxShadow: [
@@ -56,10 +58,7 @@ class ElementTile extends StatelessWidget {
   Widget _buildContent(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildHeader(context),
-        _buildBody(context),
-      ],
+      children: [_buildHeader(context), _buildBody(context)],
     );
   }
 
@@ -86,10 +85,10 @@ class ElementTile extends StatelessWidget {
           Text(
             element.label,
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: _revealed ? themeColor : AppTheme.textLight,
-                  fontSize: 12,
-                  letterSpacing: 0.8,
-                ),
+              color: _revealed ? themeColor : AppTheme.textLight,
+              fontSize: 12,
+              letterSpacing: 0.8,
+            ),
           ),
           const Spacer(),
           if (ownerMode)
@@ -137,8 +136,12 @@ class ElementTile extends StatelessWidget {
               height: 180,
               color: AppTheme.surface,
               child: const Center(
-                  child: Icon(Icons.image_outlined,
-                      color: AppTheme.textLight, size: 40)),
+                child: Icon(
+                  Icons.image_outlined,
+                  color: AppTheme.textLight,
+                  size: 40,
+                ),
+              ),
             ),
           ),
         ),
@@ -151,10 +154,10 @@ class ElementTile extends StatelessWidget {
         child: Text(
           element.content,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: AppTheme.textDark,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
+            color: AppTheme.textDark,
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       );
     }
@@ -171,9 +174,9 @@ class ElementTile extends StatelessWidget {
               child: Text(
                 element.content,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: AppTheme.textDark,
-                      fontSize: 15,
-                    ),
+                  color: AppTheme.textDark,
+                  fontSize: 15,
+                ),
               ),
             ),
           ],
@@ -182,17 +185,11 @@ class ElementTile extends StatelessWidget {
     }
 
     if (element.type == ElementType.puzzle) {
-      return PuzzleGameTile(
-        imageUrl: element.content,
-        themeColor: themeColor,
-      );
+      return PuzzleGameTile(imageUrl: element.content, themeColor: themeColor);
     }
 
     if (element.type == ElementType.wordGame) {
-      return WordGameTile(
-        word: element.content,
-        themeColor: themeColor,
-      );
+      return WordGameTile(word: element.content, themeColor: themeColor);
     }
 
     return Padding(
@@ -200,10 +197,10 @@ class ElementTile extends StatelessWidget {
       child: Text(
         element.content,
         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: AppTheme.textMid,
-              fontSize: 14.5,
-              height: 1.6,
-            ),
+          color: AppTheme.textMid,
+          fontSize: 14.5,
+          height: 1.6,
+        ),
       ),
     );
   }
@@ -232,8 +229,11 @@ class ElementTile extends StatelessWidget {
                         ),
                       ],
                     ),
-                    child: Icon(Icons.lock_outline_rounded,
-                        size: 22, color: themeColor),
+                    child: Icon(
+                      Icons.lock_outline_rounded,
+                      size: 22,
+                      color: themeColor,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Text(
@@ -255,12 +255,18 @@ class ElementTile extends StatelessWidget {
 
   IconData _iconForType(ElementType type) {
     switch (type) {
-      case ElementType.text:     return Icons.notes_rounded;
-      case ElementType.image:    return Icons.photo_outlined;
-      case ElementType.date:     return Icons.calendar_today_outlined;
-      case ElementType.location: return Icons.place_outlined;
-      case ElementType.wordGame: return Icons.casino_outlined;
-      case ElementType.puzzle:   return Icons.grid_view_rounded;
+      case ElementType.text:
+        return Icons.notes_rounded;
+      case ElementType.image:
+        return Icons.photo_outlined;
+      case ElementType.date:
+        return Icons.calendar_today_outlined;
+      case ElementType.location:
+        return Icons.place_outlined;
+      case ElementType.wordGame:
+        return Icons.casino_outlined;
+      case ElementType.puzzle:
+        return Icons.grid_view_rounded;
     }
   }
 }
