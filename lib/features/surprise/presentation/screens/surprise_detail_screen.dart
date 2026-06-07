@@ -46,13 +46,22 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
   }
 
   Future<void> _loadUnlockedCodes() async {
-    await context.read<UnlockProvider>().loadCodesForSurprise(surprise.id);
+    try {
+      await context.read<UnlockProvider>().loadCodesForSurprise(surprise.id);
+    } catch (_) {
+      // Erreur silencieuse : les éléments s'affichent juste tous verrouillés.
+    }
   }
 
   Future<void> _checkToken() async {
-    final repo = context.read<ISurpriseRepository>();
-    final token = await repo.getCreatorToken(surprise.id);
-    if (mounted) setState(() => _tokenMissing = token == null);
+    try {
+      final repo = context.read<ISurpriseRepository>();
+      final token = await repo.getCreatorToken(surprise.id);
+      if (mounted) setState(() => _tokenMissing = token == null);
+    } catch (_) {
+      // En cas d'erreur, on suppose que le token est absent pour sécurité.
+      if (mounted) setState(() => _tokenMissing = true);
+    }
   }
 
   void _showUnlockSheet(BuildContext context, UnlockProvider provider) {
