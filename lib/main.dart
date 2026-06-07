@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'core/config/supabase_config.dart';
+import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
 
 // ── Surprise feature ─────────────────────────────────────────────────────────
@@ -21,7 +22,6 @@ import 'features/surprise/domain/usecases/join_surprise_usecase.dart';
 import 'features/surprise/domain/usecases/update_surprise_usecase.dart';
 import 'features/surprise/domain/usecases/upload_image_usecase.dart';
 import 'features/surprise/presentation/providers/surprise_provider.dart';
-import 'features/surprise/presentation/screens/home_screen.dart';
 
 // ── Unlock feature ────────────────────────────────────────────────────────────
 import 'features/unlock/data/datasources/unlock_local_datasource.dart';
@@ -108,7 +108,6 @@ class SurpriseMeApp extends StatefulWidget {
 }
 
 class _SurpriseMeAppState extends State<SurpriseMeApp> {
-  final _navigatorKey = GlobalKey<NavigatorState>();
   late final AppLinks _appLinks;
 
   @override
@@ -131,7 +130,6 @@ class _SurpriseMeAppState extends State<SurpriseMeApp> {
     if ((uri.scheme == 'https' || uri.scheme == 'http') &&
         uri.host == 'jouby.github.io') {
       final segments = uri.pathSegments;
-      // pathSegments = ['surprise_me', 'join', 'CODE']
       final joinIdx = segments.indexOf('join');
       if (joinIdx != -1 && joinIdx + 1 < segments.length) {
         final code = segments[joinIdx + 1].trim().toUpperCase();
@@ -144,19 +142,9 @@ class _SurpriseMeAppState extends State<SurpriseMeApp> {
   void _handleIncomingLink(Uri uri) {
     final code = _extractCode(uri);
     if (code == null) return;
-
-    // Récupère le HomeScreen via la clé navigator et déclenche le join
-    final context = _navigatorKey.currentContext;
-    if (context == null) return;
-
-    // Remonte à la racine puis ouvre la sheet de join avec le code pré-rempli
-    _navigatorKey.currentState?.popUntil((route) => route.isFirst);
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final ctx = _navigatorKey.currentContext;
-      if (ctx == null) return;
-      HomeScreen.openJoinSheet(ctx, initialCode: code);
-    });
+    // go_router gère la navigation : /join/:code → /?joinCode=code
+    // HomeScreen détecte le changement via GoRouterState et ouvre la sheet.
+    appRouter.go('/join/$code');
   }
 
   Future<void> _initDeepLinks() async {
@@ -166,7 +154,6 @@ class _SurpriseMeAppState extends State<SurpriseMeApp> {
     try {
       final initialUri = await _appLinks.getInitialLink();
       if (initialUri != null) {
-        // On attend que le widget tree soit monté
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _handleIncomingLink(initialUri);
         });
@@ -179,8 +166,8 @@ class _SurpriseMeAppState extends State<SurpriseMeApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: _navigatorKey,
+    return MaterialApp.router(
+      routerConfig: appRouter,
       title: 'Surprise Me',
       theme: AppTheme.theme,
       debugShowCheckedModeBanner: false,
@@ -191,7 +178,6 @@ class _SurpriseMeAppState extends State<SurpriseMeApp> {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const HomeScreen(),
     );
   }
 }

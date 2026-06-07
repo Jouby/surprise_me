@@ -1,20 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import '../providers/surprise_provider.dart';
+
+import '../../../../core/l10n/l10n.dart';
+import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/utils/text_formatters.dart';
-import '../../../../core/l10n/l10n.dart';
+import '../providers/surprise_provider.dart';
 import '../widgets/surprise_card.dart';
-import 'create_surprise_screen.dart';
-import 'surprise_detail_screen.dart';
-import '../../../../features/settings/presentation/screens/settings_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
-  /// Ouvre la sheet de rejoindre depuis n'importe quel contexte (deep link).
-  static void openJoinSheet(BuildContext context, {String? initialCode}) {
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  // Dernier code de join traité — évite d'ouvrir la sheet plusieurs fois
+  // pour le même deep link.
+  String? _lastHandledJoinCode;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final joinCode = GoRouterState.of(context).uri.queryParameters['joinCode'];
+    if (joinCode != null && joinCode != _lastHandledJoinCode) {
+      _lastHandledJoinCode = joinCode;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _showJoinSheet(initialCode: joinCode);
+      });
+    }
+  }
+
+  void _showJoinSheet({String? initialCode}) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -26,20 +46,19 @@ class HomeScreen extends StatelessWidget {
           final surprise = await provider.joinByShareCode(code);
           if (!context.mounted) return false;
           if (surprise == null) return false;
+          // Ferme la sheet puis navigue vers le détail.
+          // ignore: use_build_context_synchronously
           Navigator.pop(context);
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => SurpriseDetailScreen(surprise: surprise),
-            ),
+          // ignore: use_build_context_synchronously
+          context.push(
+            '/surprise/${surprise.id}',
+            extra: SurpriseRouteArgs(surprise: surprise),
           );
           return true;
         },
       ),
     );
   }
-
-  void _showJoinSheet(BuildContext context) => openJoinSheet(context);
 
   @override
   Widget build(BuildContext context) {
@@ -77,14 +96,9 @@ class HomeScreen extends StatelessWidget {
                       return SurpriseCard(
                         surprise: s,
                         isOwner: true,
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => SurpriseDetailScreen(
-                              surprise: s,
-                              isOwner: true,
-                            ),
-                          ),
+                        onTap: () => context.push(
+                          '/surprise/${s.id}',
+                          extra: SurpriseRouteArgs(surprise: s, isOwner: true),
                         ),
                       );
                     }, childCount: provider.createdSurprises.length),
@@ -103,11 +117,9 @@ class HomeScreen extends StatelessWidget {
                       return SurpriseCard(
                         surprise: s,
                         isOwner: false,
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => SurpriseDetailScreen(surprise: s),
-                          ),
+                        onTap: () => context.push(
+                          '/surprise/${s.id}',
+                          extra: SurpriseRouteArgs(surprise: s),
                         ),
                       );
                     }, childCount: provider.joinedSurprises.length),
@@ -143,10 +155,7 @@ class HomeScreen extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(right: 8),
           child: IconButton(
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const SettingsScreen()),
-            ),
+            onPressed: () => context.push('/settings'),
             icon: const Icon(Icons.settings_outlined, color: AppTheme.textMid),
             tooltip: context.l10n.settings,
           ),
@@ -185,7 +194,7 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               context.l10n.noSurpriseHint,
-              style: TextStyle(
+              style: const TextStyle(
                 color: AppTheme.textLight,
                 fontSize: 13,
                 height: 1.5,
@@ -239,7 +248,7 @@ class HomeScreen extends StatelessWidget {
             child: _FabButton(
               label: context.l10n.join,
               icon: Icons.qr_code_scanner_rounded,
-              onTap: () => _showJoinSheet(context),
+              onTap: () => _showJoinSheet(),
               outlined: true,
             ),
           ),
@@ -248,10 +257,7 @@ class HomeScreen extends StatelessWidget {
             child: _FabButton(
               label: context.l10n.create,
               icon: Icons.add_rounded,
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const CreateSurpriseScreen()),
-              ),
+              onTap: () => context.push('/create'),
             ),
           ),
         ],
@@ -259,6 +265,8 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+
+// ─── Fab button ───────────────────────────────────────────────────────────────
 
 class _FabButton extends StatelessWidget {
   final String label;
@@ -339,7 +347,6 @@ class _SectionHeader extends StatelessWidget {
 // ─── Join sheet ───────────────────────────────────────────────────────────────
 
 class _JoinSheet extends StatefulWidget {
-  // Retourne true si le code est valide (la sheet est déjà fermée côté home).
   final Future<bool> Function(String code) onJoin;
   final String? initialCode;
 
@@ -358,7 +365,6 @@ class _JoinSheetState extends State<_JoinSheet> {
   void initState() {
     super.initState();
     _controller = TextEditingController(text: widget.initialCode ?? '');
-    // Si un code est pré-rempli via deep link, on soumet automatiquement
     if (widget.initialCode != null && widget.initialCode!.isNotEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) => _submit());
     }
@@ -377,8 +383,6 @@ class _JoinSheetState extends State<_JoinSheet> {
       _error = null;
     });
     final success = await widget.onJoin(_controller.text.trim());
-    // Si succès, la sheet a été fermée par le callback — inutile d'agir ici.
-    // Si échec, on reste ouvert et on affiche l'erreur.
     if (mounted && !success) {
       setState(() {
         _loading = false;
@@ -432,7 +436,7 @@ class _JoinSheetState extends State<_JoinSheet> {
           Text(
             context.l10n.enterSharedCode,
             textAlign: TextAlign.center,
-            style: TextStyle(color: AppTheme.textLight, fontSize: 14),
+            style: const TextStyle(color: AppTheme.textLight, fontSize: 14),
           ),
           const SizedBox(height: 28),
           TextField(

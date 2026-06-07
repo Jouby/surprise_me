@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/l10n/l10n.dart';
 
@@ -82,7 +83,7 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
       await context.read<SurpriseProvider>().load();
       if (!mounted) return;
       setState(() => _saving = false);
-      Navigator.pop(context, true);
+      context.pop(true);
     } catch (e) {
       if (mounted) {
         setState(() => _saving = false);
@@ -133,7 +134,7 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
         leading: Padding(
           padding: const EdgeInsets.all(8),
           child: GestureDetector(
-            onTap: () => Navigator.pop(context),
+            onTap: () => context.pop(),
             child: Container(
               decoration: BoxDecoration(
                 color: AppTheme.cardBg,

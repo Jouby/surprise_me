@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../../../core/l10n/l10n.dart';
@@ -99,7 +100,7 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
         leading: Padding(
           padding: const EdgeInsets.all(8),
           child: GestureDetector(
-            onTap: () => Navigator.pop(context),
+            onTap: () => context.pop(),
             child: Container(
               decoration: BoxDecoration(
                 color: AppTheme.cardBg,
@@ -479,7 +480,7 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
               ),
               const SizedBox(height: 16),
               TextButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => context.pop(),
                 child: Text(
                   context.l10n.backToHome,
                   style: TextStyle(color: AppTheme.textLight, fontSize: 14),

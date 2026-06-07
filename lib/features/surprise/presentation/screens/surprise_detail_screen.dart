@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show Clipboard, ClipboardData;
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+
+import '../../../../core/l10n/l10n.dart';
+import '../../../../core/router/app_router.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../../core/utils/color_utils.dart';
+import '../../../unlock/presentation/providers/unlock_provider.dart';
+import '../../../unlock/presentation/widgets/unlock_bottom_sheet.dart';
 import '../../domain/entities/surprise.dart';
 import '../../domain/repositories/i_surprise_repository.dart';
 import '../providers/surprise_provider.dart';
-import '../../../unlock/presentation/providers/unlock_provider.dart';
-import '../../../../core/theme/app_theme.dart';
-import '../../../../core/utils/color_utils.dart';
-import '../../../../core/l10n/l10n.dart';
 import '../widgets/element_tile.dart';
-import '../../../unlock/presentation/widgets/unlock_bottom_sheet.dart';
-import 'edit_surprise_screen.dart';
 
 class SurpriseDetailScreen extends StatefulWidget {
   final Surprise surprise;
@@ -179,7 +181,7 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
         shareCode: surprise.shareCode,
         isOwner: isOwner,
       );
-      if (context.mounted) Navigator.pop(context); // retour à l'accueil
+      if (context.mounted) context.pop(); // retour à l'accueil
     } catch (e) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -194,24 +196,21 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
   }
 
   void _openEdit(BuildContext context) async {
-    final updated = await Navigator.push<bool>(
-      context,
-      MaterialPageRoute(builder: (_) => EditSurpriseScreen(surprise: surprise)),
+    final updated = await context.push<bool>(
+      '/surprise/${surprise.id}/edit',
+      extra: surprise,
     );
     // Si des modifs ont été sauvegardées, on récupère la version fraîche
-    // depuis le provider et on remplace la surprise dans la navigation.
+    // depuis le provider et on remplace l'écran courant.
     if (updated == true && context.mounted) {
       final provider = context.read<SurpriseProvider>();
       final fresh = provider.surprises
           .where((s) => s.id == surprise.id)
           .firstOrNull;
       if (fresh != null && context.mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (_) =>
-                SurpriseDetailScreen(surprise: fresh, isOwner: true),
-          ),
+        context.pushReplacement(
+          '/surprise/${fresh.id}',
+          extra: SurpriseRouteArgs(surprise: fresh, isOwner: true),
         );
       }
     }
@@ -365,7 +364,7 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
       child: SizedBox(
         width: double.infinity,
         child: OutlinedButton.icon(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.pop(),
           icon: const Icon(Icons.visibility_off_rounded, size: 18),
           label: Text(context.l10n.exitPreview),
           style: OutlinedButton.styleFrom(
@@ -479,12 +478,9 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
         children: [
           // Bouton aperçu
           OutlinedButton(
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) =>
-                    SurpriseDetailScreen(surprise: surprise, previewMode: true),
-              ),
+            onPressed: () => context.push(
+              '/surprise/${surprise.id}/preview',
+              extra: surprise,
             ),
             style: OutlinedButton.styleFrom(
               foregroundColor: previewColor,
@@ -526,7 +522,7 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
       leading: Padding(
         padding: const EdgeInsets.all(8),
         child: GestureDetector(
-          onTap: () => Navigator.pop(context),
+          onTap: () => context.pop(),
           child: Container(
             decoration: BoxDecoration(
               color: AppTheme.cardBg,
@@ -599,7 +595,7 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
       leading: Padding(
         padding: const EdgeInsets.all(8),
         child: GestureDetector(
-          onTap: () => Navigator.pop(context),
+          onTap: () => context.pop(),
           child: Container(
             decoration: BoxDecoration(
               color: AppTheme.cardBg,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/l10n/l10n.dart';
@@ -114,7 +115,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       leading: Padding(
         padding: const EdgeInsets.all(8),
         child: GestureDetector(
-          onTap: () => Navigator.pop(context),
+          onTap: () => context.pop(),
           child: Container(
             decoration: BoxDecoration(
               color: AppTheme.cardBg,
