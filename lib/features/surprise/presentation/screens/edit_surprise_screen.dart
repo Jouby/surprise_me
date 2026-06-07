@@ -9,8 +9,6 @@ import '../../domain/entities/surprise_element.dart';
 import '../providers/surprise_provider.dart';
 import '../../domain/usecases/update_surprise_usecase.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../../core/utils/color_utils.dart';
-import '../widgets/color_picker_sheet.dart';
 import '../widgets/element_form_sheet.dart';
 import '../widgets/emoji_picker_sheet.dart';
 import '../widgets/surprise_form_widgets.dart';
@@ -204,10 +202,14 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
             ),
           ),
           const SizedBox(height: 10),
-          _buildAddElementButton(),
+          AddElementButton(onTap: () => _openElementSheet()),
         ],
       ),
-      bottomNavigationBar: _buildBottomBar(),
+      bottomNavigationBar: SurpriseSaveBottomBar(
+        saving: _saving,
+        onSave: _save,
+        label: _saving ? context.l10n.saving : context.l10n.saveButton,
+      ),
     );
   }
 
@@ -286,129 +288,11 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
             decoration: InputDecoration(labelText: context.l10n.subtitleLabel),
           ),
           const SizedBox(height: 12),
-          _buildColorRow(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildColorRow() {
-    final color = ColorUtils.fromHex(_selectedColor);
-    return GestureDetector(
-      onTap: () => showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        builder: (_) => ColorPickerSheet(
-          selected: _selectedColor,
-          onSelected: (hex) => setState(() => _selectedColor = hex),
-        ),
-      ),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-        decoration: BoxDecoration(
-          color: AppTheme.surface,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppTheme.divider, width: 1.5),
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 26,
-              height: 26,
-              decoration: BoxDecoration(
-                color: color,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(color: color.withValues(alpha: 0.4), blurRadius: 6),
-                ],
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                context.l10n.themeColor,
-                style: const TextStyle(fontSize: 14, color: AppTheme.textMid),
-              ),
-            ),
-            const Icon(
-              Icons.chevron_right_rounded,
-              size: 18,
-              color: AppTheme.textLight,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildAddElementButton() {
-    return GestureDetector(
-      onTap: () => _openElementSheet(),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 14),
-        decoration: BoxDecoration(
-          color: AppTheme.surface,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: AppTheme.divider, width: 1.5),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.add_circle_outline_rounded,
-              size: 18,
-              color: AppTheme.primaryLight,
-            ),
-            const SizedBox(width: 8),
-            Text(
-              context.l10n.addElement,
-              style: TextStyle(
-                color: AppTheme.primaryLight,
-                fontWeight: FontWeight.w600,
-                fontSize: 14,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildBottomBar() {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppTheme.surface,
-        boxShadow: [
-          BoxShadow(
-            color: AppTheme.primary.withValues(alpha: 0.08),
-            blurRadius: 20,
-            offset: const Offset(0, -4),
+          SurpriseColorRow(
+            selectedColor: _selectedColor,
+            onSelected: (hex) => setState(() => _selectedColor = hex),
           ),
         ],
-      ),
-      padding: EdgeInsets.fromLTRB(
-        20,
-        16,
-        20,
-        16 + MediaQuery.of(context).padding.bottom,
-      ),
-      child: SizedBox(
-        width: double.infinity,
-        child: ElevatedButton.icon(
-          onPressed: _saving ? null : _save,
-          icon: _saving
-              ? const SizedBox(
-                  width: 18,
-                  height: 18,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: Colors.white,
-                  ),
-                )
-              : const Icon(Icons.check_rounded, size: 18),
-          label: Text(_saving ? context.l10n.saving : context.l10n.saveButton),
-        ),
       ),
     );
   }
