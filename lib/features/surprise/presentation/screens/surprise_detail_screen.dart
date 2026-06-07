@@ -36,8 +36,6 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
   bool get isOwner => widget.isOwner;
   bool get previewMode => widget.previewMode;
 
-  bool _tokenMissing = false;
-
   /// Couleur thème parsée une seule fois, recalculée si la surprise change.
   late Color _themeColor;
 
@@ -53,7 +51,6 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
   void initState() {
     super.initState();
     _themeColor = ColorUtils.fromHex(surprise.color);
-    if (isOwner) _checkToken();
     if (!isOwner && !previewMode) _loadUnlockedCodes();
   }
 
@@ -62,18 +59,6 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
       await context.read<UnlockProvider>().loadCodesForSurprise(surprise.id);
     } catch (_) {
       // Erreur silencieuse : les éléments s'affichent juste tous verrouillés.
-    }
-  }
-
-  Future<void> _checkToken() async {
-    try {
-      final token = await context.read<SurpriseProvider>().getCreatorToken(
-        surprise.id,
-      );
-      if (mounted) setState(() => _tokenMissing = token == null);
-    } catch (_) {
-      // En cas d'erreur, on suppose que le token est absent pour sécurité.
-      if (mounted) setState(() => _tokenMissing = true);
     }
   }
 
@@ -251,10 +236,6 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
                       _buildHero(context),
                       const SizedBox(height: 16),
                       _buildOwnerBanner(context),
-                      if (_tokenMissing) ...[
-                        const SizedBox(height: 10),
-                        _buildTokenMissingBanner(context),
-                      ],
                     ],
                   ),
                 ),
@@ -425,52 +406,6 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
         ],
       ),
     );
-  }
-
-  Widget _buildTokenMissingBanner(BuildContext context) {
-    return GestureDetector(
-      onTap: () => _showTokenRecoveryDialog(context),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        decoration: BoxDecoration(
-          color: Colors.orange.withValues(alpha: 0.08),
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: Colors.orange.withValues(alpha: 0.3)),
-        ),
-        child: Row(
-          children: [
-            const Icon(Icons.link_rounded, size: 18, color: Colors.orange),
-            const SizedBox(width: 10),
-            const Expanded(
-              child: Text(
-                'Cet appareil n\'est pas lié à cette surprise. Appuyez pour entrer le code d\'accès.',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.orange,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            const Icon(
-              Icons.chevron_right_rounded,
-              size: 16,
-              color: Colors.orange,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Future<void> _showTokenRecoveryDialog(BuildContext context) async {
-    final linked = await showDialog<bool>(
-      context: context,
-      builder: (_) => _TokenRecoveryDialog(
-        surpriseId: surprise.id,
-        provider: context.read<SurpriseProvider>(),
-      ),
-    );
-    if (linked == true && mounted) setState(() => _tokenMissing = false);
   }
 
   Widget _buildOwnerBottomBar(BuildContext context) {
@@ -793,114 +728,6 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
           style: ElevatedButton.styleFrom(backgroundColor: themeColor),
         ),
       ),
-    );
-  }
-}
-
-// ─── Token recovery dialog ───────────────────────────────────────────────────
-
-class _TokenRecoveryDialog extends StatefulWidget {
-  final String surpriseId;
-  final SurpriseProvider provider;
-
-  const _TokenRecoveryDialog({
-    required this.surpriseId,
-    required this.provider,
-  });
-
-  @override
-  State<_TokenRecoveryDialog> createState() => _TokenRecoveryDialogState();
-}
-
-class _TokenRecoveryDialogState extends State<_TokenRecoveryDialog> {
-  final _controller = TextEditingController();
-  String? _error;
-  bool _loading = false;
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  Future<void> _submit() async {
-    final token = _controller.text.trim();
-    if (token.isEmpty) return;
-
-    setState(() {
-      _loading = true;
-      _error = null;
-    });
-
-    final valid = await widget.provider.verifyAndLinkToken(
-      surpriseId: widget.surpriseId,
-      token: token,
-    );
-
-    if (!mounted) return;
-
-    if (valid) {
-      Navigator.pop(context, true);
-    } else {
-      setState(() {
-        _loading = false;
-        _error = context.l10n.invalidToken;
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      backgroundColor: AppTheme.cardBg,
-      title: Text(context.l10n.linkDevice),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            context.l10n.linkDeviceHint,
-            style: const TextStyle(fontSize: 13, color: AppTheme.textMid),
-          ),
-          const SizedBox(height: 16),
-          TextField(
-            controller: _controller,
-            autofocus: true,
-            onChanged: (_) {
-              if (_error != null) setState(() => _error = null);
-            },
-            onSubmitted: (_) => _submit(),
-            decoration: InputDecoration(
-              labelText: 'Creator token (UUID)',
-              hintText: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
-              errorText: _error,
-            ),
-          ),
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context, false),
-          child: Text(
-            context.l10n.cancel,
-            style: const TextStyle(color: AppTheme.textLight),
-          ),
-        ),
-        TextButton(
-          onPressed: _loading ? null : _submit,
-          child: _loading
-              ? const SizedBox(
-                  width: 16,
-                  height: 16,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                )
-              : Text(
-                  context.l10n.link,
-                  style: TextStyle(fontWeight: FontWeight.w700),
-                ),
-        ),
-      ],
     );
   }
 }

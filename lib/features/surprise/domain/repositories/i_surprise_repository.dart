@@ -49,10 +49,6 @@ abstract class ISurpriseRepository {
     required int sortOrder,
   });
   Future<String> uploadImage(File file);
-  Future<bool> verifyAndSaveCreatorToken({
-    required String surpriseId,
-    required String token,
-  });
 
   // ── Local ─────────────────────────────────────────────────────────────────
   Future<List<String>> getSavedCodes();

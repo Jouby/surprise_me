@@ -331,19 +331,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get exitPreview => 'Quitter l\'aperçu';
 
   @override
-  String get linkDevice => 'Lier cet appareil';
-
-  @override
-  String get linkDeviceHint =>
-      'Entrez votre creator token pour lier cet appareil à vos surprises.';
-
-  @override
-  String get invalidToken => 'Token invalide.';
-
-  @override
-  String get link => 'Lier';
-
-  @override
   String get settings => 'Paramètres';
 
   @override

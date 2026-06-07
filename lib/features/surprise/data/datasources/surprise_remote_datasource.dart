@@ -173,17 +173,6 @@ class SurpriseRemoteDatasource {
     },
   );
 
-  Future<bool> verifyCreatorToken({
-    required String surpriseId,
-    required String token,
-  }) async {
-    final result = await _client.rpc(
-      'verify_creator_token',
-      params: {'p_id': surpriseId, 'p_token': token},
-    );
-    return result as bool? ?? false;
-  }
-
   Future<String> uploadImage(File file) async {
     final baseName = file.path.split('/').last.split('?').first;
     final dotIndex = baseName.lastIndexOf('.');

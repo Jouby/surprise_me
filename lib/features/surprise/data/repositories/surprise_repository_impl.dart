@@ -117,23 +117,6 @@ class SurpriseRepositoryImpl implements ISurpriseRepository {
   Future<String> uploadImage(File file) => _remote.uploadImage(file);
 
   @override
-  Future<bool> verifyAndSaveCreatorToken({
-    required String surpriseId,
-    required String token,
-  }) async {
-    final valid = await _remote.verifyCreatorToken(
-      surpriseId: surpriseId,
-      token: token,
-    );
-    // Ce chemin n'est atteint que si user_creator_token est null sur cet appareil
-    // (contrôlé par _checkToken → _tokenMissing dans SurpriseDetailScreen).
-    // On sauvegarde donc le token vérifié comme token utilisateur pour cet appareil,
-    // ce qui est le comportement attendu pour la récupération sur un nouvel appareil.
-    if (valid) await _local.saveUserToken(token);
-    return valid;
-  }
-
-  @override
   Future<List<String>> getSavedCodes() => _local.getSavedCodes();
 
   @override

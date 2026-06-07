@@ -90,12 +90,6 @@ class _FakeSurpriseRepository implements ISurpriseRepository {
   Future<String> uploadImage(File file) async => '';
 
   @override
-  Future<bool> verifyAndSaveCreatorToken({
-    required String surpriseId,
-    required String token,
-  }) async => false;
-
-  @override
   Future<List<String>> getSavedCodes() async => List.from(savedCodes);
 
   @override

@@ -146,10 +146,6 @@
   "preview": "Vista previa",
   "previewBanner": "Estás viendo la sorpresa como la verá el destinatario · Todos los elementos están desbloqueados",
   "exitPreview": "Salir de la vista previa",
-  "linkDevice": "Vincular este dispositivo",
-  "linkDeviceHint": "Introduce tu creator token para vincular este dispositivo a tus sorpresas.",
-  "invalidToken": "Token no válido.",
-  "link": "Vincular",
 
   "settings": "Ajustes",
   "creatorTokens": "Creator tokens",
