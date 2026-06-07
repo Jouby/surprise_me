@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../../../core/l10n/l10n.dart';
 import '../../domain/entities/element_draft.dart';
-import '../../domain/entities/surprise_element.dart';
 import '../providers/surprise_provider.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/utils/color_utils.dart';
