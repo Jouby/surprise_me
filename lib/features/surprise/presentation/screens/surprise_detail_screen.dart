@@ -214,7 +214,7 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
     }
   }
 
-  void _openEdit(BuildContext context) async {
+  Future<void> _openEdit(BuildContext context) async {
     final updated = await context.push<bool>(
       '/surprise/${surprise.id}/edit',
       extra: surprise,
