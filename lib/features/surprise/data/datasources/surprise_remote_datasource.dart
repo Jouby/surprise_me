@@ -9,15 +9,36 @@ class SurpriseRemoteDatasource {
   final SupabaseClient _client;
   SurpriseRemoteDatasource(this._client);
 
-  Future<List<SurpriseModel>> getSurprises(List<String> codes) async {
-    if (codes.isEmpty) return [];
-    final res = await _client
+  // Colonnes retournées — creator_token intentionnellement exclu.
+  static const _surpriseCols =
+      'id, emoji, title, subtitle, share_code, color, created_at, surprise_elements(*)';
+
+  /// Retourne deux listes : [owned] (token correspond) et [joined] (token différent).
+  /// Deux requêtes distinctes pour que Supabase ne renvoie jamais le creator_token.
+  Future<({List<SurpriseModel> owned, List<SurpriseModel> joined})>
+      getSurprises(List<String> codes, String userToken) async {
+    if (codes.isEmpty) return (owned: <SurpriseModel>[], joined: <SurpriseModel>[]);
+
+    final ownedRes = await _client
         .from('surprises')
-        .select('*, surprise_elements(*)')
-        .inFilter('share_code', codes);
-    return (res as List)
-        .map((e) => SurpriseModel.fromJson(e as Map<String, dynamic>))
-        .toList();
+        .select(_surpriseCols)
+        .inFilter('share_code', codes)
+        .eq('creator_token', userToken);
+
+    final joinedRes = await _client
+        .from('surprises')
+        .select(_surpriseCols)
+        .inFilter('share_code', codes)
+        .neq('creator_token', userToken);
+
+    return (
+      owned: (ownedRes as List)
+          .map((e) => SurpriseModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      joined: (joinedRes as List)
+          .map((e) => SurpriseModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
   }
 
   Future<SurpriseModel?> fetchByShareCode(String code) async {

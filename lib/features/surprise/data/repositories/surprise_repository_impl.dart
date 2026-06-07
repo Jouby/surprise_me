@@ -12,8 +12,11 @@ class SurpriseRepositoryImpl implements ISurpriseRepository {
   const SurpriseRepositoryImpl(this._remote, this._local);
 
   @override
-  Future<List<Surprise>> getSurprises(List<String> codes) =>
-      _remote.getSurprises(codes);
+  Future<({List<Surprise> owned, List<Surprise> joined})> getSurprises(
+      List<String> codes) async {
+    final userToken = await _local.getUserToken();
+    return _remote.getSurprises(codes, userToken);
+  }
 
   @override
   Future<Surprise?> fetchByShareCode(String code) =>
@@ -27,7 +30,6 @@ class SurpriseRepositoryImpl implements ISurpriseRepository {
     required String color,
     required List<Map<String, dynamic>> elements,
   }) async {
-    // Utilise le token utilisateur unique (généré à la première création si absent).
     final userToken = await _local.getUserToken();
     final result = await _remote.createSurprise(
       emoji: emoji,
@@ -77,11 +79,13 @@ class SurpriseRepositoryImpl implements ISurpriseRepository {
       );
 
   @override
-  Future<void> deleteSurprise({required String id, required String creatorToken}) =>
+  Future<void> deleteSurprise(
+          {required String id, required String creatorToken}) =>
       _remote.deleteSurprise(id: id, creatorToken: creatorToken);
 
   @override
-  Future<void> deleteElement({required String id, required String creatorToken}) =>
+  Future<void> deleteElement(
+          {required String id, required String creatorToken}) =>
       _remote.deleteElement(id: id, creatorToken: creatorToken);
 
   @override
@@ -116,7 +120,6 @@ class SurpriseRepositoryImpl implements ISurpriseRepository {
       surpriseId: surpriseId,
       token: token,
     );
-    // Sauvegarde comme token utilisateur global (pas par surprise).
     if (valid) await _local.saveUserToken(token);
     return valid;
   }
@@ -125,19 +128,10 @@ class SurpriseRepositoryImpl implements ISurpriseRepository {
   Future<List<String>> getSavedCodes() => _local.getSavedCodes();
 
   @override
-  Future<Set<String>> getCreatedCodes() => _local.getCreatedCodes();
-
-  @override
   Future<void> saveCode(String code) => _local.saveCode(code);
 
   @override
-  Future<void> saveCreatedCode(String code) => _local.saveCreatedCode(code);
-
-  @override
-  Future<void> removeSavedCode(String code) => _local.removeSavedCode(code);
-
-  @override
-  Future<void> removeCreatedCode(String code) => _local.removeCreatedCode(code);
+  Future<void> removeCode(String code) => _local.removeCode(code);
 
   @override
   Future<String> getUserToken() => _local.getUserToken();

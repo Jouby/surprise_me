@@ -26,18 +26,17 @@ class SurpriseProvider extends ChangeNotifier {
     load();
   }
 
-  List<Surprise> _surprises = [];
-  Set<String> _createdCodes = {};
+  List<Surprise> _ownedSurprises = [];
+  List<Surprise> _joinedSurprises = [];
   SurpriseLoadState _state = SurpriseLoadState.idle;
   String? _error;
 
-  List<Surprise> get surprises => _surprises;
-  List<Surprise> get createdSurprises =>
-      _surprises.where((s) => _createdCodes.contains(s.shareCode)).toList();
-  List<Surprise> get joinedSurprises =>
-      _surprises.where((s) => !_createdCodes.contains(s.shareCode)).toList();
-  bool isOwner(String shareCode) =>
-      _createdCodes.contains(shareCode.toUpperCase());
+  List<Surprise> get surprises => [..._ownedSurprises, ..._joinedSurprises];
+  List<Surprise> get createdSurprises => _ownedSurprises;
+  List<Surprise> get joinedSurprises => _joinedSurprises;
+
+  bool isOwner(String surpriseId) =>
+      _ownedSurprises.any((s) => s.id == surpriseId);
 
   SurpriseLoadState get state => _state;
   String? get error => _error;
@@ -48,8 +47,9 @@ class SurpriseProvider extends ChangeNotifier {
     _error = null;
     notifyListeners();
     try {
-      _surprises = await _fetchSurprises();
-      _createdCodes = await _fetchSurprises.repository.getCreatedCodes();
+      final result = await _fetchSurprises();
+      _ownedSurprises = result.owned;
+      _joinedSurprises = result.joined;
       _state = SurpriseLoadState.idle;
     } catch (e) {
       _state = SurpriseLoadState.error;
@@ -61,8 +61,9 @@ class SurpriseProvider extends ChangeNotifier {
   Future<Surprise?> joinByShareCode(String code) async {
     final surprise = await _joinSurprise(code);
     if (surprise != null) {
-      if (!_surprises.any((s) => s.id == surprise.id)) {
-        _surprises = [..._surprises, surprise];
+      // Une surprise rejointe n'est jamais owned (token différent).
+      if (!_joinedSurprises.any((s) => s.id == surprise.id)) {
+        _joinedSurprises = [..._joinedSurprises, surprise];
         notifyListeners();
       }
     }
@@ -79,8 +80,8 @@ class SurpriseProvider extends ChangeNotifier {
       shareCode: shareCode,
       isOwner: isOwner,
     );
-    _surprises.removeWhere((s) => s.id == surpriseId);
-    _createdCodes.remove(shareCode);
+    _ownedSurprises.removeWhere((s) => s.id == surpriseId);
+    _joinedSurprises.removeWhere((s) => s.id == surpriseId);
     notifyListeners();
   }
 

@@ -18,8 +18,8 @@ class CreateSurpriseUseCase {
       color: color,
       elements: elements,
     );
+    // Sauvegarde le code dans la liste locale unifiée.
     await _repository.saveCode(shareCode);
-    await _repository.saveCreatedCode(shareCode);
     return shareCode;
   }
 }

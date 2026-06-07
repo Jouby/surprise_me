@@ -13,8 +13,8 @@ class DeleteSurpriseUseCase {
       final token = await _repository.getCreatorToken(surpriseId);
       if (token == null) throw Exception('creator_token introuvable pour cette surprise.');
       await _repository.deleteSurprise(id: surpriseId, creatorToken: token);
-      await _repository.removeCreatedCode(shareCode);
     }
-    await _repository.removeSavedCode(shareCode);
+    // Retire le code de la liste locale unifiée.
+    await _repository.removeCode(shareCode);
   }
 }

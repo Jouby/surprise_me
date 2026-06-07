@@ -3,7 +3,8 @@ import '../entities/surprise.dart';
 
 abstract class ISurpriseRepository {
   // ── Remote ────────────────────────────────────────────────────────────────
-  Future<List<Surprise>> getSurprises(List<String> codes);
+  Future<({List<Surprise> owned, List<Surprise> joined})> getSurprises(
+      List<String> codes);
   Future<Surprise?> fetchByShareCode(String code);
   Future<String> createSurprise({
     required String emoji,
@@ -47,11 +48,8 @@ abstract class ISurpriseRepository {
 
   // ── Local ─────────────────────────────────────────────────────────────────
   Future<List<String>> getSavedCodes();
-  Future<Set<String>> getCreatedCodes();
   Future<void> saveCode(String code);
-  Future<void> saveCreatedCode(String code);
-  Future<void> removeSavedCode(String code);
-  Future<void> removeCreatedCode(String code);
+  Future<void> removeCode(String code);
   /// Retourne le token utilisateur unique (le génère si absent).
   Future<String> getUserToken();
   /// Retourne le token pour une surprise : legacy par surprise ou token utilisateur.

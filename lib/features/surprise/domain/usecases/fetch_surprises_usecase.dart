@@ -6,7 +6,7 @@ class FetchSurprisesUseCase {
   ISurpriseRepository get repository => _repository;
   const FetchSurprisesUseCase(this._repository);
 
-  Future<List<Surprise>> call() async {
+  Future<({List<Surprise> owned, List<Surprise> joined})> call() async {
     final codes = await _repository.getSavedCodes();
     return _repository.getSurprises(codes);
   }
