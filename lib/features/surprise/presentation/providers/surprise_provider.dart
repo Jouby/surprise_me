@@ -5,6 +5,7 @@ import '../../domain/usecases/create_surprise_usecase.dart';
 import '../../domain/usecases/delete_surprise_usecase.dart';
 import '../../domain/usecases/fetch_surprises_usecase.dart';
 import '../../domain/usecases/join_surprise_usecase.dart';
+import '../../domain/usecases/update_surprise_usecase.dart';
 
 enum SurpriseLoadState { idle, loading, error }
 
@@ -13,16 +14,19 @@ class SurpriseProvider extends ChangeNotifier {
   final CreateSurpriseUseCase _createSurprise;
   final JoinSurpriseUseCase _joinSurprise;
   final DeleteSurpriseUseCase _deleteSurprise;
+  final UpdateSurpriseUseCase _updateSurprise;
 
   SurpriseProvider({
     required FetchSurprisesUseCase fetchSurprises,
     required CreateSurpriseUseCase createSurprise,
     required JoinSurpriseUseCase joinSurprise,
     required DeleteSurpriseUseCase deleteSurprise,
+    required UpdateSurpriseUseCase updateSurprise,
   }) : _fetchSurprises = fetchSurprises,
        _createSurprise = createSurprise,
        _joinSurprise = joinSurprise,
-       _deleteSurprise = deleteSurprise {
+       _deleteSurprise = deleteSurprise,
+       _updateSurprise = updateSurprise {
     load();
   }
 
@@ -74,6 +78,11 @@ class SurpriseProvider extends ChangeNotifier {
       // affiche "code introuvable" plutôt que de rester bloquée.
       return null;
     }
+  }
+
+  Future<void> update(UpdateSurpriseParams params) async {
+    await _updateSurprise(params);
+    await load();
   }
 
   Future<void> deleteSurprise({

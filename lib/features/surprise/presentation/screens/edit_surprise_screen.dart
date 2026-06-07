@@ -5,8 +5,8 @@ import '../../../../core/l10n/l10n.dart';
 
 import '../../domain/entities/element_draft.dart';
 import '../../domain/entities/surprise.dart';
-import '../providers/surprise_provider.dart';
 import '../../domain/usecases/update_surprise_usecase.dart';
+import '../providers/surprise_provider.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../widgets/element_form_sheet.dart';
 import '../widgets/emoji_picker_sheet.dart';
@@ -64,8 +64,7 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
 
     setState(() => _saving = true);
     try {
-      final updateUseCase = context.read<UpdateSurpriseUseCase>();
-      await updateUseCase(
+      await context.read<SurpriseProvider>().update(
         UpdateSurpriseParams(
           surpriseId: widget.surprise.id,
           emoji: _selectedEmoji,
@@ -77,8 +76,6 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
         ),
       );
 
-      if (!mounted) return;
-      await context.read<SurpriseProvider>().load();
       if (!mounted) return;
       setState(() => _saving = false);
       context.pop(true);

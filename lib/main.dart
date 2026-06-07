@@ -81,6 +81,7 @@ Future<void> main() async {
             createSurprise: createSurprise,
             joinSurprise: joinSurprise,
             deleteSurprise: deleteSurprise,
+            updateSurprise: updateSurprise,
           ),
         ),
         ChangeNotifierProvider(
@@ -90,8 +91,6 @@ Future<void> main() async {
             repository: unlockRepo,
           ),
         ),
-        // Use cases fournis aux screens qui en ont besoin directement
-        Provider<UpdateSurpriseUseCase>.value(value: updateSurprise),
         Provider<UploadImageUseCase>.value(value: uploadImage),
         Provider<ISurpriseRepository>.value(value: surpriseRepo),
       ],
