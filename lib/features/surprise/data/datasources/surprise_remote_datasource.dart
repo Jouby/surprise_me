@@ -46,7 +46,7 @@ class SurpriseRemoteDatasource {
   Future<SurpriseModel?> fetchByShareCode(String code) async {
     final res = await _client
         .from('surprises')
-        .select('*, surprise_elements(*)')
+        .select(_surpriseCols)
         .eq('share_code', code.toUpperCase())
         .maybeSingle();
     if (res == null) return null;
