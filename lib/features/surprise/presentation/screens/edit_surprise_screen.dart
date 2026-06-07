@@ -5,7 +5,6 @@ import '../../../../core/l10n/l10n.dart';
 
 import '../../domain/entities/element_draft.dart';
 import '../../domain/entities/surprise.dart';
-import '../../domain/entities/surprise_element.dart';
 import '../providers/surprise_provider.dart';
 import '../../domain/usecases/update_surprise_usecase.dart';
 import '../../../../core/theme/app_theme.dart';
@@ -341,7 +340,7 @@ class _ElementDraftTile extends StatelessWidget {
                 Row(
                   children: [
                     Icon(
-                      _iconFor(draft.type),
+                      draft.type.icon,
                       size: 13,
                       color: AppTheme.primaryLight,
                     ),
@@ -470,22 +469,5 @@ class _ElementDraftTile extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  IconData _iconFor(ElementType type) {
-    switch (type) {
-      case ElementType.text:
-        return Icons.notes_rounded;
-      case ElementType.image:
-        return Icons.photo_outlined;
-      case ElementType.date:
-        return Icons.calendar_today_outlined;
-      case ElementType.location:
-        return Icons.place_outlined;
-      case ElementType.wordGame:
-        return Icons.casino_outlined;
-      case ElementType.puzzle:
-        return Icons.grid_view_rounded;
-    }
   }
 }

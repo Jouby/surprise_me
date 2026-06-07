@@ -408,11 +408,7 @@ class _ElementDraftTile extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(
-                _iconFor(draft.type),
-                size: 15,
-                color: AppTheme.primaryLight,
-              ),
+              Icon(draft.type.icon, size: 15, color: AppTheme.primaryLight),
               const SizedBox(width: 6),
               Text(
                 draft.label.isEmpty
@@ -472,22 +468,5 @@ class _ElementDraftTile extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  IconData _iconFor(ElementType type) {
-    switch (type) {
-      case ElementType.text:
-        return Icons.notes_rounded;
-      case ElementType.image:
-        return Icons.photo_outlined;
-      case ElementType.date:
-        return Icons.calendar_today_outlined;
-      case ElementType.location:
-        return Icons.place_outlined;
-      case ElementType.wordGame:
-        return Icons.casino_outlined;
-      case ElementType.puzzle:
-        return Icons.grid_view_rounded;
-    }
   }
 }

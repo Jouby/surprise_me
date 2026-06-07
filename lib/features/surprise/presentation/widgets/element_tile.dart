@@ -5,6 +5,7 @@ import '../../../../core/theme/app_theme.dart';
 import '../../../../core/l10n/l10n.dart';
 import '../../../../features/word_game/presentation/widgets/word_game_tile.dart';
 import '../../../../features/puzzle_game/presentation/widgets/puzzle_game_tile.dart';
+import 'surprise_form_widgets.dart';
 
 class ElementTile extends StatelessWidget {
   final SurpriseElement element;
@@ -76,7 +77,7 @@ class ElementTile extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(
-              _iconForType(element.type),
+              element.type.icon,
               size: 16,
               color: _revealed ? themeColor : AppTheme.textLight,
             ),
@@ -251,23 +252,6 @@ class ElementTile extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  IconData _iconForType(ElementType type) {
-    switch (type) {
-      case ElementType.text:
-        return Icons.notes_rounded;
-      case ElementType.image:
-        return Icons.photo_outlined;
-      case ElementType.date:
-        return Icons.calendar_today_outlined;
-      case ElementType.location:
-        return Icons.place_outlined;
-      case ElementType.wordGame:
-        return Icons.casino_outlined;
-      case ElementType.puzzle:
-        return Icons.grid_view_rounded;
-    }
   }
 }
 

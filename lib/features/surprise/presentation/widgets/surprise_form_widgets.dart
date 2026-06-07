@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/l10n/l10n.dart';
+import '../../domain/entities/surprise_element.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/utils/color_utils.dart';
 import '../widgets/color_picker_sheet.dart';
@@ -126,6 +127,28 @@ class AddElementButton extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+/// Extension présentation : icône Material associée à un type d'élément.
+/// Centralisée ici pour éviter la redéfinition dans ElementTile et les
+/// deux _ElementDraftTile (create / edit screens).
+extension ElementTypeIcon on ElementType {
+  IconData get icon {
+    switch (this) {
+      case ElementType.text:
+        return Icons.notes_rounded;
+      case ElementType.image:
+        return Icons.photo_outlined;
+      case ElementType.date:
+        return Icons.calendar_today_outlined;
+      case ElementType.location:
+        return Icons.place_outlined;
+      case ElementType.wordGame:
+        return Icons.casino_outlined;
+      case ElementType.puzzle:
+        return Icons.grid_view_rounded;
+    }
   }
 }
 
