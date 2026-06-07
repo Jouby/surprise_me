@@ -59,15 +59,21 @@ class SurpriseProvider extends ChangeNotifier {
   }
 
   Future<Surprise?> joinByShareCode(String code) async {
-    final surprise = await _joinSurprise(code);
-    if (surprise != null) {
-      // Une surprise rejointe n'est jamais owned (token différent).
-      if (!_joinedSurprises.any((s) => s.id == surprise.id)) {
-        _joinedSurprises = [..._joinedSurprises, surprise];
-        notifyListeners();
+    try {
+      final surprise = await _joinSurprise(code);
+      if (surprise != null) {
+        // Une surprise rejointe n'est jamais owned (token différent).
+        if (!_joinedSurprises.any((s) => s.id == surprise.id)) {
+          _joinedSurprises = [..._joinedSurprises, surprise];
+          notifyListeners();
+        }
       }
+      return surprise;
+    } catch (_) {
+      // En cas d'erreur réseau, on retourne null pour que la sheet
+      // affiche "code introuvable" plutôt que de rester bloquée.
+      return null;
     }
-    return surprise;
   }
 
   Future<void> deleteSurprise({
