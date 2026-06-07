@@ -325,7 +325,7 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
   }
 
   Widget _buildPreviewBanner(BuildContext context) {
-    const previewColor = Color(0xFF7C5CBF);
+    const previewColor = AppTheme.preview;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
@@ -353,7 +353,7 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
   }
 
   Widget _buildPreviewBottomBar(BuildContext context) {
-    const previewColor = Color(0xFF7C5CBF);
+    const previewColor = AppTheme.preview;
     return Container(
       decoration: BoxDecoration(
         color: AppTheme.surface,
@@ -466,7 +466,7 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
 
   Widget _buildOwnerBottomBar(BuildContext context) {
     final themeColor = ColorUtils.fromHex(surprise.color);
-    const previewColor = Color(0xFF7C5CBF);
+    const previewColor = AppTheme.preview;
     return Container(
       decoration: BoxDecoration(
         color: AppTheme.surface,
@@ -978,8 +978,7 @@ class _ShareSheet extends StatelessWidget {
               Expanded(
                 child: OutlinedButton.icon(
                   onPressed: () {
-                    final link =
-                        AppConfig.shareUrl(surprise.shareCode);
+                    final link = AppConfig.shareUrl(surprise.shareCode);
                     Clipboard.setData(ClipboardData(text: link));
                     Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -1009,8 +1008,7 @@ class _ShareSheet extends StatelessWidget {
               Expanded(
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    final link =
-                        AppConfig.shareUrl(surprise.shareCode);
+                    final link = AppConfig.shareUrl(surprise.shareCode);
                     Share.share(
                       context.l10n.shareMessage(link, surprise.shareCode),
                     );

@@ -326,8 +326,7 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
                   Expanded(
                     child: OutlinedButton.icon(
                       onPressed: () {
-                        final link =
-                            AppConfig.shareUrl(_createdCode!);
+                        final link = AppConfig.shareUrl(_createdCode!);
                         Clipboard.setData(ClipboardData(text: link));
                         _showSnack(context.l10n.linkCopied);
                       },
@@ -350,8 +349,7 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
                   Expanded(
                     child: ElevatedButton.icon(
                       onPressed: () {
-                        final link =
-                            AppConfig.shareUrl(_createdCode!);
+                        final link = AppConfig.shareUrl(_createdCode!);
                         Share.share(
                           context.l10n.shareMessage(link, _createdCode!),
                         );

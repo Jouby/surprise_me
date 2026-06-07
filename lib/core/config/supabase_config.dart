@@ -8,8 +8,7 @@ class SupabaseConfig {
 
 class AppConfig {
   /// URL de base pour les liens de partage (deep links HTTPS).
-  static const String shareBaseUrl =
-      'https://jouby.github.io/surprise_me/join';
+  static const String shareBaseUrl = 'https://jouby.github.io/surprise_me/join';
 
   /// Construit le lien de partage pour un code donné.
   static String shareUrl(String code) => '$shareBaseUrl/$code';

@@ -13,6 +13,7 @@ class AppTheme {
   static const Color textLight = Color(0xFF8AAABF);
   static const Color divider = Color(0xFFD6E8F5);
   static const Color blurOverlay = Color(0xFFE8F3FB);
+  static const Color preview = Color(0xFF7C5CBF);
 
   static ThemeData get theme => ThemeData(
     useMaterial3: true,
