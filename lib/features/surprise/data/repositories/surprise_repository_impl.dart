@@ -68,6 +68,7 @@ class SurpriseRepositoryImpl implements ISurpriseRepository {
     required String label,
     required String content,
     required String unlockCode,
+    required int sortOrder,
   }) => _remote.updateElement(
     id: id,
     creatorToken: creatorToken,
@@ -75,6 +76,7 @@ class SurpriseRepositoryImpl implements ISurpriseRepository {
     label: label,
     content: content,
     unlockCode: unlockCode,
+    sortOrder: sortOrder,
   );
 
   @override

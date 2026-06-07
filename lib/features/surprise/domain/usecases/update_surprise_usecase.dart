@@ -75,6 +75,7 @@ class UpdateSurpriseUseCase {
           label: draft.label,
           content: draft.content,
           unlockCode: draft.unlockCode,
+          sortOrder: i, // persiste le nouvel ordre après réagencement
         );
       }
     }

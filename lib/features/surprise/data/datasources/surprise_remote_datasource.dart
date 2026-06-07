@@ -123,6 +123,7 @@ class SurpriseRemoteDatasource {
     required String label,
     required String content,
     required String unlockCode,
+    required int sortOrder,
   }) => _client.rpc(
     'update_surprise_element',
     params: {
@@ -132,6 +133,7 @@ class SurpriseRemoteDatasource {
       'p_label': label,
       'p_content': content,
       'p_unlock_code': unlockCode.toUpperCase(),
+      'p_sort_order': sortOrder,
     },
   );
 

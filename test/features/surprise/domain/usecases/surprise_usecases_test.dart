@@ -66,6 +66,7 @@ class _FakeSurpriseRepository implements ISurpriseRepository {
     required String label,
     required String content,
     required String unlockCode,
+    required int sortOrder,
   }) async {}
 
   @override

@@ -29,6 +29,7 @@ abstract class ISurpriseRepository {
     required String label,
     required String content,
     required String unlockCode,
+    required int sortOrder,
   });
   Future<void> deleteSurprise({
     required String id,
