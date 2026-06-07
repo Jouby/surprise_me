@@ -27,14 +27,16 @@ class SurpriseRepositoryImpl implements ISurpriseRepository {
     required String color,
     required List<Map<String, dynamic>> elements,
   }) async {
+    // Utilise le token utilisateur unique (généré à la première création si absent).
+    final userToken = await _local.getUserToken();
     final result = await _remote.createSurprise(
       emoji: emoji,
       title: title,
       subtitle: subtitle,
       color: color,
       elements: elements,
+      creatorToken: userToken,
     );
-    await _local.saveCreatorToken(result.surpriseId, result.creatorToken);
     return result.shareCode;
   }
 
@@ -114,7 +116,8 @@ class SurpriseRepositoryImpl implements ISurpriseRepository {
       surpriseId: surpriseId,
       token: token,
     );
-    if (valid) await _local.saveCreatorToken(surpriseId, token);
+    // Sauvegarde comme token utilisateur global (pas par surprise).
+    if (valid) await _local.saveUserToken(token);
     return valid;
   }
 
@@ -137,8 +140,7 @@ class SurpriseRepositoryImpl implements ISurpriseRepository {
   Future<void> removeCreatedCode(String code) => _local.removeCreatedCode(code);
 
   @override
-  Future<void> saveCreatorToken(String surpriseId, String token) =>
-      _local.saveCreatorToken(surpriseId, token);
+  Future<String> getUserToken() => _local.getUserToken();
 
   @override
   Future<String?> getCreatorToken(String surpriseId) =>

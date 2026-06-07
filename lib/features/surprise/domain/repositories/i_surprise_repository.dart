@@ -52,6 +52,8 @@ abstract class ISurpriseRepository {
   Future<void> saveCreatedCode(String code);
   Future<void> removeSavedCode(String code);
   Future<void> removeCreatedCode(String code);
-  Future<void> saveCreatorToken(String surpriseId, String token);
+  /// Retourne le token utilisateur unique (le génère si absent).
+  Future<String> getUserToken();
+  /// Retourne le token pour une surprise : legacy par surprise ou token utilisateur.
   Future<String?> getCreatorToken(String surpriseId);
 }

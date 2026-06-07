@@ -30,13 +30,14 @@ class SurpriseRemoteDatasource {
     return SurpriseModel.fromJson(res);
   }
 
-  /// Returns shareCode, surpriseId and creatorToken for local storage.
-  Future<({String shareCode, String surpriseId, String creatorToken})> createSurprise({
+  /// Crée une surprise en injectant le [creatorToken] fourni par l'app (token utilisateur).
+  Future<({String shareCode, String surpriseId})> createSurprise({
     required String emoji,
     required String title,
     required String subtitle,
     required String color,
     required List<Map<String, dynamic>> elements,
+    required String creatorToken,
   }) async {
     final shareCode = _generateCode();
     final row = await _client.from('surprises').insert({
@@ -45,10 +46,10 @@ class SurpriseRemoteDatasource {
       'subtitle': subtitle,
       'color': color,
       'share_code': shareCode,
-    }).select('id, share_code, creator_token').single();
+      'creator_token': creatorToken,
+    }).select('id, share_code').single();
 
     final surpriseId = row['id'] as String;
-    final creatorToken = row['creator_token'] as String;
 
     final rows = elements.asMap().entries.map((entry) => {
           'surprise_id': surpriseId,
@@ -60,7 +61,7 @@ class SurpriseRemoteDatasource {
         }).toList();
     await _client.from('surprise_elements').insert(rows);
 
-    return (shareCode: shareCode, surpriseId: surpriseId, creatorToken: creatorToken);
+    return (shareCode: shareCode, surpriseId: surpriseId);
   }
 
   Future<void> updateSurprise({

@@ -4,10 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../core/l10n/l10n.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../../core/utils/color_utils.dart';
-import '../../../surprise/domain/entities/surprise.dart';
 import '../../../surprise/domain/repositories/i_surprise_repository.dart';
-import '../../../surprise/presentation/providers/surprise_provider.dart';
 import '../../../unlock/data/datasources/unlock_local_datasource.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -18,8 +15,7 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  // Map surpriseId → creatorToken (null = pas de token sur cet appareil)
-  Map<String, String?> _tokens = {};
+  String? _userToken;
   List<String> _savedShareCodes = [];
   int _unlockedCount = 0;
   bool _loading = true;
@@ -32,23 +28,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Future<void> _loadData() async {
     final repo = context.read<ISurpriseRepository>();
-    final createdSurprises =
-        context.read<SurpriseProvider>().createdSurprises;
 
-    // Charge les tokens pour chaque surprise créée
-    final tokens = <String, String?>{};
-    for (final s in createdSurprises) {
-      tokens[s.id] = await repo.getCreatorToken(s.id);
-    }
-
-    // Données locales générales
+    final userToken = await repo.getUserToken();
     final savedCodes = await repo.getSavedCodes();
     final unlockedDs = UnlockLocalDatasource();
     final unlockedCodes = await unlockedDs.loadCodes();
 
     if (mounted) {
       setState(() {
-        _tokens = tokens;
+        _userToken = userToken;
         _savedShareCodes = savedCodes;
         _unlockedCount = unlockedCodes.length;
         _loading = false;
@@ -56,8 +44,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
-  void _copyToken(String token) {
-    Clipboard.setData(ClipboardData(text: token));
+  void _copyToken() {
+    if (_userToken == null) return;
+    Clipboard.setData(ClipboardData(text: _userToken!));
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(context.l10n.tokenCopied),
@@ -69,9 +58,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final createdSurprises =
-        context.watch<SurpriseProvider>().createdSurprises;
-
     return Scaffold(
       backgroundColor: AppTheme.surface,
       body: CustomScrollView(
@@ -87,7 +73,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             )
           else ...[
-            // ── Section creator tokens ──────────────────────────────────────
+            // ── Section creator token ───────────────────────────────────────
             SliverToBoxAdapter(
               child: _SectionHeader(
                 icon: Icons.key_rounded,
@@ -107,28 +93,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
             ),
-            if (createdSurprises.isEmpty)
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: _EmptyCard(label: context.l10n.noCreatedSurprises),
-                ),
-              )
-            else
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    final surprise = createdSurprises[index];
-                    final token = _tokens[surprise.id];
-                    return _TokenCard(
-                      surprise: surprise,
-                      token: token,
-                      onCopy: token != null ? () => _copyToken(token) : null,
-                    );
-                  },
-                  childCount: createdSurprises.length,
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: _UserTokenCard(
+                  token: _userToken,
+                  onCopy: _userToken != null ? _copyToken : null,
                 ),
               ),
+            ),
 
             // ── Section données locales ─────────────────────────────────────
             SliverToBoxAdapter(
@@ -211,6 +184,124 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 }
 
+// ─── User token card ──────────────────────────────────────────────────────────
+
+class _UserTokenCard extends StatefulWidget {
+  final String? token;
+  final VoidCallback? onCopy;
+
+  const _UserTokenCard({required this.token, this.onCopy});
+
+  @override
+  State<_UserTokenCard> createState() => _UserTokenCardState();
+}
+
+class _UserTokenCardState extends State<_UserTokenCard> {
+  bool _visible = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final hasToken = widget.token != null;
+
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: AppTheme.cardBg,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppTheme.divider),
+        boxShadow: [
+          BoxShadow(
+            color: AppTheme.primary.withValues(alpha: 0.06),
+            blurRadius: 12,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Token value
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: AppTheme.primary.withValues(alpha: 0.08),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Icon(Icons.fingerprint_rounded,
+                    size: 22, color: AppTheme.primary),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: hasToken
+                    ? Text(
+                        _visible
+                            ? widget.token!
+                            : '${widget.token!.substring(0, 8)}••••••••••••••••••••••••••••',
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontFamily: 'monospace',
+                          color: AppTheme.textMid,
+                          letterSpacing: 0.5,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      )
+                    : const Text(
+                        '—',
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: AppTheme.textLight,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+              ),
+              if (hasToken) ...[
+                const SizedBox(width: 8),
+                // Bouton afficher/masquer
+                GestureDetector(
+                  onTap: () => setState(() => _visible = !_visible),
+                  child: Container(
+                    padding: const EdgeInsets.all(7),
+                    decoration: BoxDecoration(
+                      color: AppTheme.surface,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: AppTheme.divider),
+                    ),
+                    child: Icon(
+                      _visible
+                          ? Icons.visibility_off_rounded
+                          : Icons.visibility_rounded,
+                      size: 16,
+                      color: AppTheme.textLight,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 6),
+                // Bouton copier
+                GestureDetector(
+                  onTap: widget.onCopy,
+                  child: Container(
+                    padding: const EdgeInsets.all(7),
+                    decoration: BoxDecoration(
+                      color: AppTheme.primary.withValues(alpha: 0.08),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                          color: AppTheme.primary.withValues(alpha: 0.2)),
+                    ),
+                    child: const Icon(Icons.copy_rounded,
+                        size: 16, color: AppTheme.primary),
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 // ─── Section header ───────────────────────────────────────────────────────────
 
 class _SectionHeader extends StatelessWidget {
@@ -235,166 +326,6 @@ class _SectionHeader extends StatelessWidget {
               letterSpacing: 1.2,
               color: AppTheme.textLight,
             ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ─── Token card ───────────────────────────────────────────────────────────────
-
-class _TokenCard extends StatefulWidget {
-  final Surprise surprise;
-  final String? token;
-  final VoidCallback? onCopy;
-
-  const _TokenCard({
-    required this.surprise,
-    required this.token,
-    this.onCopy,
-  });
-
-  @override
-  State<_TokenCard> createState() => _TokenCardState();
-}
-
-class _TokenCardState extends State<_TokenCard> {
-  bool _visible = false;
-
-  @override
-  Widget build(BuildContext context) {
-    final themeColor = ColorUtils.fromHex(widget.surprise.color);
-    final hasToken = widget.token != null;
-
-    return Container(
-      margin: const EdgeInsets.fromLTRB(20, 0, 20, 10),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppTheme.cardBg,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppTheme.divider),
-        boxShadow: [
-          BoxShadow(
-            color: themeColor.withValues(alpha: 0.06),
-            blurRadius: 12,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // En-tête : emoji + titre + code
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: themeColor.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Text(widget.surprise.emoji,
-                    style: const TextStyle(fontSize: 18)),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.surprise.title,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: AppTheme.textDark,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      context.l10n.surpriseId(widget.surprise.id),
-                      style: const TextStyle(
-                        fontSize: 11,
-                        color: AppTheme.textLight,
-                        fontFamily: 'monospace',
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 14),
-          const Divider(color: AppTheme.divider, height: 1),
-          const SizedBox(height: 14),
-
-          // Token row
-          Row(
-            children: [
-              Expanded(
-                child: hasToken
-                    ? Text(
-                        _visible
-                            ? widget.token!
-                            : '${widget.token!.substring(0, 8)}••••••••••••••••••••••••••••',
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontFamily: 'monospace',
-                          color: AppTheme.textMid,
-                          letterSpacing: 0.5,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      )
-                    : Text(
-                        '—',
-                        style: const TextStyle(
-                          fontSize: 13,
-                          color: AppTheme.textLight,
-                          fontStyle: FontStyle.italic,
-                        ),
-                      ),
-              ),
-              if (hasToken) ...[
-                const SizedBox(width: 8),
-                // Bouton afficher/masquer
-                GestureDetector(
-                  onTap: () => setState(() => _visible = !_visible),
-                  child: Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      color: AppTheme.surface,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: AppTheme.divider),
-                    ),
-                    child: Icon(
-                      _visible
-                          ? Icons.visibility_off_rounded
-                          : Icons.visibility_rounded,
-                      size: 15,
-                      color: AppTheme.textLight,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 6),
-                // Bouton copier
-                GestureDetector(
-                  onTap: widget.onCopy,
-                  child: Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      color: themeColor.withValues(alpha: 0.08),
-                      borderRadius: BorderRadius.circular(8),
-                      border:
-                          Border.all(color: themeColor.withValues(alpha: 0.2)),
-                    ),
-                    child: Icon(Icons.copy_rounded,
-                        size: 15, color: themeColor),
-                  ),
-                ),
-              ],
-            ],
           ),
         ],
       ),
@@ -439,7 +370,8 @@ class _DataRow extends StatelessWidget {
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
               color: AppTheme.surface,
               borderRadius: BorderRadius.circular(20),
@@ -455,33 +387,6 @@ class _DataRow extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-// ─── Empty card ───────────────────────────────────────────────────────────────
-
-class _EmptyCard extends StatelessWidget {
-  final String label;
-  const _EmptyCard({required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppTheme.cardBg,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppTheme.divider),
-      ),
-      child: Text(
-        label,
-        style: const TextStyle(
-          fontSize: 13,
-          color: AppTheme.textLight,
-          fontStyle: FontStyle.italic,
-        ),
       ),
     );
   }
