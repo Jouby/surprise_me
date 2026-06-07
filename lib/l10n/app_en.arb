@@ -146,6 +146,10 @@
   "preview": "Preview",
   "previewBanner": "You are seeing the surprise as the recipient will · All elements are unlocked",
   "exitPreview": "Exit preview",
+  "linkDevice": "Link this device",
+  "linkDeviceHint": "Enter your creator token to link this device to your surprises.",
+  "invalidToken": "Invalid token.",
+  "link": "Link",
 
   "settings": "Settings",
   "creatorTokens": "Creator tokens",

@@ -327,6 +327,18 @@
   "exitPreview": "Quitter l'aperçu",
   "@exitPreview": {},
 
+  "linkDevice": "Lier cet appareil",
+  "@linkDevice": {},
+
+  "linkDeviceHint": "Entrez votre creator token pour lier cet appareil à vos surprises.",
+  "@linkDeviceHint": {},
+
+  "invalidToken": "Token invalide.",
+  "@invalidToken": {},
+
+  "link": "Lier",
+  "@link": {},
+
   "settings": "Paramètres",
   "@settings": {},
 

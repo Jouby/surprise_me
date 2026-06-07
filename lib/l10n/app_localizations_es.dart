@@ -332,6 +332,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get exitPreview => 'Salir de la vista previa';
 
   @override
+  String get linkDevice => 'Vincular este dispositivo';
+
+  @override
+  String get linkDeviceHint =>
+      'Introduce tu creator token para vincular este dispositivo a tus sorpresas.';
+
+  @override
+  String get invalidToken => 'Token no válido.';
+
+  @override
+  String get link => 'Vincular';
+
+  @override
   String get settings => 'Ajustes';
 
   @override

@@ -694,6 +694,30 @@ abstract class AppLocalizations {
   /// **'Quitter l\'aperçu'**
   String get exitPreview;
 
+  /// No description provided for @linkDevice.
+  ///
+  /// In fr, this message translates to:
+  /// **'Lier cet appareil'**
+  String get linkDevice;
+
+  /// No description provided for @linkDeviceHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Entrez votre creator token pour lier cet appareil à vos surprises.'**
+  String get linkDeviceHint;
+
+  /// No description provided for @invalidToken.
+  ///
+  /// In fr, this message translates to:
+  /// **'Token invalide.'**
+  String get invalidToken;
+
+  /// No description provided for @link.
+  ///
+  /// In fr, this message translates to:
+  /// **'Lier'**
+  String get link;
+
   /// No description provided for @settings.
   ///
   /// In fr, this message translates to:

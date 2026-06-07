@@ -844,7 +844,7 @@ class _TokenRecoveryDialogState extends State<_TokenRecoveryDialog> {
     } else {
       setState(() {
         _loading = false;
-        _error = 'Token invalide.';
+        _error = context.l10n.invalidToken;
       });
     }
   }
@@ -854,14 +854,14 @@ class _TokenRecoveryDialogState extends State<_TokenRecoveryDialog> {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       backgroundColor: AppTheme.cardBg,
-      title: const Text('Lier cet appareil'),
+      title: Text(context.l10n.linkDevice),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Entrez le creator_token associé à cette surprise dans Supabase.',
-            style: TextStyle(fontSize: 13, color: AppTheme.textMid),
+          Text(
+            context.l10n.linkDeviceHint,
+            style: const TextStyle(fontSize: 13, color: AppTheme.textMid),
           ),
           const SizedBox(height: 16),
           TextField(
@@ -895,8 +895,8 @@ class _TokenRecoveryDialogState extends State<_TokenRecoveryDialog> {
                   height: 16,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
-              : const Text(
-                  'Lier',
+              : Text(
+                  context.l10n.link,
                   style: TextStyle(fontWeight: FontWeight.w700),
                 ),
         ),
