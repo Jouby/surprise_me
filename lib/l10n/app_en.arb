@@ -141,5 +141,9 @@
   "camera": "Camera",
   "change": "Change",
   "galleryOrCamera": "Gallery or camera",
-  "uploading": "Uploading…"
+  "uploading": "Uploading…",
+
+  "preview": "Preview",
+  "previewBanner": "You are seeing the surprise as the recipient will · All elements are unlocked",
+  "exitPreview": "Exit preview"
 }

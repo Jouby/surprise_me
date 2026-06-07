@@ -16,11 +16,13 @@ import 'edit_surprise_screen.dart';
 class SurpriseDetailScreen extends StatefulWidget {
   final Surprise surprise;
   final bool isOwner;
+  final bool previewMode;
 
   const SurpriseDetailScreen({
     super.key,
     required this.surprise,
     this.isOwner = false,
+    this.previewMode = false,
   });
 
   @override
@@ -30,6 +32,7 @@ class SurpriseDetailScreen extends StatefulWidget {
 class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
   Surprise get surprise => widget.surprise;
   bool get isOwner => widget.isOwner;
+  bool get previewMode => widget.previewMode;
 
   bool _tokenMissing = false;
 
@@ -71,6 +74,7 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
   @override
   Widget build(BuildContext context) {
     if (isOwner) return _buildOwnerView(context);
+    if (previewMode) return _buildPreviewView(context);
 
     return Consumer<UnlockProvider>(
       builder: (context, provider, _) {
@@ -253,6 +257,116 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
     );
   }
 
+  // ─── Mode prévisualisation ────────────────────────────────────────────────
+
+  Widget _buildPreviewView(BuildContext context) {
+    final total = surprise.elements.length;
+    return Scaffold(
+      backgroundColor: AppTheme.surface,
+      body: Stack(
+        children: [
+          CustomScrollView(
+            slivers: [
+              _buildAppBar(context),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+                  child: Column(
+                    children: [
+                      _buildHero(context),
+                      const SizedBox(height: 12),
+                      _buildPreviewBanner(context),
+                      const SizedBox(height: 8),
+                      _buildProgressBar(context, total, total),
+                    ],
+                  ),
+                ),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) => ElementTile(
+                    element: surprise.elements[index],
+                    isUnlocked: true,
+                    themeColor: ColorUtils.fromHex(surprise.color),
+                  ),
+                  childCount: total,
+                ),
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 120)),
+            ],
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: _buildPreviewBottomBar(context),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPreviewBanner(BuildContext context) {
+    const previewColor = Color(0xFF7C5CBF);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        color: previewColor.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: previewColor.withValues(alpha: 0.3)),
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.visibility_rounded, size: 18, color: previewColor),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              context.l10n.previewBanner,
+              style: const TextStyle(
+                fontSize: 12,
+                color: previewColor,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPreviewBottomBar(BuildContext context) {
+    const previewColor = Color(0xFF7C5CBF);
+    return Container(
+      decoration: BoxDecoration(
+        color: AppTheme.surface,
+        boxShadow: [
+          BoxShadow(
+            color: previewColor.withValues(alpha: 0.08),
+            blurRadius: 20,
+            offset: const Offset(0, -4),
+          ),
+        ],
+      ),
+      padding: EdgeInsets.fromLTRB(
+          20, 16, 20, 16 + MediaQuery.of(context).padding.bottom),
+      child: SizedBox(
+        width: double.infinity,
+        child: OutlinedButton.icon(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.visibility_off_rounded, size: 18),
+          label: Text(context.l10n.exitPreview),
+          style: OutlinedButton.styleFrom(
+            foregroundColor: previewColor,
+            side: const BorderSide(color: previewColor, width: 1.5),
+            padding: const EdgeInsets.symmetric(vertical: 14),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(14)),
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildOwnerBanner(BuildContext context) {
     final themeColor = ColorUtils.fromHex(surprise.color);
     return Container(
@@ -326,6 +440,7 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
 
   Widget _buildOwnerBottomBar(BuildContext context) {
     final themeColor = ColorUtils.fromHex(surprise.color);
+    const previewColor = Color(0xFF7C5CBF);
     return Container(
       decoration: BoxDecoration(
         color: AppTheme.surface,
@@ -341,6 +456,28 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
           20, 16, 20, 16 + MediaQuery.of(context).padding.bottom),
       child: Row(
         children: [
+          // Bouton aperçu
+          OutlinedButton(
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => SurpriseDetailScreen(
+                  surprise: surprise,
+                  previewMode: true,
+                ),
+              ),
+            ),
+            style: OutlinedButton.styleFrom(
+              foregroundColor: previewColor,
+              side: const BorderSide(color: previewColor, width: 1.5),
+              padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14)),
+            ),
+            child: const Icon(Icons.visibility_rounded, size: 18),
+          ),
+          const SizedBox(width: 12),
+          // Bouton partager
           Expanded(
             child: OutlinedButton.icon(
               onPressed: () => _showShareSheet(context),

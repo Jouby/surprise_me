@@ -316,5 +316,14 @@
   "@galleryOrCamera": {},
 
   "uploading": "Envoi en cours…",
-  "@uploading": {}
+  "@uploading": {},
+
+  "preview": "Aperçu",
+  "@preview": {},
+
+  "previewBanner": "Vous voyez la surprise comme le receveur la verra · Tous les éléments sont débloqués",
+  "@previewBanner": {},
+
+  "exitPreview": "Quitter l'aperçu",
+  "@exitPreview": {}
 }

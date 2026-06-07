@@ -317,4 +317,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get uploading => 'Uploading…';
+
+  @override
+  String get preview => 'Preview';
+
+  @override
+  String get previewBanner =>
+      'You are seeing the surprise as the recipient will · All elements are unlocked';
+
+  @override
+  String get exitPreview => 'Exit preview';
 }

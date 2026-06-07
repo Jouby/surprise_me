@@ -319,4 +319,14 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get uploading => 'Envoi en cours…';
+
+  @override
+  String get preview => 'Aperçu';
+
+  @override
+  String get previewBanner =>
+      'Vous voyez la surprise comme le receveur la verra · Tous les éléments sont débloqués';
+
+  @override
+  String get exitPreview => 'Quitter l\'aperçu';
 }

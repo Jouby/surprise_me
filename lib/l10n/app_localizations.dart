@@ -675,6 +675,24 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Envoi en cours…'**
   String get uploading;
+
+  /// No description provided for @preview.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aperçu'**
+  String get preview;
+
+  /// No description provided for @previewBanner.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vous voyez la surprise comme le receveur la verra · Tous les éléments sont débloqués'**
+  String get previewBanner;
+
+  /// No description provided for @exitPreview.
+  ///
+  /// In fr, this message translates to:
+  /// **'Quitter l\'aperçu'**
+  String get exitPreview;
 }
 
 class _AppLocalizationsDelegate

@@ -141,5 +141,9 @@
   "camera": "Cámara",
   "change": "Cambiar",
   "galleryOrCamera": "Galería o cámara",
-  "uploading": "Subiendo…"
+  "uploading": "Subiendo…",
+
+  "preview": "Vista previa",
+  "previewBanner": "Estás viendo la sorpresa como la verá el destinatario · Todos los elementos están desbloqueados",
+  "exitPreview": "Salir de la vista previa"
 }

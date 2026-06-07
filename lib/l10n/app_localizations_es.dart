@@ -320,4 +320,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get uploading => 'Subiendo…';
+
+  @override
+  String get preview => 'Vista previa';
+
+  @override
+  String get previewBanner =>
+      'Estás viendo la sorpresa como la verá el destinatario · Todos los elementos están desbloqueados';
+
+  @override
+  String get exitPreview => 'Salir de la vista previa';
 }
