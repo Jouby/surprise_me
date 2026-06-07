@@ -80,6 +80,11 @@ class SurpriseProvider extends ChangeNotifier {
     }
   }
 
+  Future<String> getUserToken() => _fetchSurprises.repository.getUserToken();
+
+  Future<List<String>> getSavedCodes() =>
+      _fetchSurprises.repository.getSavedCodes();
+
   Future<void> update(UpdateSurpriseParams params) async {
     await _updateSurprise(params);
     await load();

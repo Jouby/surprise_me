@@ -33,20 +33,9 @@ void main() {
     });
   });
 
-  group('saveUserToken', () {
-    test('écrase le token existant', () async {
-      await ds.getUserToken(); // génère un premier token
-      const custom = '00000000-0000-4000-8000-000000000000';
-      await ds.saveUserToken(custom);
-      final token = await ds.getUserToken();
-      expect(token, equals(custom));
-    });
-  });
-
   group('getCreatorToken', () {
     test('retourne le user token quand il existe', () async {
-      const token = '11111111-1111-4111-8111-111111111111';
-      await ds.saveUserToken(token);
+      final token = await ds.getUserToken(); // génère le token
       final result = await ds.getCreatorToken('any-surprise-id');
       expect(result, equals(token));
     });

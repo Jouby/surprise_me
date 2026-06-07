@@ -19,12 +19,6 @@ class SurpriseLocalDatasource {
     return token;
   }
 
-  /// Sauvegarde un token utilisateur (utilisé lors de la récupération sur un nouvel appareil).
-  Future<void> saveUserToken(String token) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_userTokenKey, token);
-  }
-
   /// Retourne le token utilisateur (null si jamais initialisé, ce qui ne devrait pas arriver).
   Future<String?> getCreatorToken(String surpriseId) async {
     final prefs = await SharedPreferences.getInstance();

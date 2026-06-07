@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../core/l10n/l10n.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../surprise/domain/repositories/i_surprise_repository.dart';
+import '../../../surprise/presentation/providers/surprise_provider.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -25,9 +25,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Future<void> _loadData() async {
-    final repo = context.read<ISurpriseRepository>();
+    final provider = context.read<SurpriseProvider>();
 
-    final userToken = await repo.getUserToken();
+    final userToken = await provider.getUserToken();
 
     if (mounted) {
       setState(() {

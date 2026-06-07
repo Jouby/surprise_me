@@ -14,7 +14,6 @@ import 'core/theme/app_theme.dart';
 import 'features/surprise/data/datasources/surprise_local_datasource.dart';
 import 'features/surprise/data/datasources/surprise_remote_datasource.dart';
 import 'features/surprise/data/repositories/surprise_repository_impl.dart';
-import 'features/surprise/domain/repositories/i_surprise_repository.dart';
 import 'features/surprise/domain/usecases/create_surprise_usecase.dart';
 import 'features/surprise/domain/usecases/delete_surprise_usecase.dart';
 import 'features/surprise/domain/usecases/fetch_surprises_usecase.dart';
@@ -92,7 +91,6 @@ Future<void> main() async {
           ),
         ),
         Provider<UploadImageUseCase>.value(value: uploadImage),
-        Provider<ISurpriseRepository>.value(value: surpriseRepo),
       ],
       child: const SurpriseMeApp(),
     ),
