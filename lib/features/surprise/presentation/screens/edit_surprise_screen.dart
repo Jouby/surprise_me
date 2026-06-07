@@ -13,6 +13,7 @@ import '../../../../core/utils/color_utils.dart';
 import '../widgets/color_picker_sheet.dart';
 import '../widgets/element_form_sheet.dart';
 import '../widgets/emoji_picker_sheet.dart';
+import '../widgets/surprise_form_widgets.dart';
 
 class EditSurpriseScreen extends StatefulWidget {
   final Surprise surprise;
@@ -160,10 +161,10 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 8, 20, 120),
         children: [
-          _SectionLabel(context.l10n.identity),
+          SurpriseSectionLabel(context.l10n.identity),
           _buildIdentityCard(),
           const SizedBox(height: 24),
-          _SectionLabel(context.l10n.elementsCount(_elements.length)),
+          SurpriseSectionLabel(context.l10n.elementsCount(_elements.length)),
           const SizedBox(height: 4),
           Text(
             context.l10n.editElementsHint,
@@ -414,27 +415,6 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
-
-class _SectionLabel extends StatelessWidget {
-  final String text;
-  const _SectionLabel(this.text);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
-      child: Text(
-        text.toUpperCase(),
-        style: const TextStyle(
-          fontSize: 11,
-          fontWeight: FontWeight.w700,
-          letterSpacing: 1.2,
-          color: AppTheme.textLight,
-        ),
-      ),
-    );
-  }
-}
 
 class _ElementDraftTile extends StatelessWidget {
   final ElementDraft draft;
