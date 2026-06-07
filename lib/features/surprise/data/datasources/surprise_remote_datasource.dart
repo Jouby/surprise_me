@@ -17,8 +17,9 @@ class SurpriseRemoteDatasource {
   /// Deux requêtes distinctes pour que Supabase ne renvoie jamais le creator_token.
   Future<({List<SurpriseModel> owned, List<SurpriseModel> joined})>
   getSurprises(List<String> codes, String userToken) async {
-    if (codes.isEmpty)
+    if (codes.isEmpty) {
       return (owned: <SurpriseModel>[], joined: <SurpriseModel>[]);
+    }
 
     final ownedRes = await _client
         .from('surprises')

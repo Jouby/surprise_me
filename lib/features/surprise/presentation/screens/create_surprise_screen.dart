@@ -63,6 +63,7 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
       });
     } catch (e) {
       setState(() => _saving = false);
+      if (!mounted) return;
       _showSnack(context.l10n.errorPrefix(e.toString()));
     }
   }

@@ -45,7 +45,9 @@ class _ImagePickerFieldState extends State<ImagePickerField> {
       maxWidth: 1920,
     );
     if (xfile == null) return;
+    if (!mounted) return;
 
+    final uploadErrorMsg = context.l10n.uploadError;
     final file = File(xfile.path);
     setState(() {
       _file = file;
@@ -53,8 +55,6 @@ class _ImagePickerFieldState extends State<ImagePickerField> {
       _error = null;
     });
     widget.onUploaded(null);
-
-    final uploadErrorMsg = context.l10n.uploadError;
     try {
       final url = await uploadImage(file);
       widget.onUploaded(url);
