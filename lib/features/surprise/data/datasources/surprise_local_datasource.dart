@@ -6,8 +6,6 @@ class SurpriseLocalDatasource {
   static const _allCodesKey = 'joined_surprise_codes';
   static const _userTokenKey = 'user_creator_token';
 
-  // Conservé uniquement pour la rétrocompatibilité (surprises créées avant la migration).
-  static const _legacyTokenPrefix = 'creator_token_';
 
   // ── Token utilisateur ──────────────────────────────────────────────────────
 
@@ -28,13 +26,9 @@ class SurpriseLocalDatasource {
     await prefs.setString(_userTokenKey, token);
   }
 
-  /// Retourne le token à utiliser pour une surprise donnée :
-  /// - D'abord l'éventuel token legacy par surprise (créé avant la migration).
-  /// - Sinon le token utilisateur global.
+  /// Retourne le token utilisateur (null si jamais initialisé, ce qui ne devrait pas arriver).
   Future<String?> getCreatorToken(String surpriseId) async {
     final prefs = await SharedPreferences.getInstance();
-    final legacy = prefs.getString('$_legacyTokenPrefix$surpriseId');
-    if (legacy != null) return legacy;
     return prefs.getString(_userTokenKey);
   }
 
