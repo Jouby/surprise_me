@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import '../../domain/entities/surprise.dart';
 import '../../domain/repositories/i_surprise_repository.dart';
@@ -32,6 +33,7 @@ class SurpriseRepositoryImpl implements ISurpriseRepository {
     required List<Map<String, dynamic>> elements,
   }) async {
     final userToken = await _local.getUserToken();
+    final shareCode = _generateShareCode();
     final result = await _remote.createSurprise(
       emoji: emoji,
       title: title,
@@ -39,6 +41,7 @@ class SurpriseRepositoryImpl implements ISurpriseRepository {
       color: color,
       elements: elements,
       creatorToken: userToken,
+      shareCode: shareCode,
     );
     return result.shareCode;
   }
@@ -145,4 +148,11 @@ class SurpriseRepositoryImpl implements ISurpriseRepository {
   @override
   Future<String?> getCreatorToken(String surpriseId) =>
       _local.getCreatorToken(surpriseId);
+
+  /// Génère un code de partage de 6 caractères (logique métier, sans réseau).
+  static String _generateShareCode() {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    final rng = Random.secure();
+    return List.generate(6, (_) => chars[rng.nextInt(chars.length)]).join();
+  }
 }

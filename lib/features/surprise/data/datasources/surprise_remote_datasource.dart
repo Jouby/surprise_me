@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -61,8 +60,8 @@ class SurpriseRemoteDatasource {
     required String color,
     required List<Map<String, dynamic>> elements,
     required String creatorToken,
+    required String shareCode,
   }) async {
-    final shareCode = _generateCode();
     final row = await _client
         .from('surprises')
         .insert({
@@ -212,11 +211,5 @@ class SurpriseRemoteDatasource {
           fileOptions: FileOptions(contentType: mimeType, upsert: false),
         );
     return _client.storage.from('surprise-images').getPublicUrl(path);
-  }
-
-  static String _generateCode() {
-    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-    final rng = Random.secure();
-    return List.generate(6, (_) => chars[rng.nextInt(chars.length)]).join();
   }
 }
