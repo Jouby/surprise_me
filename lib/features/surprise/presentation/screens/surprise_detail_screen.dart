@@ -38,9 +38,21 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
 
   bool _tokenMissing = false;
 
+  /// Couleur thème parsée une seule fois, recalculée si la surprise change.
+  late Color _themeColor;
+
+  @override
+  void didUpdateWidget(SurpriseDetailScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.surprise.color != widget.surprise.color) {
+      _themeColor = ColorUtils.fromHex(widget.surprise.color);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    _themeColor = ColorUtils.fromHex(surprise.color);
     if (isOwner) _checkToken();
     if (!isOwner && !previewMode) _loadUnlockedCodes();
   }
@@ -73,7 +85,7 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
       builder: (_) => UnlockBottomSheet(
         provider: provider,
         surpriseId: surprise.id,
-        themeColor: ColorUtils.fromHex(surprise.color),
+        themeColor: _themeColor,
       ),
     );
   }
@@ -82,10 +94,7 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (_) => _ShareSheet(
-        surprise: surprise,
-        themeColor: ColorUtils.fromHex(surprise.color),
-      ),
+      builder: (_) => _ShareSheet(surprise: surprise, themeColor: _themeColor),
     );
   }
 
@@ -128,7 +137,7 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
                           surprise.id,
                           surprise.elements[index].unlockCode,
                         ),
-                        themeColor: ColorUtils.fromHex(surprise.color),
+                        themeColor: _themeColor,
                       ),
                       childCount: surprise.elements.length,
                     ),
@@ -150,7 +159,7 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
   }
 
   Future<void> _confirmDelete(BuildContext context) async {
-    final themeColor = ColorUtils.fromHex(surprise.color);
+    final themeColor = _themeColor;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -256,7 +265,7 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
                     element: surprise.elements[index],
                     isUnlocked: true,
                     ownerMode: true,
-                    themeColor: ColorUtils.fromHex(surprise.color),
+                    themeColor: _themeColor,
                   ),
                   childCount: surprise.elements.length,
                 ),
@@ -305,7 +314,7 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
                   (context, index) => ElementTile(
                     element: surprise.elements[index],
                     isUnlocked: true,
-                    themeColor: ColorUtils.fromHex(surprise.color),
+                    themeColor: _themeColor,
                   ),
                   childCount: total,
                 ),
@@ -391,7 +400,7 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
   }
 
   Widget _buildOwnerBanner(BuildContext context) {
-    final themeColor = ColorUtils.fromHex(surprise.color);
+    final themeColor = _themeColor;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
@@ -465,7 +474,7 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
   }
 
   Widget _buildOwnerBottomBar(BuildContext context) {
-    final themeColor = ColorUtils.fromHex(surprise.color);
+    final themeColor = _themeColor;
     const previewColor = AppTheme.preview;
     return Container(
       decoration: BoxDecoration(
@@ -566,11 +575,7 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(color: AppTheme.divider),
               ),
-              child: Icon(
-                Icons.edit_rounded,
-                size: 16,
-                color: ColorUtils.fromHex(surprise.color),
-              ),
+              child: Icon(Icons.edit_rounded, size: 16, color: _themeColor),
             ),
           ),
         ),
@@ -639,11 +644,7 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(color: AppTheme.divider),
               ),
-              child: Icon(
-                Icons.share_rounded,
-                size: 16,
-                color: ColorUtils.fromHex(surprise.color),
-              ),
+              child: Icon(Icons.share_rounded, size: 16, color: _themeColor),
             ),
           ),
         ),
@@ -671,7 +672,7 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
   }
 
   Widget _buildHero(BuildContext context) {
-    final themeColor = ColorUtils.fromHex(surprise.color);
+    final themeColor = _themeColor;
     final themeLight = ColorUtils.lighten(themeColor);
     return Container(
       width: double.infinity,
@@ -718,7 +719,7 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
   }
 
   Widget _buildProgressBar(BuildContext context, int unlocked, int total) {
-    final themeColor = ColorUtils.fromHex(surprise.color);
+    final themeColor = _themeColor;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
       decoration: BoxDecoration(
@@ -765,7 +766,7 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
   }
 
   Widget _buildBottomBar(BuildContext context, UnlockProvider provider) {
-    final themeColor = ColorUtils.fromHex(surprise.color);
+    final themeColor = _themeColor;
     return Container(
       decoration: BoxDecoration(
         color: AppTheme.surface,
