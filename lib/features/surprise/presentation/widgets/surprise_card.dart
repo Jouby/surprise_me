@@ -28,7 +28,7 @@ class SurpriseCard extends StatelessWidget {
     final unlockProvider = context.watch<UnlockProvider>();
     final unlocked = isOwner
         ? total
-        : surprise.elements.where((e) => unlockProvider.isUnlocked(e.unlockCode)).length;
+        : surprise.elements.where((e) => unlockProvider.isUnlocked(surprise.id, e.unlockCode)).length;
     final showProgress = !isOwner && total > 0;
 
     return GestureDetector(

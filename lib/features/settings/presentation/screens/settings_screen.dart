@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import '../../../../core/l10n/l10n.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../surprise/domain/repositories/i_surprise_repository.dart';
-import '../../../unlock/data/datasources/unlock_local_datasource.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -17,7 +16,6 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   String? _userToken;
   List<String> _savedShareCodes = [];
-  int _unlockedCount = 0;
   bool _loading = true;
 
   @override
@@ -31,14 +29,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     final userToken = await repo.getUserToken();
     final savedCodes = await repo.getSavedCodes();
-    final unlockedDs = UnlockLocalDatasource();
-    final unlockedCodes = await unlockedDs.loadCodes();
 
     if (mounted) {
       setState(() {
         _userToken = userToken;
         _savedShareCodes = savedCodes;
-        _unlockedCount = unlockedCodes.length;
         _loading = false;
       });
     }
@@ -126,20 +121,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  children: [
-                    _DataRow(
-                      icon: Icons.qr_code_rounded,
-                      label: context.l10n.savedShareCodes,
-                      value: _savedShareCodes.length.toString(),
-                    ),
-                    const SizedBox(height: 8),
-                    _DataRow(
-                      icon: Icons.lock_open_rounded,
-                      label: context.l10n.unlockedCodes,
-                      value: _unlockedCount.toString(),
-                    ),
-                  ],
+                child: _DataRow(
+                  icon: Icons.qr_code_rounded,
+                  label: context.l10n.savedShareCodes,
+                  value: _savedShareCodes.length.toString(),
                 ),
               ),
             ),

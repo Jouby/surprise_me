@@ -1,19 +1,20 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UnlockLocalDatasource {
-  static const _key = 'unlocked_codes';
+  static String _key(String surpriseId) => 'unlocked_codes_$surpriseId';
 
-  Future<Set<String>> loadCodes() async {
+  Future<Set<String>> loadCodes(String surpriseId) async {
     final prefs = await SharedPreferences.getInstance();
-    return (prefs.getStringList(_key) ?? []).toSet();
+    return (prefs.getStringList(_key(surpriseId)) ?? []).toSet();
   }
 
-  Future<void> saveCode(String code) async {
+  Future<void> saveCode(String surpriseId, String code) async {
     final prefs = await SharedPreferences.getInstance();
-    final codes = prefs.getStringList(_key) ?? [];
+    final key = _key(surpriseId);
+    final codes = prefs.getStringList(key) ?? [];
     if (!codes.contains(code)) {
       codes.add(code);
-      await prefs.setStringList(_key, codes);
+      await prefs.setStringList(key, codes);
     }
   }
 }

@@ -15,14 +15,19 @@ class UnlockProvider extends ChangeNotifier {
     required IUnlockRepository repository,
   })  : _tryUnlock = tryUnlock,
         _isUnlocked = isUnlocked,
-        _repository = repository {
-    _repository.loadCodes().then((_) => notifyListeners());
+        _repository = repository;
+
+  /// Charge les codes débloqués pour une surprise donnée (idempotent).
+  Future<void> loadCodesForSurprise(String surpriseId) async {
+    await _repository.loadCodesForSurprise(surpriseId);
+    notifyListeners();
   }
 
-  bool isUnlocked(String code) => _isUnlocked(code);
+  bool isUnlocked(String surpriseId, String code) =>
+      _isUnlocked(surpriseId, code);
 
-  Future<bool> tryUnlock(String code) async {
-    final ok = await _tryUnlock(code);
+  Future<bool> tryUnlock(String surpriseId, String code) async {
+    final ok = await _tryUnlock(surpriseId, code);
     if (ok) notifyListeners();
     return ok;
   }

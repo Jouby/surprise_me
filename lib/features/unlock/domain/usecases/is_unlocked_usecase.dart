@@ -4,5 +4,6 @@ class IsUnlockedUseCase {
   final IUnlockRepository _repository;
   const IsUnlockedUseCase(this._repository);
 
-  bool call(String code) => _repository.isUnlocked(code.toUpperCase());
+  bool call(String surpriseId, String code) =>
+      _repository.isUnlocked(surpriseId, code.toUpperCase());
 }

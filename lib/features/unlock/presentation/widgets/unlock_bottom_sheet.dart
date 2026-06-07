@@ -7,11 +7,13 @@ import '../../../../core/l10n/l10n.dart';
 
 class UnlockBottomSheet extends StatefulWidget {
   final UnlockProvider provider;
+  final String surpriseId;
   final Color themeColor;
 
   const UnlockBottomSheet({
     super.key,
     required this.provider,
+    required this.surpriseId,
     this.themeColor = AppTheme.primary,
   });
 
@@ -43,7 +45,7 @@ class _UnlockBottomSheetState extends State<UnlockBottomSheet> {
     });
 
     await Future.delayed(const Duration(milliseconds: 400));
-    final ok = await widget.provider.tryUnlock(code);
+    final ok = await widget.provider.tryUnlock(widget.surpriseId, code);
 
     setState(() {
       _loading = false;

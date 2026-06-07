@@ -40,6 +40,11 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
   void initState() {
     super.initState();
     if (isOwner) _checkToken();
+    if (!isOwner && !previewMode) _loadUnlockedCodes();
+  }
+
+  Future<void> _loadUnlockedCodes() async {
+    await context.read<UnlockProvider>().loadCodesForSurprise(surprise.id);
   }
 
   Future<void> _checkToken() async {
@@ -55,6 +60,7 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
       backgroundColor: Colors.transparent,
       builder: (_) => UnlockBottomSheet(
         provider: provider,
+        surpriseId: surprise.id,
         themeColor: ColorUtils.fromHex(surprise.color),
       ),
     );
@@ -78,8 +84,9 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
 
     return Consumer<UnlockProvider>(
       builder: (context, provider, _) {
-        final unlockedCount =
-            surprise.elements.where((e) => provider.isUnlocked(e.unlockCode)).length;
+        final unlockedCount = surprise.elements
+            .where((e) => provider.isUnlocked(surprise.id, e.unlockCode))
+            .length;
         final total = surprise.elements.length;
 
         return Scaffold(
@@ -106,7 +113,7 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
                       (context, index) => ElementTile(
                         element: surprise.elements[index],
                         isUnlocked: provider.isUnlocked(
-                            surprise.elements[index].unlockCode),
+                            surprise.id, surprise.elements[index].unlockCode),
                         themeColor: ColorUtils.fromHex(surprise.color),
                       ),
                       childCount: surprise.elements.length,

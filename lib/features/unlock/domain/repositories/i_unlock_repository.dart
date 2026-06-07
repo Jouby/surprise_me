@@ -1,5 +1,5 @@
 abstract class IUnlockRepository {
-  bool isUnlocked(String code);
-  Future<void> unlock(String code);
-  Future<void> loadCodes();
+  bool isUnlocked(String surpriseId, String code);
+  Future<void> unlock(String surpriseId, String code);
+  Future<void> loadCodesForSurprise(String surpriseId);
 }

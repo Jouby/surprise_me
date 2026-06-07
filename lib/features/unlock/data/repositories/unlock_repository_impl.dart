@@ -3,21 +3,26 @@ import '../datasources/unlock_local_datasource.dart';
 
 class UnlockRepositoryImpl implements IUnlockRepository {
   final UnlockLocalDatasource _local;
-  Set<String> _codes = {};
+
+  // Cache en mémoire : surpriseId → Set<code>
+  final Map<String, Set<String>> _cache = {};
 
   UnlockRepositoryImpl(this._local);
 
   @override
-  bool isUnlocked(String code) => _codes.contains(code.toUpperCase());
+  bool isUnlocked(String surpriseId, String code) =>
+      _cache[surpriseId]?.contains(code.toUpperCase()) ?? false;
 
   @override
-  Future<void> unlock(String code) async {
-    _codes.add(code.toUpperCase());
-    await _local.saveCode(code.toUpperCase());
+  Future<void> unlock(String surpriseId, String code) async {
+    final upper = code.toUpperCase();
+    _cache.putIfAbsent(surpriseId, () => {}).add(upper);
+    await _local.saveCode(surpriseId, upper);
   }
 
   @override
-  Future<void> loadCodes() async {
-    _codes = await _local.loadCodes();
+  Future<void> loadCodesForSurprise(String surpriseId) async {
+    if (_cache.containsKey(surpriseId)) return; // déjà chargé
+    _cache[surpriseId] = await _local.loadCodes(surpriseId);
   }
 }
