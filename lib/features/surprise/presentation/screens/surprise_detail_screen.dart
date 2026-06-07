@@ -12,7 +12,6 @@ import '../../../../core/utils/color_utils.dart';
 import '../../../unlock/presentation/providers/unlock_provider.dart';
 import '../../../unlock/presentation/widgets/unlock_bottom_sheet.dart';
 import '../../domain/entities/surprise.dart';
-import '../../domain/repositories/i_surprise_repository.dart';
 import '../providers/surprise_provider.dart';
 import '../widgets/element_tile.dart';
 
@@ -56,8 +55,9 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
 
   Future<void> _checkToken() async {
     try {
-      final repo = context.read<ISurpriseRepository>();
-      final token = await repo.getCreatorToken(surprise.id);
+      final token = await context.read<SurpriseProvider>().getCreatorToken(
+        surprise.id,
+      );
       if (mounted) setState(() => _tokenMissing = token == null);
     } catch (_) {
       // En cas d'erreur, on suppose que le token est absent pour sécurité.
@@ -458,7 +458,7 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
       context: context,
       builder: (_) => _TokenRecoveryDialog(
         surpriseId: surprise.id,
-        repo: context.read<ISurpriseRepository>(),
+        provider: context.read<SurpriseProvider>(),
       ),
     );
     if (linked == true && mounted) setState(() => _tokenMissing = false);
@@ -800,9 +800,12 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
 
 class _TokenRecoveryDialog extends StatefulWidget {
   final String surpriseId;
-  final ISurpriseRepository repo;
+  final SurpriseProvider provider;
 
-  const _TokenRecoveryDialog({required this.surpriseId, required this.repo});
+  const _TokenRecoveryDialog({
+    required this.surpriseId,
+    required this.provider,
+  });
 
   @override
   State<_TokenRecoveryDialog> createState() => _TokenRecoveryDialogState();
@@ -828,7 +831,7 @@ class _TokenRecoveryDialogState extends State<_TokenRecoveryDialog> {
       _error = null;
     });
 
-    final valid = await widget.repo.verifyAndSaveCreatorToken(
+    final valid = await widget.provider.verifyAndLinkToken(
       surpriseId: widget.surpriseId,
       token: token,
     );

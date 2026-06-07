@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import '../../domain/entities/surprise.dart';
 import '../../domain/usecases/create_surprise_usecase.dart';
 import '../../domain/usecases/delete_surprise_usecase.dart';
+import '../../domain/repositories/i_surprise_repository.dart';
 import '../../domain/usecases/fetch_surprises_usecase.dart';
 import '../../domain/usecases/join_surprise_usecase.dart';
 import '../../domain/usecases/update_surprise_usecase.dart';
@@ -15,6 +16,7 @@ class SurpriseProvider extends ChangeNotifier {
   final JoinSurpriseUseCase _joinSurprise;
   final DeleteSurpriseUseCase _deleteSurprise;
   final UpdateSurpriseUseCase _updateSurprise;
+  final ISurpriseRepository _repository;
 
   SurpriseProvider({
     required FetchSurprisesUseCase fetchSurprises,
@@ -22,11 +24,13 @@ class SurpriseProvider extends ChangeNotifier {
     required JoinSurpriseUseCase joinSurprise,
     required DeleteSurpriseUseCase deleteSurprise,
     required UpdateSurpriseUseCase updateSurprise,
+    required ISurpriseRepository repository,
   }) : _fetchSurprises = fetchSurprises,
        _createSurprise = createSurprise,
        _joinSurprise = joinSurprise,
        _deleteSurprise = deleteSurprise,
-       _updateSurprise = updateSurprise {
+       _updateSurprise = updateSurprise,
+       _repository = repository {
     load();
   }
 
@@ -79,6 +83,20 @@ class SurpriseProvider extends ChangeNotifier {
       return null;
     }
   }
+
+  /// Vérifie un token de créateur et le sauvegarde si valide.
+  /// Retourne true si le token est accepté par Supabase.
+  Future<bool> verifyAndLinkToken({
+    required String surpriseId,
+    required String token,
+  }) => _repository.verifyAndSaveCreatorToken(
+    surpriseId: surpriseId,
+    token: token,
+  );
+
+  /// Retourne le creator token pour une surprise (lecture locale).
+  Future<String?> getCreatorToken(String surpriseId) =>
+      _repository.getCreatorToken(surpriseId);
 
   Future<void> update(UpdateSurpriseParams params) async {
     await _updateSurprise(params);
