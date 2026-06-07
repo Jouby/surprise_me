@@ -693,6 +693,66 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Quitter l\'aperçu'**
   String get exitPreview;
+
+  /// No description provided for @settings.
+  ///
+  /// In fr, this message translates to:
+  /// **'Paramètres'**
+  String get settings;
+
+  /// No description provided for @creatorTokens.
+  ///
+  /// In fr, this message translates to:
+  /// **'Creator tokens'**
+  String get creatorTokens;
+
+  /// No description provided for @creatorTokensHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ces tokens prouvent que vous êtes le créateur d\'une surprise. Conservez-les précieusement — ils permettent de lier un nouvel appareil à vos surprises.'**
+  String get creatorTokensHint;
+
+  /// No description provided for @noCreatedSurprises.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucune surprise créée sur cet appareil.'**
+  String get noCreatedSurprises;
+
+  /// No description provided for @tokenCopied.
+  ///
+  /// In fr, this message translates to:
+  /// **'Token copié !'**
+  String get tokenCopied;
+
+  /// No description provided for @surpriseId.
+  ///
+  /// In fr, this message translates to:
+  /// **'ID : {id}'**
+  String surpriseId(String id);
+
+  /// No description provided for @localData.
+  ///
+  /// In fr, this message translates to:
+  /// **'Données locales'**
+  String get localData;
+
+  /// No description provided for @localDataHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ces données sont stockées uniquement sur cet appareil.'**
+  String get localDataHint;
+
+  /// No description provided for @savedShareCodes.
+  ///
+  /// In fr, this message translates to:
+  /// **'Codes de partage enregistrés'**
+  String get savedShareCodes;
+
+  /// No description provided for @unlockedCodes.
+  ///
+  /// In fr, this message translates to:
+  /// **'Codes de déverrouillage mémorisés'**
+  String get unlockedCodes;
 }
 
 class _AppLocalizationsDelegate

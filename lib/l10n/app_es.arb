@@ -145,5 +145,21 @@
 
   "preview": "Vista previa",
   "previewBanner": "Estás viendo la sorpresa como la verá el destinatario · Todos los elementos están desbloqueados",
-  "exitPreview": "Salir de la vista previa"
+  "exitPreview": "Salir de la vista previa",
+
+  "settings": "Ajustes",
+  "creatorTokens": "Creator tokens",
+  "creatorTokensHint": "Estos tokens demuestran que eres el creador de una sorpresa. Guárdalos en un lugar seguro — permiten vincular un nuevo dispositivo a tus sorpresas.",
+  "noCreatedSurprises": "Ninguna sorpresa creada en este dispositivo.",
+  "tokenCopied": "¡Token copiado!",
+  "surpriseId": "ID: {id}",
+  "@surpriseId": {
+    "placeholders": {
+      "id": { "type": "String" }
+    }
+  },
+  "localData": "Datos locales",
+  "localDataHint": "Estos datos se almacenan únicamente en este dispositivo.",
+  "savedShareCodes": "Códigos de compartición guardados",
+  "unlockedCodes": "Códigos de desbloqueo memorizados"
 }

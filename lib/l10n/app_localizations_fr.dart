@@ -329,4 +329,38 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get exitPreview => 'Quitter l\'aperçu';
+
+  @override
+  String get settings => 'Paramètres';
+
+  @override
+  String get creatorTokens => 'Creator tokens';
+
+  @override
+  String get creatorTokensHint =>
+      'Ces tokens prouvent que vous êtes le créateur d\'une surprise. Conservez-les précieusement — ils permettent de lier un nouvel appareil à vos surprises.';
+
+  @override
+  String get noCreatedSurprises => 'Aucune surprise créée sur cet appareil.';
+
+  @override
+  String get tokenCopied => 'Token copié !';
+
+  @override
+  String surpriseId(String id) {
+    return 'ID : $id';
+  }
+
+  @override
+  String get localData => 'Données locales';
+
+  @override
+  String get localDataHint =>
+      'Ces données sont stockées uniquement sur cet appareil.';
+
+  @override
+  String get savedShareCodes => 'Codes de partage enregistrés';
+
+  @override
+  String get unlockedCodes => 'Codes de déverrouillage mémorisés';
 }

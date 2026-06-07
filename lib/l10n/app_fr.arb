@@ -325,5 +325,39 @@
   "@previewBanner": {},
 
   "exitPreview": "Quitter l'aperçu",
-  "@exitPreview": {}
+  "@exitPreview": {},
+
+  "settings": "Paramètres",
+  "@settings": {},
+
+  "creatorTokens": "Creator tokens",
+  "@creatorTokens": {},
+
+  "creatorTokensHint": "Ces tokens prouvent que vous êtes le créateur d'une surprise. Conservez-les précieusement — ils permettent de lier un nouvel appareil à vos surprises.",
+  "@creatorTokensHint": {},
+
+  "noCreatedSurprises": "Aucune surprise créée sur cet appareil.",
+  "@noCreatedSurprises": {},
+
+  "tokenCopied": "Token copié !",
+  "@tokenCopied": {},
+
+  "surpriseId": "ID : {id}",
+  "@surpriseId": {
+    "placeholders": {
+      "id": { "type": "String" }
+    }
+  },
+
+  "localData": "Données locales",
+  "@localData": {},
+
+  "localDataHint": "Ces données sont stockées uniquement sur cet appareil.",
+  "@localDataHint": {},
+
+  "savedShareCodes": "Codes de partage enregistrés",
+  "@savedShareCodes": {},
+
+  "unlockedCodes": "Codes de déverrouillage mémorisés",
+  "@unlockedCodes": {}
 }

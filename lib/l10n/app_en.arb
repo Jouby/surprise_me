@@ -145,5 +145,21 @@
 
   "preview": "Preview",
   "previewBanner": "You are seeing the surprise as the recipient will · All elements are unlocked",
-  "exitPreview": "Exit preview"
+  "exitPreview": "Exit preview",
+
+  "settings": "Settings",
+  "creatorTokens": "Creator tokens",
+  "creatorTokensHint": "These tokens prove you are the creator of a surprise. Keep them safe — they allow you to link a new device to your surprises.",
+  "noCreatedSurprises": "No surprises created on this device.",
+  "tokenCopied": "Token copied!",
+  "surpriseId": "ID: {id}",
+  "@surpriseId": {
+    "placeholders": {
+      "id": { "type": "String" }
+    }
+  },
+  "localData": "Local data",
+  "localDataHint": "This data is stored only on this device.",
+  "savedShareCodes": "Saved share codes",
+  "unlockedCodes": "Memorised unlock codes"
 }

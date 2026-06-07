@@ -8,6 +8,7 @@ import '../../../../core/l10n/l10n.dart';
 import '../widgets/surprise_card.dart';
 import 'create_surprise_screen.dart';
 import 'surprise_detail_screen.dart';
+import '../../../../features/settings/presentation/screens/settings_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -140,12 +141,20 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: AppTheme.surface,
       surfaceTintColor: Colors.transparent,
       actions: [
+        IconButton(
+          onPressed: provider.isLoading ? null : provider.load,
+          icon: const Icon(Icons.refresh_rounded, color: AppTheme.textMid),
+          tooltip: context.l10n.refresh,
+        ),
         Padding(
-          padding: const EdgeInsets.only(right: 16),
+          padding: const EdgeInsets.only(right: 8),
           child: IconButton(
-            onPressed: provider.isLoading ? null : provider.load,
-            icon: const Icon(Icons.refresh_rounded, color: AppTheme.textMid),
-            tooltip: context.l10n.refresh,
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const SettingsScreen()),
+            ),
+            icon: const Icon(Icons.settings_outlined, color: AppTheme.textMid),
+            tooltip: context.l10n.settings,
           ),
         ),
       ],
