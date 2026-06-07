@@ -122,6 +122,10 @@ class SurpriseRepositoryImpl implements ISurpriseRepository {
       surpriseId: surpriseId,
       token: token,
     );
+    // Ce chemin n'est atteint que si user_creator_token est null sur cet appareil
+    // (contrôlé par _checkToken → _tokenMissing dans SurpriseDetailScreen).
+    // On sauvegarde donc le token vérifié comme token utilisateur pour cet appareil,
+    // ce qui est le comportement attendu pour la récupération sur un nouvel appareil.
     if (valid) await _local.saveUserToken(token);
     return valid;
   }
