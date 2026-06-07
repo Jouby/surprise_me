@@ -53,6 +53,9 @@ Future<void> main() async {
   final surpriseLocalDs = SurpriseLocalDatasource();
   final surpriseRepo = SurpriseRepositoryImpl(surpriseRemoteDs, surpriseLocalDs);
 
+  // Génère le token utilisateur dès le démarrage s'il n'existe pas encore.
+  await surpriseLocalDs.getUserToken();
+
   final fetchSurprises = FetchSurprisesUseCase(surpriseRepo);
   final createSurprise = CreateSurpriseUseCase(surpriseRepo);
   final joinSurprise = JoinSurpriseUseCase(surpriseRepo);
