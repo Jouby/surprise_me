@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../../../core/config/supabase_config.dart';
 import '../../../../core/l10n/l10n.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_theme.dart';
@@ -978,7 +979,7 @@ class _ShareSheet extends StatelessWidget {
                 child: OutlinedButton.icon(
                   onPressed: () {
                     final link =
-                        'https://jouby.github.io/surprise_me/join/${surprise.shareCode}';
+                        AppConfig.shareUrl(surprise.shareCode);
                     Clipboard.setData(ClipboardData(text: link));
                     Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -1009,7 +1010,7 @@ class _ShareSheet extends StatelessWidget {
                 child: ElevatedButton.icon(
                   onPressed: () {
                     final link =
-                        'https://jouby.github.io/surprise_me/join/${surprise.shareCode}';
+                        AppConfig.shareUrl(surprise.shareCode);
                     Share.share(
                       context.l10n.shareMessage(link, surprise.shareCode),
                     );

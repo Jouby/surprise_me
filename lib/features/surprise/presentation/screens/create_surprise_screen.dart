@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import '../../../../core/config/supabase_config.dart';
 import '../../../../core/l10n/l10n.dart';
 import '../../domain/entities/element_draft.dart';
 import '../providers/surprise_provider.dart';
@@ -326,7 +327,7 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
                     child: OutlinedButton.icon(
                       onPressed: () {
                         final link =
-                            'https://jouby.github.io/surprise_me/join/$_createdCode';
+                            AppConfig.shareUrl(_createdCode!);
                         Clipboard.setData(ClipboardData(text: link));
                         _showSnack(context.l10n.linkCopied);
                       },
@@ -350,7 +351,7 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
                     child: ElevatedButton.icon(
                       onPressed: () {
                         final link =
-                            'https://jouby.github.io/surprise_me/join/$_createdCode';
+                            AppConfig.shareUrl(_createdCode!);
                         Share.share(
                           context.l10n.shareMessage(link, _createdCode!),
                         );

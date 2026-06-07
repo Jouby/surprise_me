@@ -119,7 +119,7 @@ class _SurpriseMeAppState extends State<SurpriseMeApp> {
   /// Extrait le code de partage depuis un URI deep link.
   /// Formats supportés :
   ///   surpriseme://join/CODE
-  ///   https://jouby.github.io/surprise_me/join/CODE
+  ///   ${AppConfig.shareBaseUrl}/CODE
   String? _extractCode(Uri uri) {
     // Scheme custom
     if (uri.scheme == 'surpriseme' && uri.host == 'join') {
