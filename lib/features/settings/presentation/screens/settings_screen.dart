@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/l10n/l10n.dart';
-import '../../../../core/services/local_cleanup_service.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../surprise/presentation/providers/surprise_provider.dart';
 
@@ -63,7 +62,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     if (confirmed != true || !mounted) return;
 
     setState(() => _clearingData = true);
-    await LocalCleanupService().clearAll();
+    await context.read<SurpriseProvider>().clearAllData();
     if (mounted) {
       setState(() => _clearingData = false);
       ScaffoldMessenger.of(context).showSnackBar(

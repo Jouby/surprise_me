@@ -113,6 +113,35 @@ class SurpriseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Supprime toutes les données de l'appareil :
+  /// - Supprime les surprises créées sur Supabase
+  /// - Vide la liste des codes de partage locaux (surprises rejointes)
+  /// - Nettoie toute la progression des jeux
+  Future<void> clearAllData() async {
+    final owned = List<Surprise>.from(_ownedSurprises);
+
+    // Supprime chaque surprise créée sur Supabase en parallèle.
+    await Future.wait(
+      owned.map(
+        (s) => _deleteSurprise(
+          surpriseId: s.id,
+          shareCode: s.shareCode,
+          isOwner: true,
+        ).catchError((_) {}), // on continue même si une suppression échoue
+      ),
+    );
+
+    // Vide les codes locaux (surprises rejointes + créées) et toute la progression.
+    await Future.wait([
+      _fetchSurprises.repository.clearJoinedCodes(),
+      LocalCleanupService().clearAll(),
+    ]);
+
+    _ownedSurprises = [];
+    _joinedSurprises = [];
+    notifyListeners();
+  }
+
   Future<String> create({
     required String emoji,
     required String title,

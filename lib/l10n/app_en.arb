@@ -169,7 +169,7 @@
   "clearLocalDataTitle": "Delete local data?",
   "@clearLocalDataTitle": {},
 
-  "clearLocalDataContent": "Unlocked codes, found Motus words, cracked secret codes and scratched elements will be erased on this device. This action cannot be undone.",
+  "clearLocalDataContent": "Surprises you created will be permanently deleted. Joined surprises and all game progress (unlocked codes, Motus words, secret codes, scratched elements) will be erased from this device. This action cannot be undone.",
   "@clearLocalDataContent": {},
 
   "clearLocalDataConfirm": "Delete",

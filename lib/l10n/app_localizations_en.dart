@@ -369,7 +369,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get clearLocalDataContent =>
-      'Unlocked codes, found Motus words, cracked secret codes and scratched elements will be erased on this device. This action cannot be undone.';
+      'Surprises you created will be permanently deleted. Joined surprises and all game progress (unlocked codes, Motus words, secret codes, scratched elements) will be erased from this device. This action cannot be undone.';
 
   @override
   String get clearLocalDataConfirm => 'Delete';

@@ -769,7 +769,7 @@ abstract class AppLocalizations {
   /// No description provided for @clearLocalDataContent.
   ///
   /// In fr, this message translates to:
-  /// **'Codes déverrouillés, mots Motus trouvés, codes secrets déchiffrés et éléments grattés seront effacés sur cet appareil. Cette action est irréversible.'**
+  /// **'Les surprises que vous avez créées seront supprimées définitivement. Les surprises rejointes et toute la progression des jeux (codes déverrouillés, mots Motus, codes secrets, éléments grattés) seront effacés de cet appareil. Cette action est irréversible.'**
   String get clearLocalDataContent;
 
   /// No description provided for @clearLocalDataConfirm.

@@ -374,7 +374,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get clearLocalDataContent =>
-      'Los códigos desbloqueados, palabras de Motus encontradas, códigos secretos descifrados y elementos rascados serán borrados en este dispositivo. Esta acción es irreversible.';
+      'Las sorpresas que creaste serán eliminadas permanentemente. Las sorpresas unidas y todo el progreso de los juegos (códigos desbloqueados, palabras de Motus, códigos secretos, elementos rascados) serán borrados de este dispositivo. Esta acción es irreversible.';
 
   @override
   String get clearLocalDataConfirm => 'Eliminar';

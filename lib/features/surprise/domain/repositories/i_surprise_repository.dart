@@ -54,6 +54,7 @@ abstract class ISurpriseRepository {
   Future<List<String>> getSavedCodes();
   Future<void> saveCode(String code);
   Future<void> removeCode(String code);
+  Future<void> clearJoinedCodes();
 
   /// Retourne le token utilisateur unique (le génère si absent).
   Future<String> getUserToken();

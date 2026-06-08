@@ -368,7 +368,7 @@
   "clearLocalDataTitle": "Supprimer les données locales ?",
   "@clearLocalDataTitle": {},
 
-  "clearLocalDataContent": "Codes déverrouillés, mots Motus trouvés, codes secrets déchiffrés et éléments grattés seront effacés sur cet appareil. Cette action est irréversible.",
+  "clearLocalDataContent": "Les surprises que vous avez créées seront supprimées définitivement. Les surprises rejointes et toute la progression des jeux (codes déverrouillés, mots Motus, codes secrets, éléments grattés) seront effacés de cet appareil. Cette action est irréversible.",
   "@clearLocalDataContent": {},
 
   "clearLocalDataConfirm": "Supprimer",

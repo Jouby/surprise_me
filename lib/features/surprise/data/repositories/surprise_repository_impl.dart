@@ -126,6 +126,9 @@ class SurpriseRepositoryImpl implements ISurpriseRepository {
   Future<void> removeCode(String code) => _local.removeCode(code);
 
   @override
+  Future<void> clearJoinedCodes() => _local.clearJoinedCodes();
+
+  @override
   Future<String> getUserToken() => _local.getUserToken();
 
   @override

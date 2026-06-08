@@ -48,6 +48,11 @@ class SurpriseLocalDatasource {
     await prefs.setStringList(_allCodesKey, codes);
   }
 
+  Future<void> clearJoinedCodes() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_allCodesKey);
+  }
+
   // ── UUID v4 ────────────────────────────────────────────────────────────────
 
   /// Génère un UUID v4 aléatoire (format xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx).

@@ -30,6 +30,9 @@ class _FakeSurpriseRepository implements ISurpriseRepository {
   Future<void> removeCode(String code) async => savedCodes.remove(code);
 
   @override
+  Future<void> clearJoinedCodes() async => savedCodes.clear();
+
+  @override
   Future<String?> getCreatorToken(String surpriseId) async => creatorToken;
 
   @override
