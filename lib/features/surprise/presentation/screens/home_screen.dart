@@ -7,6 +7,7 @@ import '../../../../core/l10n/l10n.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/utils/text_formatters.dart';
+import '../../../unlock/presentation/providers/unlock_provider.dart';
 import '../providers/surprise_provider.dart';
 import '../widgets/surprise_card.dart';
 
@@ -21,6 +22,39 @@ class _HomeScreenState extends State<HomeScreen> {
   // Dernier code de join traité — évite d'ouvrir la sheet plusieurs fois
   // pour le même deep link.
   String? _lastHandledJoinCode;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      // Charge les codes au premier affichage puis à chaque mise à jour.
+      final surpriseProvider = context.read<SurpriseProvider>();
+      surpriseProvider.addListener(_onSurprisesChanged);
+      _loadUnlockCodesForJoined();
+    });
+  }
+
+  @override
+  void dispose() {
+    // Retire le listener proprement pour éviter les fuites mémoire.
+    // On lit le provider via le contexte avant qu'il soit détaché.
+    try {
+      context.read<SurpriseProvider>().removeListener(_onSurprisesChanged);
+    } catch (_) {}
+    super.dispose();
+  }
+
+  void _onSurprisesChanged() => _loadUnlockCodesForJoined();
+
+  void _loadUnlockCodesForJoined() {
+    if (!mounted) return;
+    final surprises = context.read<SurpriseProvider>().joinedSurprises;
+    final unlock = context.read<UnlockProvider>();
+    for (final s in surprises) {
+      unlock.loadCodesForSurprise(s.id);
+    }
+  }
 
   @override
   void didChangeDependencies() {
