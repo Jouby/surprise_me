@@ -7,6 +7,7 @@ enum ElementType {
   puzzle,
   motusGame,
   scratchGame,
+  codeGame,
 }
 
 extension ElementTypeX on ElementType {
@@ -19,6 +20,8 @@ extension ElementTypeX on ElementType {
         return 'motus_game';
       case ElementType.scratchGame:
         return 'scratch_game';
+      case ElementType.codeGame:
+        return 'code_game';
       default:
         return name;
     }

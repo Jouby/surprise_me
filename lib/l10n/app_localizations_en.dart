@@ -451,4 +451,49 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get scratchImageFormHint =>
       'The image will be revealed after scratching.';
+
+  @override
+  String get elementTypeCodeGame => 'Secret code';
+
+  @override
+  String get codeGameSecretLabel => '4-digit code *';
+
+  @override
+  String get codeGameSecretHint => 'E.g. 4729';
+
+  @override
+  String get codeGameFormHint =>
+      'The player will have 8 attempts to guess the code. After each try, hints are given about correct digits.';
+
+  @override
+  String get codeGameInvalidCode => 'The code must be exactly 4 digits';
+
+  @override
+  String get codeGamePlay => 'Guess the code';
+
+  @override
+  String codeGameAttemptsLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count attempts left',
+      one: '1 attempt left',
+      zero: 'No attempts left',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get codeGameValidate => 'OK';
+
+  @override
+  String get codeGameWon => 'Well done! You cracked the code!';
+
+  @override
+  String codeGameLost(String code) {
+    return 'Too bad… The code was $code';
+  }
+
+  @override
+  String get codeGameRestart => 'Play again';
 }

@@ -248,5 +248,46 @@
   "@scratchContentTypeImage": {},
 
   "scratchImageFormHint": "The image will be revealed after scratching.",
-  "@scratchImageFormHint": {}
+  "@scratchImageFormHint": {},
+
+  "elementTypeCodeGame": "Secret code",
+  "@elementTypeCodeGame": {},
+
+  "codeGameSecretLabel": "4-digit code *",
+  "@codeGameSecretLabel": {},
+
+  "codeGameSecretHint": "E.g. 4729",
+  "@codeGameSecretHint": {},
+
+  "codeGameFormHint": "The player will have 8 attempts to guess the code. After each try, hints are given about correct digits.",
+  "@codeGameFormHint": {},
+
+  "codeGameInvalidCode": "The code must be exactly 4 digits",
+  "@codeGameInvalidCode": {},
+
+  "codeGamePlay": "Guess the code",
+  "@codeGamePlay": {},
+
+  "codeGameAttemptsLeft": "{count, plural, =0{No attempts left} =1{1 attempt left} other{{count} attempts left}}",
+  "@codeGameAttemptsLeft": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "codeGameValidate": "OK",
+  "@codeGameValidate": {},
+
+  "codeGameWon": "Well done! You cracked the code!",
+  "@codeGameWon": {},
+
+  "codeGameLost": "Too bad… The code was {code}",
+  "@codeGameLost": {
+    "placeholders": {
+      "code": { "type": "String" }
+    }
+  },
+
+  "codeGameRestart": "Play again",
+  "@codeGameRestart": {}
 }

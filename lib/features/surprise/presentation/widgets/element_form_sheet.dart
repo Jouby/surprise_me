@@ -12,6 +12,7 @@ import '../../../../features/word_game/presentation/widgets/word_game_form_field
 import '../../../../features/puzzle_game/presentation/widgets/puzzle_game_form_field.dart';
 import '../../../../features/motus_game/presentation/widgets/motus_game_form_field.dart';
 import '../../../../features/scratch_game/presentation/widgets/scratch_game_form_field.dart';
+import '../../../../features/code_game/presentation/widgets/code_game_form_field.dart';
 import 'image_picker_field.dart';
 import 'location_autocomplete_field.dart';
 
@@ -39,6 +40,7 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
   String? _puzzleImageUrl;
   String _motusWord = '';
   String _scratchMessage = '';
+  String _codeGameCode = '';
   bool _submitted = false; // true dès le premier appui sur Ajouter/Enregistrer
 
   static const _chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
@@ -70,6 +72,9 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
     }
     if (init != null && init.type == ElementType.scratchGame) {
       _scratchMessage = init.content;
+    }
+    if (init != null && init.type == ElementType.codeGame) {
+      _codeGameCode = init.content;
     }
     _codeController = TextEditingController(text: init?.unlockCode ?? '');
 
@@ -215,7 +220,10 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
         return _scratchMessage.trim().isEmpty
             ? context.l10n.fieldRequired
             : null;
-
+      case ElementType.codeGame:
+        return _codeGameCode.length != 4
+            ? context.l10n.codeGameInvalidCode
+            : null;
       case ElementType.text:
         return _contentController.text.trim().isEmpty
             ? context.l10n.fieldRequired
@@ -241,6 +249,8 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
       content = _motusWord.trim().toUpperCase();
     } else if (_type == ElementType.scratchGame) {
       content = _scratchMessage.trim();
+    } else if (_type == ElementType.codeGame) {
+      content = _codeGameCode.trim();
     } else {
       content = _contentController.text.trim();
     }
@@ -308,6 +318,7 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
                       _puzzleImageUrl = null;
                       _motusWord = '';
                       _scratchMessage = '';
+                      _codeGameCode = '';
                       _contentController.clear();
                       _submitted = false;
                     }),
@@ -481,6 +492,15 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
                 },
                 errorText: _contentError(context),
               )
+            else if (_type == ElementType.codeGame)
+              CodeGameFormField(
+                initialValue: _codeGameCode.isNotEmpty ? _codeGameCode : null,
+                onChanged: (v) {
+                  _codeGameCode = v;
+                  if (_submitted) setState(() {});
+                },
+                errorText: _contentError(context),
+              )
             else
               TextField(
                 controller: _contentController,
@@ -578,6 +598,8 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
         return l.elementTypeMotus;
       case ElementType.scratchGame:
         return l.elementTypeScratch;
+      case ElementType.codeGame:
+        return l.elementTypeCodeGame;
     }
   }
 
@@ -600,6 +622,8 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
         return l.motusWordLabel;
       case ElementType.scratchGame:
         return l.scratchMessageLabel;
+      case ElementType.codeGame:
+        return l.codeGameSecretLabel;
     }
   }
 
@@ -621,6 +645,8 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
         return Icons.keyboard_rounded;
       case ElementType.scratchGame:
         return Icons.auto_awesome_rounded;
+      case ElementType.codeGame:
+        return Icons.lock_outline_rounded;
     }
   }
 }

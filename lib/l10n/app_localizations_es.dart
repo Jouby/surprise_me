@@ -455,4 +455,50 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get scratchImageFormHint => 'La imagen se revelará después de rascar.';
+
+  @override
+  String get elementTypeCodeGame => 'Código secreto';
+
+  @override
+  String get codeGameSecretLabel => 'Código de 4 dígitos *';
+
+  @override
+  String get codeGameSecretHint => 'Ej: 4729';
+
+  @override
+  String get codeGameFormHint =>
+      'El jugador tendrá 8 intentos para adivinar el código. Después de cada intento, recibirá pistas.';
+
+  @override
+  String get codeGameInvalidCode =>
+      'El código debe tener exactamente 4 dígitos';
+
+  @override
+  String get codeGamePlay => 'Adivinar el código';
+
+  @override
+  String codeGameAttemptsLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count intentos restantes',
+      one: '1 intento restante',
+      zero: 'Sin intentos',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get codeGameValidate => 'OK';
+
+  @override
+  String get codeGameWon => '¡Bien hecho! ¡Adivinaste el código!';
+
+  @override
+  String codeGameLost(String code) {
+    return '¡Lástima! El código era $code';
+  }
+
+  @override
+  String get codeGameRestart => 'Volver a jugar';
 }

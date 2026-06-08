@@ -9,6 +9,7 @@ import '../../features/surprise/presentation/screens/home_screen.dart';
 import '../../features/surprise/presentation/screens/surprise_detail_screen.dart';
 import '../../features/motus_game/presentation/screens/motus_game_screen.dart';
 import '../../features/scratch_game/presentation/screens/scratch_game_screen.dart';
+import '../../features/code_game/presentation/screens/code_game_screen.dart';
 
 // ─── Args ─────────────────────────────────────────────────────────────────────
 
@@ -39,6 +40,14 @@ class ScratchRouteArgs {
     required this.content,
     required this.themeColor,
   });
+}
+
+/// Paramètres passés via [GoRouter.extra] pour la route du jeu Code Secret.
+class CodeGameRouteArgs {
+  final String code;
+  final Color themeColor;
+
+  const CodeGameRouteArgs({required this.code, required this.themeColor});
 }
 
 // ─── Router ───────────────────────────────────────────────────────────────────
@@ -103,6 +112,15 @@ final GoRouter appRouter = GoRouter(
           content: args.content,
           themeColor: args.themeColor,
         );
+      },
+    ),
+
+    // Jeu Code Secret plein écran
+    GoRoute(
+      path: '/code-game',
+      builder: (context, state) {
+        final args = state.extra as CodeGameRouteArgs;
+        return CodeGameScreen(code: args.code, themeColor: args.themeColor);
       },
     ),
 

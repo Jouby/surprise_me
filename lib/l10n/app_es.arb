@@ -248,5 +248,46 @@
   "@scratchContentTypeImage": {},
 
   "scratchImageFormHint": "La imagen se revelará después de rascar.",
-  "@scratchImageFormHint": {}
+  "@scratchImageFormHint": {},
+
+  "elementTypeCodeGame": "Código secreto",
+  "@elementTypeCodeGame": {},
+
+  "codeGameSecretLabel": "Código de 4 dígitos *",
+  "@codeGameSecretLabel": {},
+
+  "codeGameSecretHint": "Ej: 4729",
+  "@codeGameSecretHint": {},
+
+  "codeGameFormHint": "El jugador tendrá 8 intentos para adivinar el código. Después de cada intento, recibirá pistas.",
+  "@codeGameFormHint": {},
+
+  "codeGameInvalidCode": "El código debe tener exactamente 4 dígitos",
+  "@codeGameInvalidCode": {},
+
+  "codeGamePlay": "Adivinar el código",
+  "@codeGamePlay": {},
+
+  "codeGameAttemptsLeft": "{count, plural, =0{Sin intentos} =1{1 intento restante} other{{count} intentos restantes}}",
+  "@codeGameAttemptsLeft": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "codeGameValidate": "OK",
+  "@codeGameValidate": {},
+
+  "codeGameWon": "¡Bien hecho! ¡Adivinaste el código!",
+  "@codeGameWon": {},
+
+  "codeGameLost": "¡Lástima! El código era {code}",
+  "@codeGameLost": {
+    "placeholders": {
+      "code": { "type": "String" }
+    }
+  },
+
+  "codeGameRestart": "Volver a jugar",
+  "@codeGameRestart": {}
 }

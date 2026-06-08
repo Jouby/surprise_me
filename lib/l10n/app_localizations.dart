@@ -903,6 +903,72 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'L\'image sera révélée après grattage.'**
   String get scratchImageFormHint;
+
+  /// No description provided for @elementTypeCodeGame.
+  ///
+  /// In fr, this message translates to:
+  /// **'Code secret'**
+  String get elementTypeCodeGame;
+
+  /// No description provided for @codeGameSecretLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Code à 4 chiffres *'**
+  String get codeGameSecretLabel;
+
+  /// No description provided for @codeGameSecretHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ex : 4729'**
+  String get codeGameSecretHint;
+
+  /// No description provided for @codeGameFormHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le joueur devra deviner ce code en 8 tentatives. Après chaque essai, il reçoit des indices sur les bons chiffres.'**
+  String get codeGameFormHint;
+
+  /// No description provided for @codeGameInvalidCode.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le code doit contenir exactement 4 chiffres'**
+  String get codeGameInvalidCode;
+
+  /// No description provided for @codeGamePlay.
+  ///
+  /// In fr, this message translates to:
+  /// **'Deviner le code'**
+  String get codeGamePlay;
+
+  /// No description provided for @codeGameAttemptsLeft.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =0{Plus de tentatives} =1{1 tentative restante} other{{count} tentatives restantes}}'**
+  String codeGameAttemptsLeft(int count);
+
+  /// No description provided for @codeGameValidate.
+  ///
+  /// In fr, this message translates to:
+  /// **'OK'**
+  String get codeGameValidate;
+
+  /// No description provided for @codeGameWon.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bravo ! Tu as trouvé le code !'**
+  String get codeGameWon;
+
+  /// No description provided for @codeGameLost.
+  ///
+  /// In fr, this message translates to:
+  /// **'Dommage… Le code était {code}'**
+  String codeGameLost(String code);
+
+  /// No description provided for @codeGameRestart.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rejouer'**
+  String get codeGameRestart;
 }
 
 class _AppLocalizationsDelegate

@@ -152,6 +152,8 @@ extension ElementTypeIcon on ElementType {
         return Icons.keyboard_rounded;
       case ElementType.scratchGame:
         return Icons.auto_awesome_rounded;
+      case ElementType.codeGame:
+        return Icons.lock_outline_rounded;
     }
   }
 }

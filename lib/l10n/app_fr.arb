@@ -447,5 +447,46 @@
   "@scratchContentTypeImage": {},
 
   "scratchImageFormHint": "L'image sera révélée après grattage.",
-  "@scratchImageFormHint": {}
+  "@scratchImageFormHint": {},
+
+  "elementTypeCodeGame": "Code secret",
+  "@elementTypeCodeGame": {},
+
+  "codeGameSecretLabel": "Code à 4 chiffres *",
+  "@codeGameSecretLabel": {},
+
+  "codeGameSecretHint": "Ex : 4729",
+  "@codeGameSecretHint": {},
+
+  "codeGameFormHint": "Le joueur devra deviner ce code en 8 tentatives. Après chaque essai, il reçoit des indices sur les bons chiffres.",
+  "@codeGameFormHint": {},
+
+  "codeGameInvalidCode": "Le code doit contenir exactement 4 chiffres",
+  "@codeGameInvalidCode": {},
+
+  "codeGamePlay": "Deviner le code",
+  "@codeGamePlay": {},
+
+  "codeGameAttemptsLeft": "{count, plural, =0{Plus de tentatives} =1{1 tentative restante} other{{count} tentatives restantes}}",
+  "@codeGameAttemptsLeft": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "codeGameValidate": "OK",
+  "@codeGameValidate": {},
+
+  "codeGameWon": "Bravo ! Tu as trouvé le code !",
+  "@codeGameWon": {},
+
+  "codeGameLost": "Dommage… Le code était {code}",
+  "@codeGameLost": {
+    "placeholders": {
+      "code": { "type": "String" }
+    }
+  },
+
+  "codeGameRestart": "Rejouer",
+  "@codeGameRestart": {}
 }
