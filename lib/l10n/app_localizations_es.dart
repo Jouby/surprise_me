@@ -436,6 +436,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get scratchRevealed => '¡Mensaje revelado!';
 
   @override
+  String get scratchRevealedImage => '¡Imagen revelada!';
+
+  @override
   String get scratchRestart => 'Volver a empezar';
 
   @override

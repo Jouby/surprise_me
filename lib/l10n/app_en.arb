@@ -229,6 +229,9 @@
   "scratchRevealed": "Message revealed!",
   "@scratchRevealed": {},
 
+  "scratchRevealedImage": "Image revealed!",
+  "@scratchRevealedImage": {},
+
   "scratchRestart": "Start over",
   "@scratchRestart": {},
 

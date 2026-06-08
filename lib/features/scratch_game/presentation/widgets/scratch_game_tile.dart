@@ -149,7 +149,9 @@ class _ScratchGameTileState extends State<ScratchGameTile> {
             ),
             const SizedBox(width: 4),
             Text(
-              context.l10n.scratchRevealed,
+              isImage
+                  ? context.l10n.scratchRevealedImage
+                  : context.l10n.scratchRevealed,
               style: TextStyle(
                 fontSize: 12,
                 color: Colors.green.shade600,

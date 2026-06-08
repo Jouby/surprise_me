@@ -862,6 +862,12 @@ abstract class AppLocalizations {
   /// **'Message révélé !'**
   String get scratchRevealed;
 
+  /// No description provided for @scratchRevealedImage.
+  ///
+  /// In fr, this message translates to:
+  /// **'Image révélée !'**
+  String get scratchRevealedImage;
+
   /// No description provided for @scratchRestart.
   ///
   /// In fr, this message translates to:

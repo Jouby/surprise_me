@@ -428,6 +428,9 @@
   "scratchRevealed": "Message révélé !",
   "@scratchRevealed": {},
 
+  "scratchRevealedImage": "Image révélée !",
+  "@scratchRevealedImage": {},
+
   "scratchRestart": "Recommencer",
   "@scratchRestart": {},
 

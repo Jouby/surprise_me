@@ -434,6 +434,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get scratchRevealed => 'Message révélé !';
 
   @override
+  String get scratchRevealedImage => 'Image révélée !';
+
+  @override
   String get scratchRestart => 'Recommencer';
 
   @override
