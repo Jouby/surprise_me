@@ -184,6 +184,7 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
         surpriseId: surprise.id,
         shareCode: surprise.shareCode,
         isOwner: isOwner,
+        elementIds: surprise.elements.map((e) => e.id).toList(),
       );
       if (context.mounted) context.pop(); // retour à l'accueil
     } catch (e) {

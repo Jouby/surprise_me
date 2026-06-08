@@ -13,6 +13,9 @@ class _FakeUnlockDatasource implements UnlockLocalDatasource {
   @override
   Future<void> saveCode(String surpriseId, String code) async =>
       _store.putIfAbsent(surpriseId, () => {}).add(code);
+
+  @override
+  Future<void> clearCodes(String surpriseId) async => _store.remove(surpriseId);
 }
 
 void main() {

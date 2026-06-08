@@ -17,4 +17,9 @@ class UnlockLocalDatasource {
       await prefs.setStringList(key, codes);
     }
   }
+
+  Future<void> clearCodes(String surpriseId) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_key(surpriseId));
+  }
 }

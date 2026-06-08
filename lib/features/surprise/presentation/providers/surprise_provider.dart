@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 
+import '../../../../core/services/local_cleanup_service.dart';
 import '../../domain/entities/surprise.dart';
 import '../../domain/usecases/create_surprise_usecase.dart';
 import '../../domain/usecases/delete_surprise_usecase.dart';
@@ -94,12 +95,19 @@ class SurpriseProvider extends ChangeNotifier {
     required String surpriseId,
     required String shareCode,
     required bool isOwner,
+    required List<String> elementIds,
   }) async {
-    await _deleteSurprise(
-      surpriseId: surpriseId,
-      shareCode: shareCode,
-      isOwner: isOwner,
-    );
+    await Future.wait([
+      _deleteSurprise(
+        surpriseId: surpriseId,
+        shareCode: shareCode,
+        isOwner: isOwner,
+      ),
+      LocalCleanupService().cleanSurprise(
+        surpriseId: surpriseId,
+        elementIds: elementIds,
+      ),
+    ]);
     _ownedSurprises.removeWhere((s) => s.id == surpriseId);
     _joinedSurprises.removeWhere((s) => s.id == surpriseId);
     notifyListeners();
