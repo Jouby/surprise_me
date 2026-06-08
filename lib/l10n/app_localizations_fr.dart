@@ -365,6 +365,26 @@ class AppLocalizationsFr extends AppLocalizations {
   String get unlockedCodes => 'Codes de déverrouillage mémorisés';
 
   @override
+  String get clearLocalDataButton => 'Supprimer toutes les données locales';
+
+  @override
+  String get clearLocalDataTitle => 'Supprimer les données locales ?';
+
+  @override
+  String get clearLocalDataContent =>
+      'Codes déverrouillés, mots Motus trouvés, codes secrets déchiffrés et éléments grattés seront effacés sur cet appareil. Cette action est irréversible.';
+
+  @override
+  String get clearLocalDataConfirm => 'Supprimer';
+
+  @override
+  String get clearLocalDataDone => 'Données locales supprimées.';
+
+  @override
+  String get clearLocalDataHint =>
+      'Supprime les codes déverrouillés et la progression des jeux stockés sur cet appareil.';
+
+  @override
   String get elementTypeMotus => 'Motus';
 
   @override

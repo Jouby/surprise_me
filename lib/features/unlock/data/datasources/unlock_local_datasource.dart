@@ -22,4 +22,13 @@ class UnlockLocalDatasource {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_key(surpriseId));
   }
+
+  Future<void> clearAll() async {
+    final prefs = await SharedPreferences.getInstance();
+    final toRemove = prefs
+        .getKeys()
+        .where((k) => k.startsWith('unlocked_codes_'))
+        .toList();
+    await Future.wait(toRemove.map(prefs.remove));
+  }
 }

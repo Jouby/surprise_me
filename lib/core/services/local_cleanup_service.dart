@@ -18,12 +18,20 @@ class LocalCleanupService {
     required List<String> elementIds,
   }) async {
     await Future.wait([
-      // Codes de déverrouillage (clé par surpriseId)
       _unlock.clearCodes(surpriseId),
-      // États des jeux (clé par elementId)
       _scratch.clearElements(elementIds),
       _motus.clearElements(elementIds),
       _code.clearElements(elementIds),
+    ]);
+  }
+
+  /// Supprime toutes les données locales (codes déverrouillés, jeux résolus).
+  Future<void> clearAll() async {
+    await Future.wait([
+      _unlock.clearAll(),
+      _scratch.clearAll(),
+      _motus.clearAll(),
+      _code.clearAll(),
     ]);
   }
 }

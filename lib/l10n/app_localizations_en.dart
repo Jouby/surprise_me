@@ -362,6 +362,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get unlockedCodes => 'Memorised unlock codes';
 
   @override
+  String get clearLocalDataButton => 'Delete all local data';
+
+  @override
+  String get clearLocalDataTitle => 'Delete local data?';
+
+  @override
+  String get clearLocalDataContent =>
+      'Unlocked codes, found Motus words, cracked secret codes and scratched elements will be erased on this device. This action cannot be undone.';
+
+  @override
+  String get clearLocalDataConfirm => 'Delete';
+
+  @override
+  String get clearLocalDataDone => 'Local data deleted.';
+
+  @override
+  String get clearLocalDataHint =>
+      'Removes unlocked codes and game progress stored on this device.';
+
+  @override
   String get elementTypeMotus => 'Motus';
 
   @override

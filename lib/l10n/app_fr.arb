@@ -362,6 +362,24 @@
   "unlockedCodes": "Codes de déverrouillage mémorisés",
   "@unlockedCodes": {},
 
+  "clearLocalDataButton": "Supprimer toutes les données locales",
+  "@clearLocalDataButton": {},
+
+  "clearLocalDataTitle": "Supprimer les données locales ?",
+  "@clearLocalDataTitle": {},
+
+  "clearLocalDataContent": "Codes déverrouillés, mots Motus trouvés, codes secrets déchiffrés et éléments grattés seront effacés sur cet appareil. Cette action est irréversible.",
+  "@clearLocalDataContent": {},
+
+  "clearLocalDataConfirm": "Supprimer",
+  "@clearLocalDataConfirm": {},
+
+  "clearLocalDataDone": "Données locales supprimées.",
+  "@clearLocalDataDone": {},
+
+  "clearLocalDataHint": "Supprime les codes déverrouillés et la progression des jeux stockés sur cet appareil.",
+  "@clearLocalDataHint": {},
+
   "elementTypeMotus": "Motus",
   "@elementTypeMotus": {},
 

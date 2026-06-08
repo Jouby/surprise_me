@@ -25,4 +25,9 @@ class CodeLocalDatasource {
     ids.removeWhere(elementIds.contains);
     await prefs.setStringList(_key, ids);
   }
+
+  Future<void> clearAll() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_key);
+  }
 }

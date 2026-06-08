@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/l10n/l10n.dart';
+import '../../../../core/services/local_cleanup_service.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../surprise/presentation/providers/surprise_provider.dart';
 
@@ -17,6 +18,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   String? _userToken;
   bool _loading = true;
+  bool _clearingData = false;
 
   @override
   void initState() {
@@ -34,6 +36,43 @@ class _SettingsScreenState extends State<SettingsScreen> {
         _userToken = userToken;
         _loading = false;
       });
+    }
+  }
+
+  Future<void> _clearLocalData() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(ctx.l10n.clearLocalDataTitle),
+        content: Text(ctx.l10n.clearLocalDataContent),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text(ctx.l10n.cancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: Text(
+              ctx.l10n.clearLocalDataConfirm,
+              style: const TextStyle(color: Colors.red),
+            ),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted) return;
+
+    setState(() => _clearingData = true);
+    await LocalCleanupService().clearAll();
+    if (mounted) {
+      setState(() => _clearingData = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(context.l10n.clearLocalDataDone),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: AppTheme.primary,
+        ),
+      );
     }
   }
 
@@ -92,6 +131,68 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 child: _UserTokenCard(
                   token: _userToken,
                   onCopy: _userToken != null ? _copyToken : null,
+                ),
+              ),
+            ),
+
+            // ── Section données locales ─────────────────────────────────────
+            SliverToBoxAdapter(
+              child: _SectionHeader(
+                icon: Icons.storage_rounded,
+                label: context.l10n.localData,
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
+                child: Text(
+                  context.l10n.clearLocalDataHint,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: AppTheme.textLight,
+                    height: 1.5,
+                  ),
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: _clearingData ? null : _clearLocalData,
+                    icon: _clearingData
+                        ? const SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.red,
+                            ),
+                          )
+                        : const Icon(
+                            Icons.delete_sweep_rounded,
+                            size: 18,
+                            color: Colors.red,
+                          ),
+                    label: Text(
+                      context.l10n.clearLocalDataButton,
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      side: BorderSide(
+                        color: Colors.red.withValues(alpha: 0.4),
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),

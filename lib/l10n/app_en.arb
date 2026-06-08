@@ -163,6 +163,24 @@
   "savedShareCodes": "Saved share codes",
   "unlockedCodes": "Memorised unlock codes",
 
+  "clearLocalDataButton": "Delete all local data",
+  "@clearLocalDataButton": {},
+
+  "clearLocalDataTitle": "Delete local data?",
+  "@clearLocalDataTitle": {},
+
+  "clearLocalDataContent": "Unlocked codes, found Motus words, cracked secret codes and scratched elements will be erased on this device. This action cannot be undone.",
+  "@clearLocalDataContent": {},
+
+  "clearLocalDataConfirm": "Delete",
+  "@clearLocalDataConfirm": {},
+
+  "clearLocalDataDone": "Local data deleted.",
+  "@clearLocalDataDone": {},
+
+  "clearLocalDataHint": "Removes unlocked codes and game progress stored on this device.",
+  "@clearLocalDataHint": {},
+
   "elementTypeMotus": "Motus",
   "@elementTypeMotus": {},
 

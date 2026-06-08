@@ -163,6 +163,24 @@
   "savedShareCodes": "Códigos de compartición guardados",
   "unlockedCodes": "Códigos de desbloqueo memorizados",
 
+  "clearLocalDataButton": "Eliminar todos los datos locales",
+  "@clearLocalDataButton": {},
+
+  "clearLocalDataTitle": "¿Eliminar datos locales?",
+  "@clearLocalDataTitle": {},
+
+  "clearLocalDataContent": "Los códigos desbloqueados, palabras de Motus encontradas, códigos secretos descifrados y elementos rascados serán borrados en este dispositivo. Esta acción es irreversible.",
+  "@clearLocalDataContent": {},
+
+  "clearLocalDataConfirm": "Eliminar",
+  "@clearLocalDataConfirm": {},
+
+  "clearLocalDataDone": "Datos locales eliminados.",
+  "@clearLocalDataDone": {},
+
+  "clearLocalDataHint": "Elimina los códigos desbloqueados y el progreso de los juegos almacenados en este dispositivo.",
+  "@clearLocalDataHint": {},
+
   "elementTypeMotus": "Motus",
   "@elementTypeMotus": {},
 
