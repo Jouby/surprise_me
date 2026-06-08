@@ -24,75 +24,91 @@ class MotusGameTile extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 10, 16, 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // Aperçu des cases (première lettre + cases vides)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(length, (i) {
-              final isFirst = i == 0;
-              return Container(
-                margin: const EdgeInsets.symmetric(horizontal: 3),
-                width: _tileSize(length),
-                height: _tileSize(length),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: isFirst
-                      ? themeColor.withValues(alpha: 0.15)
-                      : AppTheme.surface,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: isFirst ? themeColor : AppTheme.divider,
-                    width: 1.5,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          // Taille max tenant dans la largeur disponible (6px de marge par case).
+          final preferred = _preferredTileSize(length);
+          final maxByWidth =
+              (constraints.maxWidth - length * 6) / length;
+          final size = preferred.clamp(0.0, maxByWidth);
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // Aperçu des cases (première lettre + cases vides)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(length, (i) {
+                  final isFirst = i == 0;
+                  return Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 3),
+                    width: size,
+                    height: size,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: isFirst
+                          ? themeColor.withValues(alpha: 0.15)
+                          : AppTheme.surface,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: isFirst ? themeColor : AppTheme.divider,
+                        width: 1.5,
+                      ),
+                    ),
+                    child: isFirst
+                        ? Text(
+                            upper[0],
+                            style: TextStyle(
+                              fontSize: size * 0.48,
+                              fontWeight: FontWeight.w800,
+                              color: themeColor,
+                            ),
+                          )
+                        : null,
+                  );
+                }),
+              ),
+              const SizedBox(height: 14),
+              // Bouton jouer
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: () => context.push(
+                    '/motus',
+                    extra: MotusRouteArgs(word: upper, themeColor: themeColor),
+                  ),
+                  icon: Icon(
+                    Icons.play_arrow_rounded,
+                    size: 18,
+                    color: themeColor,
+                  ),
+                  label: Text(
+                    context.l10n.playMotus,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: themeColor,
+                    ),
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    side: BorderSide(
+                      color: themeColor.withValues(alpha: 0.5),
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                 ),
-                child: isFirst
-                    ? Text(
-                        upper[0],
-                        style: TextStyle(
-                          fontSize: _tileSize(length) * 0.48,
-                          fontWeight: FontWeight.w800,
-                          color: themeColor,
-                        ),
-                      )
-                    : null,
-              );
-            }),
-          ),
-          const SizedBox(height: 14),
-          // Bouton jouer
-          SizedBox(
-            width: double.infinity,
-            child: OutlinedButton.icon(
-              onPressed: () => context.push(
-                '/motus',
-                extra: MotusRouteArgs(word: upper, themeColor: themeColor),
               ),
-              icon: Icon(Icons.play_arrow_rounded, size: 18, color: themeColor),
-              label: Text(
-                context.l10n.playMotus,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: themeColor,
-                ),
-              ),
-              style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                side: BorderSide(color: themeColor.withValues(alpha: 0.5)),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-            ),
-          ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }
 
-  double _tileSize(int len) {
+  double _preferredTileSize(int len) {
     if (len <= 6) return 40;
     if (len <= 9) return 34;
     return 28;
