@@ -22,7 +22,7 @@ class ScratchGameScreen extends StatefulWidget {
       content.startsWith('http://') || content.startsWith('https://');
 
   /// Seuil de surface grattée pour déclencher la révélation complète (60 %).
-  static const double revealThreshold = 0.60;
+  static const double revealThreshold = 0.95;
 
   @override
   State<ScratchGameScreen> createState() => _ScratchGameScreenState();
