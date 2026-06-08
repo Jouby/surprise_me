@@ -158,27 +158,27 @@
       "id": { "type": "String" }
     }
   },
-  "localData": "Local data",
+  "localData": "My data",
   "localDataHint": "This data is stored only on this device.",
   "savedShareCodes": "Saved share codes",
   "unlockedCodes": "Memorised unlock codes",
 
-  "clearLocalDataButton": "Delete all local data",
+  "clearLocalDataButton": "Delete all my data",
   "@clearLocalDataButton": {},
 
-  "clearLocalDataTitle": "Delete local data?",
+  "clearLocalDataTitle": "Delete all my data?",
   "@clearLocalDataTitle": {},
 
-  "clearLocalDataContent": "Surprises you created will be permanently deleted. Joined surprises and all game progress (unlocked codes, Motus words, secret codes, scratched elements) will be erased from this device. This action cannot be undone.",
+  "clearLocalDataContent": "This will permanently delete:\n\n• All surprises you have created (on all devices)\n• All surprises joined on this device\n• Your progress (unlocked codes, solved games)\n\nThis action cannot be undone.",
   "@clearLocalDataContent": {},
 
-  "clearLocalDataConfirm": "Delete",
+  "clearLocalDataConfirm": "Delete everything",
   "@clearLocalDataConfirm": {},
 
-  "clearLocalDataDone": "Local data deleted.",
+  "clearLocalDataDone": "All your data has been deleted.",
   "@clearLocalDataDone": {},
 
-  "clearLocalDataHint": "Removes unlocked codes and game progress stored on this device.",
+  "clearLocalDataHint": "Permanently deletes your created surprises, removes joined surprises and clears your progress on this device.",
   "@clearLocalDataHint": {},
 
   "elementTypeMotus": "Motus",

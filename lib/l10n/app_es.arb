@@ -158,27 +158,27 @@
       "id": { "type": "String" }
     }
   },
-  "localData": "Datos locales",
+  "localData": "Mis datos",
   "localDataHint": "Estos datos se almacenan únicamente en este dispositivo.",
   "savedShareCodes": "Códigos de compartición guardados",
   "unlockedCodes": "Códigos de desbloqueo memorizados",
 
-  "clearLocalDataButton": "Eliminar todos los datos locales",
+  "clearLocalDataButton": "Eliminar todos mis datos",
   "@clearLocalDataButton": {},
 
-  "clearLocalDataTitle": "¿Eliminar datos locales?",
+  "clearLocalDataTitle": "¿Eliminar todos mis datos?",
   "@clearLocalDataTitle": {},
 
-  "clearLocalDataContent": "Las sorpresas que creaste serán eliminadas permanentemente. Las sorpresas unidas y todo el progreso de los juegos (códigos desbloqueados, palabras de Motus, códigos secretos, elementos rascados) serán borrados de este dispositivo. Esta acción es irreversible.",
+  "clearLocalDataContent": "Esta acción eliminará permanentemente:\n\n• Todas las sorpresas que creaste (en todos los dispositivos)\n• Todas las sorpresas unidas en este dispositivo\n• Tu progreso (códigos desbloqueados, juegos resueltos)\n\nEsta acción es irreversible.",
   "@clearLocalDataContent": {},
 
-  "clearLocalDataConfirm": "Eliminar",
+  "clearLocalDataConfirm": "Eliminar todo",
   "@clearLocalDataConfirm": {},
 
-  "clearLocalDataDone": "Datos locales eliminados.",
+  "clearLocalDataDone": "Todos tus datos han sido eliminados.",
   "@clearLocalDataDone": {},
 
-  "clearLocalDataHint": "Elimina los códigos desbloqueados y el progreso de los juegos almacenados en este dispositivo.",
+  "clearLocalDataHint": "Elimina permanentemente tus sorpresas creadas, retira las sorpresas unidas y borra tu progreso en este dispositivo.",
   "@clearLocalDataHint": {},
 
   "elementTypeMotus": "Motus",

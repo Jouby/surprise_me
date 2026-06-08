@@ -350,7 +350,7 @@
     }
   },
 
-  "localData": "Données locales",
+  "localData": "Mes données",
   "@localData": {},
 
   "localDataHint": "Ces données sont stockées uniquement sur cet appareil.",
@@ -362,22 +362,22 @@
   "unlockedCodes": "Codes de déverrouillage mémorisés",
   "@unlockedCodes": {},
 
-  "clearLocalDataButton": "Supprimer toutes les données locales",
+  "clearLocalDataButton": "Supprimer toutes mes données",
   "@clearLocalDataButton": {},
 
-  "clearLocalDataTitle": "Supprimer les données locales ?",
+  "clearLocalDataTitle": "Supprimer toutes mes données ?",
   "@clearLocalDataTitle": {},
 
-  "clearLocalDataContent": "Les surprises que vous avez créées seront supprimées définitivement. Les surprises rejointes et toute la progression des jeux (codes déverrouillés, mots Motus, codes secrets, éléments grattés) seront effacés de cet appareil. Cette action est irréversible.",
+  "clearLocalDataContent": "Cette action supprimera définitivement :\n\n• Toutes les surprises que vous avez créées (sur tous les appareils)\n• Toutes les surprises rejointes sur cet appareil\n• Votre progression (codes déverrouillés, jeux résolus)\n\nCette action est irréversible.",
   "@clearLocalDataContent": {},
 
-  "clearLocalDataConfirm": "Supprimer",
+  "clearLocalDataConfirm": "Tout supprimer",
   "@clearLocalDataConfirm": {},
 
-  "clearLocalDataDone": "Données locales supprimées.",
+  "clearLocalDataDone": "Toutes vos données ont été supprimées.",
   "@clearLocalDataDone": {},
 
-  "clearLocalDataHint": "Supprime les codes déverrouillés et la progression des jeux stockés sur cet appareil.",
+  "clearLocalDataHint": "Supprime définitivement vos surprises créées, retire les surprises rejointes et efface votre progression sur cet appareil.",
   "@clearLocalDataHint": {},
 
   "elementTypeMotus": "Motus",

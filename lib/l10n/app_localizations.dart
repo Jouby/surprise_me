@@ -733,7 +733,7 @@ abstract class AppLocalizations {
   /// No description provided for @localData.
   ///
   /// In fr, this message translates to:
-  /// **'Données locales'**
+  /// **'Mes données'**
   String get localData;
 
   /// No description provided for @localDataHint.
@@ -757,37 +757,37 @@ abstract class AppLocalizations {
   /// No description provided for @clearLocalDataButton.
   ///
   /// In fr, this message translates to:
-  /// **'Supprimer toutes les données locales'**
+  /// **'Supprimer toutes mes données'**
   String get clearLocalDataButton;
 
   /// No description provided for @clearLocalDataTitle.
   ///
   /// In fr, this message translates to:
-  /// **'Supprimer les données locales ?'**
+  /// **'Supprimer toutes mes données ?'**
   String get clearLocalDataTitle;
 
   /// No description provided for @clearLocalDataContent.
   ///
   /// In fr, this message translates to:
-  /// **'Les surprises que vous avez créées seront supprimées définitivement. Les surprises rejointes et toute la progression des jeux (codes déverrouillés, mots Motus, codes secrets, éléments grattés) seront effacés de cet appareil. Cette action est irréversible.'**
+  /// **'Cette action supprimera définitivement :\n\n• Toutes les surprises que vous avez créées (sur tous les appareils)\n• Toutes les surprises rejointes sur cet appareil\n• Votre progression (codes déverrouillés, jeux résolus)\n\nCette action est irréversible.'**
   String get clearLocalDataContent;
 
   /// No description provided for @clearLocalDataConfirm.
   ///
   /// In fr, this message translates to:
-  /// **'Supprimer'**
+  /// **'Tout supprimer'**
   String get clearLocalDataConfirm;
 
   /// No description provided for @clearLocalDataDone.
   ///
   /// In fr, this message translates to:
-  /// **'Données locales supprimées.'**
+  /// **'Toutes vos données ont été supprimées.'**
   String get clearLocalDataDone;
 
   /// No description provided for @clearLocalDataHint.
   ///
   /// In fr, this message translates to:
-  /// **'Supprime les codes déverrouillés et la progression des jeux stockés sur cet appareil.'**
+  /// **'Supprime définitivement vos surprises créées, retire les surprises rejointes et efface votre progression sur cet appareil.'**
   String get clearLocalDataHint;
 
   /// No description provided for @elementTypeMotus.

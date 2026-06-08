@@ -350,7 +350,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get localData => 'Local data';
+  String get localData => 'My data';
 
   @override
   String get localDataHint => 'This data is stored only on this device.';
@@ -362,24 +362,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get unlockedCodes => 'Memorised unlock codes';
 
   @override
-  String get clearLocalDataButton => 'Delete all local data';
+  String get clearLocalDataButton => 'Delete all my data';
 
   @override
-  String get clearLocalDataTitle => 'Delete local data?';
+  String get clearLocalDataTitle => 'Delete all my data?';
 
   @override
   String get clearLocalDataContent =>
-      'Surprises you created will be permanently deleted. Joined surprises and all game progress (unlocked codes, Motus words, secret codes, scratched elements) will be erased from this device. This action cannot be undone.';
+      'This will permanently delete:\n\n• All surprises you have created (on all devices)\n• All surprises joined on this device\n• Your progress (unlocked codes, solved games)\n\nThis action cannot be undone.';
 
   @override
-  String get clearLocalDataConfirm => 'Delete';
+  String get clearLocalDataConfirm => 'Delete everything';
 
   @override
-  String get clearLocalDataDone => 'Local data deleted.';
+  String get clearLocalDataDone => 'All your data has been deleted.';
 
   @override
   String get clearLocalDataHint =>
-      'Removes unlocked codes and game progress stored on this device.';
+      'Permanently deletes your created surprises, removes joined surprises and clears your progress on this device.';
 
   @override
   String get elementTypeMotus => 'Motus';

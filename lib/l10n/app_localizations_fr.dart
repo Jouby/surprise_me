@@ -352,7 +352,7 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get localData => 'Données locales';
+  String get localData => 'Mes données';
 
   @override
   String get localDataHint =>
@@ -365,24 +365,24 @@ class AppLocalizationsFr extends AppLocalizations {
   String get unlockedCodes => 'Codes de déverrouillage mémorisés';
 
   @override
-  String get clearLocalDataButton => 'Supprimer toutes les données locales';
+  String get clearLocalDataButton => 'Supprimer toutes mes données';
 
   @override
-  String get clearLocalDataTitle => 'Supprimer les données locales ?';
+  String get clearLocalDataTitle => 'Supprimer toutes mes données ?';
 
   @override
   String get clearLocalDataContent =>
-      'Les surprises que vous avez créées seront supprimées définitivement. Les surprises rejointes et toute la progression des jeux (codes déverrouillés, mots Motus, codes secrets, éléments grattés) seront effacés de cet appareil. Cette action est irréversible.';
+      'Cette action supprimera définitivement :\n\n• Toutes les surprises que vous avez créées (sur tous les appareils)\n• Toutes les surprises rejointes sur cet appareil\n• Votre progression (codes déverrouillés, jeux résolus)\n\nCette action est irréversible.';
 
   @override
-  String get clearLocalDataConfirm => 'Supprimer';
+  String get clearLocalDataConfirm => 'Tout supprimer';
 
   @override
-  String get clearLocalDataDone => 'Données locales supprimées.';
+  String get clearLocalDataDone => 'Toutes vos données ont été supprimées.';
 
   @override
   String get clearLocalDataHint =>
-      'Supprime les codes déverrouillés et la progression des jeux stockés sur cet appareil.';
+      'Supprime définitivement vos surprises créées, retire les surprises rejointes et efface votre progression sur cet appareil.';
 
   @override
   String get elementTypeMotus => 'Motus';
