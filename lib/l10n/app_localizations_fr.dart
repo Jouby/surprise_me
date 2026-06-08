@@ -410,6 +410,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get motusRestart => 'Rejouer';
 
   @override
+  String get motusRevealed => 'Mot trouvé !';
+
+  @override
   String get elementTypeScratch => 'Gratte-moi';
 
   @override

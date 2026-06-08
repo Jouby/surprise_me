@@ -412,6 +412,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get motusRestart => 'Volver a jugar';
 
   @override
+  String get motusRevealed => '¡Palabra encontrada!';
+
+  @override
   String get elementTypeScratch => 'Rasca y gana';
 
   @override

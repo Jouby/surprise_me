@@ -403,6 +403,9 @@
   "motusRestart": "Rejouer",
   "@motusRestart": {},
 
+  "motusRevealed": "Mot trouvé !",
+  "@motusRevealed": {},
+
   "elementTypeScratch": "Gratte-moi",
   "@elementTypeScratch": {},
 

@@ -23,10 +23,15 @@ class SurpriseRouteArgs {
 
 /// Paramètres passés via [GoRouter.extra] pour la route du jeu Motus.
 class MotusRouteArgs {
+  final String elementId;
   final String word;
   final Color themeColor;
 
-  const MotusRouteArgs({required this.word, required this.themeColor});
+  const MotusRouteArgs({
+    required this.elementId,
+    required this.word,
+    required this.themeColor,
+  });
 }
 
 /// Paramètres passés via [GoRouter.extra] pour la route du jeu Gratte-moi.

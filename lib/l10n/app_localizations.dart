@@ -820,6 +820,12 @@ abstract class AppLocalizations {
   /// **'Rejouer'**
   String get motusRestart;
 
+  /// No description provided for @motusRevealed.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mot trouvé !'**
+  String get motusRevealed;
+
   /// No description provided for @elementTypeScratch.
   ///
   /// In fr, this message translates to:

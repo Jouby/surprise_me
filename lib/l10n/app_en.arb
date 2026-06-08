@@ -204,6 +204,9 @@
   "motusRestart": "Play again",
   "@motusRestart": {},
 
+  "motusRevealed": "Word found!",
+  "@motusRevealed": {},
+
   "elementTypeScratch": "Scratch card",
   "@elementTypeScratch": {},
 

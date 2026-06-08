@@ -197,7 +197,11 @@ class ElementTile extends StatelessWidget {
     }
 
     if (element.type == ElementType.motusGame) {
-      return MotusGameTile(word: element.content, themeColor: themeColor);
+      return MotusGameTile(
+        elementId: element.id,
+        word: element.content,
+        themeColor: themeColor,
+      );
     }
 
     if (element.type == ElementType.scratchGame) {

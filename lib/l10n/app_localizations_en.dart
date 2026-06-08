@@ -407,6 +407,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get motusRestart => 'Play again';
 
   @override
+  String get motusRevealed => 'Word found!';
+
+  @override
   String get elementTypeScratch => 'Scratch card';
 
   @override

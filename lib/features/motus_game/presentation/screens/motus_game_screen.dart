@@ -50,6 +50,8 @@ class _MotusGameScreenState extends State<MotusGameScreen> {
     if (_state.currentInput.length != _state.wordLength) return;
     HapticFeedback.lightImpact();
     setState(() => _state = _state.submitGuess());
+    // Notifie la page appelante si le mot vient d'être trouvé.
+    if (_state.isWon) Navigator.pop(context, true);
   }
 
   void _onRestart() {

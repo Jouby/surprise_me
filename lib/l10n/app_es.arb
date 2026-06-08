@@ -204,6 +204,9 @@
   "motusRestart": "Volver a jugar",
   "@motusRestart": {},
 
+  "motusRevealed": "¡Palabra encontrada!",
+  "@motusRevealed": {},
+
   "elementTypeScratch": "Rasca y gana",
   "@elementTypeScratch": {},
 
