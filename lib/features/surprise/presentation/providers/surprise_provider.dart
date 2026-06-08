@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import '../../../../core/services/local_cleanup_service.dart';
+import '../../../unlock/domain/repositories/i_unlock_repository.dart';
 import '../../domain/entities/surprise.dart';
 import '../../domain/usecases/create_surprise_usecase.dart';
 import '../../domain/usecases/delete_surprise_usecase.dart';
@@ -16,6 +17,7 @@ class SurpriseProvider extends ChangeNotifier {
   final JoinSurpriseUseCase _joinSurprise;
   final DeleteSurpriseUseCase _deleteSurprise;
   final UpdateSurpriseUseCase _updateSurprise;
+  final IUnlockRepository _unlockRepository;
 
   SurpriseProvider({
     required FetchSurprisesUseCase fetchSurprises,
@@ -23,11 +25,13 @@ class SurpriseProvider extends ChangeNotifier {
     required JoinSurpriseUseCase joinSurprise,
     required DeleteSurpriseUseCase deleteSurprise,
     required UpdateSurpriseUseCase updateSurprise,
+    required IUnlockRepository unlockRepository,
   }) : _fetchSurprises = fetchSurprises,
        _createSurprise = createSurprise,
        _joinSurprise = joinSurprise,
        _deleteSurprise = deleteSurprise,
-       _updateSurprise = updateSurprise {
+       _updateSurprise = updateSurprise,
+       _unlockRepository = unlockRepository {
     load();
   }
 
@@ -131,9 +135,10 @@ class SurpriseProvider extends ChangeNotifier {
       ),
     );
 
-    // Vide les codes locaux (surprises rejointes + créées) et toute la progression.
+    // Vide les codes locaux, le cache mémoire unlock et toute la progression.
     await Future.wait([
       _fetchSurprises.repository.clearJoinedCodes(),
+      _unlockRepository.clearAll(), // vide cache mémoire + SharedPreferences
       LocalCleanupService().clearAll(),
     ]);
 

@@ -81,6 +81,7 @@ Future<void> main() async {
             joinSurprise: joinSurprise,
             deleteSurprise: deleteSurprise,
             updateSurprise: updateSurprise,
+            unlockRepository: unlockRepo,
           ),
         ),
         ChangeNotifierProvider(

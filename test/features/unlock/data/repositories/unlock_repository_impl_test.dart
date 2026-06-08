@@ -21,6 +21,9 @@ class _FakeUnlockDatasource implements UnlockLocalDatasource {
   Future<void> clearAll() async => _store.clear();
 }
 
+// Note: UnlockRepositoryImpl.clearAll() vide aussi le cache mémoire — testé
+// via les tests d'intégration du provider.
+
 void main() {
   late _FakeUnlockDatasource datasource;
   late UnlockRepositoryImpl repo;

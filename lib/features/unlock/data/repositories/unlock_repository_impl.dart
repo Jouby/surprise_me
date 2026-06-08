@@ -25,4 +25,10 @@ class UnlockRepositoryImpl implements IUnlockRepository {
     if (_cache.containsKey(surpriseId)) return; // déjà chargé
     _cache[surpriseId] = await _local.loadCodes(surpriseId);
   }
+
+  @override
+  Future<void> clearAll() async {
+    _cache.clear();
+    await _local.clearAll();
+  }
 }
