@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../../core/theme/app_theme.dart';
@@ -84,54 +86,91 @@ class _MotusGameScreenState extends State<MotusGameScreen> {
         ],
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            // Indicateur de tentatives
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Text(
-                context.l10n.motusAttemptsLeft(
-                  MotusGameState.maxAttempts - _state.guesses.length,
-                ),
-                style: TextStyle(
-                  fontSize: 13,
-                  color: AppTheme.textLight,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            // Grille
-            Expanded(
-              child: Center(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ...List.generate(MotusGameState.maxAttempts, (row) {
-                        return _buildRow(row);
-                      }),
-                      if (_state.isOver) ...[
-                        const SizedBox(height: 16),
-                        _buildResultBanner(),
-                      ],
-                    ],
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final availableWidth = constraints.maxWidth;
+            final cellSize = _computeCellSize(availableWidth);
+            final keySize = _computeKeySize(availableWidth);
+            return Column(
+              children: [
+                // Indicateur de tentatives
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Text(
+                    context.l10n.motusAttemptsLeft(
+                      MotusGameState.maxAttempts - _state.guesses.length,
+                    ),
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: AppTheme.textLight,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
-              ),
-            ),
-            // Clavier
-            if (!_state.isOver) _buildKeyboard(),
-            const SizedBox(height: 8),
-          ],
+                // Grille
+                Expanded(
+                  child: Center(
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ...List.generate(MotusGameState.maxAttempts, (row) {
+                            return _buildRow(row, cellSize);
+                          }),
+                          if (_state.isOver) ...[
+                            const SizedBox(height: 16),
+                            _buildResultBanner(),
+                          ],
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                // Clavier
+                if (!_state.isOver) _buildKeyboard(keySize),
+                const SizedBox(height: 8),
+              ],
+            );
+          },
         ),
       ),
     );
   }
 
+  // ── Tailles adaptatives ───────────────────────────────────────────────────
+
+  /// Taille d'une cellule de grille calculée pour ne jamais dépasser la largeur
+  /// disponible (padding 32px + 6px de marge par cellule).
+  double _computeCellSize(double availableWidth) {
+    final preferred = _preferredCellSize;
+    final maxByWidth =
+        (availableWidth - 32 - _state.wordLength * 6) / _state.wordLength;
+    return min(preferred, maxByWidth).clamp(20.0, 60.0);
+  }
+
+  double get _preferredCellSize {
+    final len = _state.wordLength;
+    if (len <= 5) return 52;
+    if (len <= 7) return 44;
+    if (len <= 9) return 36;
+    return 30;
+  }
+
+  /// Largeur d'une touche du clavier calculée sur la rangée la plus large
+  /// (10 touches) avec 6px de marge par touche et 16px de padding conteneur.
+  double _computeKeySize(double availableWidth) {
+    const longestRow = 10;
+    const margin = 6.0; // 3px de chaque côté
+    const containerPadding = 16.0; // 8px de chaque côté
+    return ((availableWidth - containerPadding - longestRow * margin) /
+            longestRow)
+        .clamp(24.0, 40.0);
+  }
+
   // ── Ligne de la grille ────────────────────────────────────────────────────
 
-  Widget _buildRow(int rowIndex) {
+  Widget _buildRow(int rowIndex, double cellSize) {
     final isSubmitted = rowIndex < _state.guesses.length;
     final isCurrent =
         rowIndex == _state.guesses.length && !_state.isOver;
@@ -148,8 +187,7 @@ class _MotusGameScreenState extends State<MotusGameScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(_state.wordLength, (col) {
-          final letter =
-              col < letters.length ? letters[col] : null;
+          final letter = col < letters.length ? letters[col] : null;
           final result = results != null ? results[col] : null;
 
           return _buildCell(
@@ -157,6 +195,7 @@ class _MotusGameScreenState extends State<MotusGameScreen> {
             result: result,
             isCurrent: isCurrent,
             isEmpty: letter == null,
+            cellSize: cellSize,
           );
         }),
       ),
@@ -168,6 +207,7 @@ class _MotusGameScreenState extends State<MotusGameScreen> {
     required TileResult? result,
     required bool isCurrent,
     required bool isEmpty,
+    required double cellSize,
   }) {
     Color bgColor;
     Color borderColor;
@@ -195,7 +235,7 @@ class _MotusGameScreenState extends State<MotusGameScreen> {
       textColor = AppTheme.textMid;
     }
 
-    final size = _cellSize;
+    final size = cellSize;
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
       margin: const EdgeInsets.symmetric(horizontal: 3),
@@ -218,14 +258,6 @@ class _MotusGameScreenState extends State<MotusGameScreen> {
             )
           : null,
     );
-  }
-
-  double get _cellSize {
-    final len = _state.wordLength;
-    if (len <= 5) return 52;
-    if (len <= 7) return 44;
-    if (len <= 9) return 36;
-    return 30;
   }
 
   // ── Bannière résultat ─────────────────────────────────────────────────────
@@ -296,8 +328,10 @@ class _MotusGameScreenState extends State<MotusGameScreen> {
 
   // ── Clavier AZERTY ────────────────────────────────────────────────────────
 
-  Widget _buildKeyboard() {
+  Widget _buildKeyboard(double keySize) {
     final used = _state.usedLetters;
+    // La touche OK est légèrement plus large que deux touches normales.
+    final wideKeySize = keySize * 2 + 6;
     return Container(
       padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
       color: AppTheme.surface,
@@ -315,12 +349,13 @@ class _MotusGameScreenState extends State<MotusGameScreen> {
                     result: used[letter],
                     themeColor: widget.themeColor,
                     onTap: () => _onLetter(letter),
+                    keyWidth: keySize,
                   );
                 }).toList(),
               ),
             ),
           ),
-          // Ligne du bas : espace + effacement + validation
+          // Ligne du bas : effacement + validation
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -329,15 +364,16 @@ class _MotusGameScreenState extends State<MotusGameScreen> {
                 isAction: true,
                 themeColor: widget.themeColor,
                 onTap: _onDelete,
+                keyWidth: keySize,
               ),
               const SizedBox(width: 6),
               _KeyboardKey(
                 letter: context.l10n.motusValidate,
                 isAction: true,
-                isWide: true,
                 themeColor: widget.themeColor,
                 onTap: _onSubmit,
                 enabled: _state.currentInput.length == _state.wordLength,
+                keyWidth: wideKeySize,
               ),
             ],
           ),
@@ -355,16 +391,16 @@ class _KeyboardKey extends StatelessWidget {
   final Color themeColor;
   final VoidCallback onTap;
   final bool isAction;
-  final bool isWide;
   final bool enabled;
+  final double keyWidth;
 
   const _KeyboardKey({
     required this.letter,
     required this.themeColor,
     required this.onTap,
+    required this.keyWidth,
     this.result,
     this.isAction = false,
-    this.isWide = false,
     this.enabled = true,
   });
 
@@ -397,7 +433,7 @@ class _KeyboardKey extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),
         margin: const EdgeInsets.symmetric(horizontal: 3),
-        width: isWide ? 72 : 32,
+        width: keyWidth,
         height: 42,
         alignment: Alignment.center,
         decoration: BoxDecoration(
@@ -412,7 +448,7 @@ class _KeyboardKey extends StatelessWidget {
         child: Text(
           letter,
           style: TextStyle(
-            fontSize: isWide ? 12 : 14,
+            fontSize: keyWidth < 32 ? 11 : 14,
             fontWeight: FontWeight.w700,
             color: textColor,
           ),
