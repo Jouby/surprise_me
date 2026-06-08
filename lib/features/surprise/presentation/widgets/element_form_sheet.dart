@@ -43,6 +43,23 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
   String _codeGameCode = '';
   bool _submitted = false; // true dès le premier appui sur Ajouter/Enregistrer
 
+  // Groupe sélectionné dans le sélecteur deux niveaux.
+  static const _contentTypes = [
+    ElementType.text,
+    ElementType.image,
+    ElementType.date,
+    ElementType.location,
+  ];
+  static const _gameTypes = [
+    ElementType.wordGame,
+    ElementType.puzzle,
+    ElementType.motusGame,
+    ElementType.scratchGame,
+    ElementType.codeGame,
+  ];
+
+  bool _showGames = false; // quel groupe est affiché
+
   static const _chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 
   bool get _isEditing => widget.initial != null;
@@ -52,6 +69,7 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
     super.initState();
     final init = widget.initial;
     _type = init?.type ?? ElementType.text;
+    _showGames = init != null && _gameTypes.contains(init.type);
     _labelController = TextEditingController(text: init?.label ?? '');
     _contentController = TextEditingController(
       text:
@@ -302,28 +320,50 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
               ).textTheme.headlineMedium?.copyWith(fontSize: 20),
             ),
             const SizedBox(height: 20),
-            // Type selector — deux groupes : Contenu et Jeux
-            _buildTypeGroup(
-              context,
-              label: context.l10n.elementGroupContent,
-              types: const [
-                ElementType.text,
-                ElementType.image,
-                ElementType.date,
-                ElementType.location,
+            // ── Sélecteur deux niveaux ────────────────────────────────────
+            // Niveau 1 : Contenu / Jeux
+            Row(
+              children: [
+                _buildGroupButton(
+                  label: context.l10n.elementGroupContent,
+                  icon: Icons.notes_rounded,
+                  selected: !_showGames,
+                  onTap: () {
+                    if (_showGames) {
+                      setState(() {
+                        _showGames = false;
+                        _type = _contentTypes.first;
+                        _resetFields();
+                      });
+                    }
+                  },
+                ),
+                const SizedBox(width: 10),
+                _buildGroupButton(
+                  label: context.l10n.elementGroupGames,
+                  icon: Icons.sports_esports_rounded,
+                  selected: _showGames,
+                  onTap: () {
+                    if (!_showGames) {
+                      setState(() {
+                        _showGames = true;
+                        _type = _gameTypes.first;
+                        _resetFields();
+                      });
+                    }
+                  },
+                ),
               ],
             ),
-            const SizedBox(height: 10),
-            _buildTypeGroup(
-              context,
-              label: context.l10n.elementGroupGames,
-              types: const [
-                ElementType.wordGame,
-                ElementType.puzzle,
-                ElementType.motusGame,
-                ElementType.scratchGame,
-                ElementType.codeGame,
-              ],
+            const SizedBox(height: 12),
+            // Niveau 2 : types du groupe sélectionné
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: (_showGames ? _gameTypes : _contentTypes)
+                    .map(_buildTypeChip)
+                    .toList(),
+              ),
             ),
             const SizedBox(height: 16),
             TextField(
@@ -545,31 +585,64 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
     );
   }
 
-  // ── Sélecteur de type groupé ──────────────────────────────────────────────
+  // ── Sélecteur deux niveaux ────────────────────────────────────────────────
 
-  Widget _buildTypeGroup(
-    BuildContext context, {
+  void _resetFields() {
+    _selectedDate = null;
+    _selectedTime = null;
+    _uploadedImageUrl = null;
+    _wordGameWord = '';
+    _puzzleImageUrl = null;
+    _motusWord = '';
+    _scratchMessage = '';
+    _codeGameCode = '';
+    _contentController.clear();
+    _submitted = false;
+  }
+
+  Widget _buildGroupButton({
     required String label,
-    required List<ElementType> types,
+    required IconData icon,
+    required bool selected,
+    required VoidCallback onTap,
   }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label.toUpperCase(),
-          style: const TextStyle(
-            fontSize: 10,
-            fontWeight: FontWeight.w700,
-            letterSpacing: 1.1,
-            color: AppTheme.textLight,
+    return Expanded(
+      child: GestureDetector(
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 180),
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          decoration: BoxDecoration(
+            color: selected
+                ? AppTheme.primary.withValues(alpha: 0.08)
+                : AppTheme.surface,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: selected ? AppTheme.primary : AppTheme.divider,
+              width: selected ? 1.5 : 1,
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                size: 16,
+                color: selected ? AppTheme.primary : AppTheme.textMid,
+              ),
+              const SizedBox(width: 6),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: selected ? AppTheme.primary : AppTheme.textMid,
+                ),
+              ),
+            ],
           ),
         ),
-        const SizedBox(height: 6),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(children: types.map((t) => _buildTypeChip(t)).toList()),
-        ),
-      ],
+      ),
     );
   }
 
@@ -578,16 +651,7 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
     return GestureDetector(
       onTap: () => setState(() {
         _type = t;
-        _selectedDate = null;
-        _selectedTime = null;
-        _uploadedImageUrl = null;
-        _wordGameWord = '';
-        _puzzleImageUrl = null;
-        _motusWord = '';
-        _scratchMessage = '';
-        _codeGameCode = '';
-        _contentController.clear();
-        _submitted = false;
+        _resetFields();
       }),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 180),
