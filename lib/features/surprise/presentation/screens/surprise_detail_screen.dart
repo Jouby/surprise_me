@@ -810,12 +810,13 @@ class _ShareSheet extends StatelessWidget {
               Expanded(
                 child: OutlinedButton.icon(
                   onPressed: () {
-                    final link = AppConfig.shareUrl(surprise.shareCode);
-                    Clipboard.setData(ClipboardData(text: link));
+                    Clipboard.setData(
+                      ClipboardData(text: surprise.shareCode),
+                    );
                     Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text(context.l10n.linkCopiedClipboard),
+                        content: Text(context.l10n.linkCopied),
                         behavior: SnackBarBehavior.floating,
                         backgroundColor: themeColor,
                       ),
