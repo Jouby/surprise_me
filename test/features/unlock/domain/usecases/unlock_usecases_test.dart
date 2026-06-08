@@ -19,6 +19,10 @@ class _FakeUnlockRepository implements IUnlockRepository {
 
   @override
   Future<void> clearAll() async => _codes.clear();
+
+  @override
+  Future<void> clearForSurprise(String surpriseId) async =>
+      _codes.remove(surpriseId);
 }
 
 void main() {

@@ -5,4 +5,7 @@ abstract class IUnlockRepository {
 
   /// Vide le cache mémoire et les données persistées.
   Future<void> clearAll();
+
+  /// Vide le cache mémoire et les données persistées pour une surprise donnée.
+  Future<void> clearForSurprise(String surpriseId);
 }

@@ -111,6 +111,7 @@ class SurpriseProvider extends ChangeNotifier {
         surpriseId: surpriseId,
         elementIds: elementIds,
       ),
+      _unlockRepository.clearForSurprise(surpriseId),
     ]);
     _ownedSurprises.removeWhere((s) => s.id == surpriseId);
     _joinedSurprises.removeWhere((s) => s.id == surpriseId);

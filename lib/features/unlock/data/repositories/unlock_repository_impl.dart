@@ -31,4 +31,10 @@ class UnlockRepositoryImpl implements IUnlockRepository {
     _cache.clear();
     await _local.clearAll();
   }
+
+  @override
+  Future<void> clearForSurprise(String surpriseId) async {
+    _cache.remove(surpriseId);
+    await _local.clearCodes(surpriseId);
+  }
 }
