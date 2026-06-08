@@ -184,12 +184,7 @@ class _ScratchGameTileState extends State<ScratchGameTile> {
               end: Alignment.bottomRight,
             ),
           ),
-          child: const Center(
-            child: Text(
-              '🪙  🪙  🪙',
-              style: TextStyle(fontSize: 22, letterSpacing: 8),
-            ),
-          ),
+          child: const SizedBox.shrink(),
         ),
         const SizedBox(height: 10),
         SizedBox(
