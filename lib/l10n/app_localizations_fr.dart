@@ -499,4 +499,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get codeGameRestart => 'Rejouer';
+
+  @override
+  String get codeGameSolved => 'Code trouvé !';
 }

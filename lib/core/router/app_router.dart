@@ -44,10 +44,15 @@ class ScratchRouteArgs {
 
 /// Paramètres passés via [GoRouter.extra] pour la route du jeu Code Secret.
 class CodeGameRouteArgs {
+  final String elementId;
   final String code;
   final Color themeColor;
 
-  const CodeGameRouteArgs({required this.code, required this.themeColor});
+  const CodeGameRouteArgs({
+    required this.elementId,
+    required this.code,
+    required this.themeColor,
+  });
 }
 
 // ─── Router ───────────────────────────────────────────────────────────────────

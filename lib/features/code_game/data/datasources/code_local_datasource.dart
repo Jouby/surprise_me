@@ -1,0 +1,20 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
+/// Persiste localement les IDs des éléments Code Secret déjà résolus.
+class CodeLocalDatasource {
+  static const _key = 'solved_code_element_ids';
+
+  Future<bool> isSolved(String elementId) async {
+    final prefs = await SharedPreferences.getInstance();
+    return (prefs.getStringList(_key) ?? []).contains(elementId);
+  }
+
+  Future<void> markSolved(String elementId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final ids = prefs.getStringList(_key) ?? [];
+    if (!ids.contains(elementId)) {
+      ids.add(elementId);
+      await prefs.setStringList(_key, ids);
+    }
+  }
+}

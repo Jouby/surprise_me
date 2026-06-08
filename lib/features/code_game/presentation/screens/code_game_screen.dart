@@ -35,6 +35,8 @@ class _CodeGameScreenState extends State<CodeGameScreen> {
     if (_state.currentInput.length != CodeGameState.codeLength) return;
     HapticFeedback.lightImpact();
     setState(() => _state = _state.submitGuess());
+    // Notifie la page appelante si le code vient d'être trouvé.
+    if (_state.isWon) Navigator.pop(context, true);
   }
 
   void _restart() =>

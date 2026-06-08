@@ -289,5 +289,8 @@
   },
 
   "codeGameRestart": "Volver a jugar",
-  "@codeGameRestart": {}
+  "@codeGameRestart": {},
+
+  "codeGameSolved": "¡Código descifrado!",
+  "@codeGameSolved": {}
 }

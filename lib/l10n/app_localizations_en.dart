@@ -496,4 +496,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get codeGameRestart => 'Play again';
+
+  @override
+  String get codeGameSolved => 'Code cracked!';
 }

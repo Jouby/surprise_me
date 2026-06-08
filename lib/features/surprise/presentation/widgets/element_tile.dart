@@ -209,7 +209,11 @@ class ElementTile extends StatelessWidget {
     }
 
     if (element.type == ElementType.codeGame) {
-      return CodeGameTile(code: element.content, themeColor: themeColor);
+      return CodeGameTile(
+        elementId: element.id,
+        code: element.content,
+        themeColor: themeColor,
+      );
     }
 
     return Padding(

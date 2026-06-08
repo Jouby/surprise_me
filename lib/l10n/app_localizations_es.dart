@@ -501,4 +501,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get codeGameRestart => 'Volver a jugar';
+
+  @override
+  String get codeGameSolved => '¡Código descifrado!';
 }

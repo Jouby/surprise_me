@@ -289,5 +289,8 @@
   },
 
   "codeGameRestart": "Play again",
-  "@codeGameRestart": {}
+  "@codeGameRestart": {},
+
+  "codeGameSolved": "Code cracked!",
+  "@codeGameSolved": {}
 }

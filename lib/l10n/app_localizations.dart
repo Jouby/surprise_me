@@ -969,6 +969,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Rejouer'**
   String get codeGameRestart;
+
+  /// No description provided for @codeGameSolved.
+  ///
+  /// In fr, this message translates to:
+  /// **'Code trouvé !'**
+  String get codeGameSolved;
 }
 
 class _AppLocalizationsDelegate
