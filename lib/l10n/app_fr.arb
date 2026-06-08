@@ -429,5 +429,20 @@
   "@scratchRevealed": {},
 
   "scratchRestart": "Recommencer",
-  "@scratchRestart": {}
+  "@scratchRestart": {},
+
+  "scratchPlay": "Gratter !",
+  "@scratchPlay": {},
+
+  "scratchBackToSurprise": "Voir la surprise",
+  "@scratchBackToSurprise": {},
+
+  "scratchContentTypeText": "Texte",
+  "@scratchContentTypeText": {},
+
+  "scratchContentTypeImage": "Image",
+  "@scratchContentTypeImage": {},
+
+  "scratchImageFormHint": "L'image sera révélée après grattage.",
+  "@scratchImageFormHint": {}
 }

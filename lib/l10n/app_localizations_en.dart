@@ -432,4 +432,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get scratchRestart => 'Start over';
+
+  @override
+  String get scratchPlay => 'Scratch!';
+
+  @override
+  String get scratchBackToSurprise => 'See the surprise';
+
+  @override
+  String get scratchContentTypeText => 'Text';
+
+  @override
+  String get scratchContentTypeImage => 'Image';
+
+  @override
+  String get scratchImageFormHint =>
+      'The image will be revealed after scratching.';
 }

@@ -230,5 +230,20 @@
   "@scratchRevealed": {},
 
   "scratchRestart": "Start over",
-  "@scratchRestart": {}
+  "@scratchRestart": {},
+
+  "scratchPlay": "Scratch!",
+  "@scratchPlay": {},
+
+  "scratchBackToSurprise": "See the surprise",
+  "@scratchBackToSurprise": {},
+
+  "scratchContentTypeText": "Text",
+  "@scratchContentTypeText": {},
+
+  "scratchContentTypeImage": "Image",
+  "@scratchContentTypeImage": {},
+
+  "scratchImageFormHint": "The image will be revealed after scratching.",
+  "@scratchImageFormHint": {}
 }

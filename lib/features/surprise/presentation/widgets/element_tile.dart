@@ -200,7 +200,11 @@ class ElementTile extends StatelessWidget {
     }
 
     if (element.type == ElementType.scratchGame) {
-      return ScratchGameTile(message: element.content, themeColor: themeColor);
+      return ScratchGameTile(
+        elementId: element.id,
+        content: element.content,
+        themeColor: themeColor,
+      );
     }
 
     return Padding(

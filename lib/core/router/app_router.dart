@@ -8,6 +8,7 @@ import '../../features/surprise/presentation/screens/edit_surprise_screen.dart';
 import '../../features/surprise/presentation/screens/home_screen.dart';
 import '../../features/surprise/presentation/screens/surprise_detail_screen.dart';
 import '../../features/motus_game/presentation/screens/motus_game_screen.dart';
+import '../../features/scratch_game/presentation/screens/scratch_game_screen.dart';
 
 // ─── Args ─────────────────────────────────────────────────────────────────────
 
@@ -25,6 +26,19 @@ class MotusRouteArgs {
   final Color themeColor;
 
   const MotusRouteArgs({required this.word, required this.themeColor});
+}
+
+/// Paramètres passés via [GoRouter.extra] pour la route du jeu Gratte-moi.
+class ScratchRouteArgs {
+  final String elementId;
+  final String content;
+  final Color themeColor;
+
+  const ScratchRouteArgs({
+    required this.elementId,
+    required this.content,
+    required this.themeColor,
+  });
 }
 
 // ─── Router ───────────────────────────────────────────────────────────────────
@@ -77,6 +91,18 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) {
         final args = state.extra as MotusRouteArgs;
         return MotusGameScreen(word: args.word, themeColor: args.themeColor);
+      },
+    ),
+
+    // Jeu Gratte-moi plein écran
+    GoRoute(
+      path: '/scratch',
+      builder: (context, state) {
+        final args = state.extra as ScratchRouteArgs;
+        return ScratchGameScreen(
+          content: args.content,
+          themeColor: args.themeColor,
+        );
       },
     ),
 

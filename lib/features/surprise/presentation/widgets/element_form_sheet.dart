@@ -215,6 +215,7 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
         return _scratchMessage.trim().isEmpty
             ? context.l10n.fieldRequired
             : null;
+
       case ElementType.text:
         return _contentController.text.trim().isEmpty
             ? context.l10n.fieldRequired

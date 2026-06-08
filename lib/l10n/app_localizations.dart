@@ -867,6 +867,36 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Recommencer'**
   String get scratchRestart;
+
+  /// No description provided for @scratchPlay.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gratter !'**
+  String get scratchPlay;
+
+  /// No description provided for @scratchBackToSurprise.
+  ///
+  /// In fr, this message translates to:
+  /// **'Voir la surprise'**
+  String get scratchBackToSurprise;
+
+  /// No description provided for @scratchContentTypeText.
+  ///
+  /// In fr, this message translates to:
+  /// **'Texte'**
+  String get scratchContentTypeText;
+
+  /// No description provided for @scratchContentTypeImage.
+  ///
+  /// In fr, this message translates to:
+  /// **'Image'**
+  String get scratchContentTypeImage;
+
+  /// No description provided for @scratchImageFormHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'image sera révélée après grattage.'**
+  String get scratchImageFormHint;
 }
 
 class _AppLocalizationsDelegate

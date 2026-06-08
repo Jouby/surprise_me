@@ -230,5 +230,20 @@
   "@scratchRevealed": {},
 
   "scratchRestart": "Volver a empezar",
-  "@scratchRestart": {}
+  "@scratchRestart": {},
+
+  "scratchPlay": "¡Rascar!",
+  "@scratchPlay": {},
+
+  "scratchBackToSurprise": "Ver la sorpresa",
+  "@scratchBackToSurprise": {},
+
+  "scratchContentTypeText": "Texto",
+  "@scratchContentTypeText": {},
+
+  "scratchContentTypeImage": "Imagen",
+  "@scratchContentTypeImage": {},
+
+  "scratchImageFormHint": "La imagen se revelará después de rascar.",
+  "@scratchImageFormHint": {}
 }

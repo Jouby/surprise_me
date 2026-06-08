@@ -435,4 +435,19 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get scratchRestart => 'Recommencer';
+
+  @override
+  String get scratchPlay => 'Gratter !';
+
+  @override
+  String get scratchBackToSurprise => 'Voir la surprise';
+
+  @override
+  String get scratchContentTypeText => 'Texte';
+
+  @override
+  String get scratchContentTypeImage => 'Image';
+
+  @override
+  String get scratchImageFormHint => 'L\'image sera révélée après grattage.';
 }
