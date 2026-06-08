@@ -1,4 +1,4 @@
-enum ElementType { text, image, date, location, wordGame, puzzle }
+enum ElementType { text, image, date, location, wordGame, puzzle, motusGame }
 
 extension ElementTypeX on ElementType {
   /// Serialized name used in the database (snake_case).
@@ -6,6 +6,8 @@ extension ElementTypeX on ElementType {
     switch (this) {
       case ElementType.wordGame:
         return 'word_game';
+      case ElementType.motusGame:
+        return 'motus_game';
       default:
         return name;
     }

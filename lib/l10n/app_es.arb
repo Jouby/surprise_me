@@ -161,5 +161,46 @@
   "localData": "Datos locales",
   "localDataHint": "Estos datos se almacenan únicamente en este dispositivo.",
   "savedShareCodes": "Códigos de compartición guardados",
-  "unlockedCodes": "Códigos de desbloqueo memorizados"
+  "unlockedCodes": "Códigos de desbloqueo memorizados",
+
+  "elementTypeMotus": "Motus",
+  "@elementTypeMotus": {},
+
+  "motusWordLabel": "Palabra a adivinar *",
+  "@motusWordLabel": {},
+
+  "motusWordHint": "Ej: SORPRESA",
+  "@motusWordHint": {},
+
+  "motusFormHint": "El jugador tendrá 6 intentos para adivinar la palabra. La primera letra siempre se revela.",
+  "@motusFormHint": {},
+
+  "playMotus": "Jugar al Motus",
+  "@playMotus": {},
+
+  "motusTitle": "Motus",
+  "@motusTitle": {},
+
+  "motusAttemptsLeft": "{count, plural, =0{Sin intentos} =1{1 intento restante} other{{count} intentos restantes}}",
+  "@motusAttemptsLeft": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "motusValidate": "OK",
+  "@motusValidate": {},
+
+  "motusWon": "¡Bien hecho! ¡Encontraste la palabra!",
+  "@motusWon": {},
+
+  "motusLost": "¡Lástima! La palabra era {word}",
+  "@motusLost": {
+    "placeholders": {
+      "word": { "type": "String" }
+    }
+  },
+
+  "motusRestart": "Volver a jugar",
+  "@motusRestart": {}
 }

@@ -161,5 +161,46 @@
   "localData": "Local data",
   "localDataHint": "This data is stored only on this device.",
   "savedShareCodes": "Saved share codes",
-  "unlockedCodes": "Memorised unlock codes"
+  "unlockedCodes": "Memorised unlock codes",
+
+  "elementTypeMotus": "Motus",
+  "@elementTypeMotus": {},
+
+  "motusWordLabel": "Word to guess *",
+  "@motusWordLabel": {},
+
+  "motusWordHint": "E.g. SURPRISE",
+  "@motusWordHint": {},
+
+  "motusFormHint": "The player will have 6 attempts to guess the word. The first letter is always revealed.",
+  "@motusFormHint": {},
+
+  "playMotus": "Play Motus",
+  "@playMotus": {},
+
+  "motusTitle": "Motus",
+  "@motusTitle": {},
+
+  "motusAttemptsLeft": "{count, plural, =0{No attempts left} =1{1 attempt left} other{{count} attempts left}}",
+  "@motusAttemptsLeft": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "motusValidate": "OK",
+  "@motusValidate": {},
+
+  "motusWon": "Well done! You found the word!",
+  "@motusWon": {},
+
+  "motusLost": "Too bad… The word was {word}",
+  "@motusLost": {
+    "placeholders": {
+      "word": { "type": "String" }
+    }
+  },
+
+  "motusRestart": "Play again",
+  "@motusRestart": {}
 }

@@ -363,4 +363,49 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get unlockedCodes => 'Codes de déverrouillage mémorisés';
+
+  @override
+  String get elementTypeMotus => 'Motus';
+
+  @override
+  String get motusWordLabel => 'Mot à deviner *';
+
+  @override
+  String get motusWordHint => 'Ex : SURPRISE';
+
+  @override
+  String get motusFormHint =>
+      'Le joueur devra trouver le mot en 6 tentatives. La première lettre est toujours révélée.';
+
+  @override
+  String get playMotus => 'Jouer au Motus';
+
+  @override
+  String get motusTitle => 'Motus';
+
+  @override
+  String motusAttemptsLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tentatives restantes',
+      one: '1 tentative restante',
+      zero: 'Plus de tentatives',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get motusValidate => 'OK';
+
+  @override
+  String get motusWon => 'Bravo ! Tu as trouvé le mot !';
+
+  @override
+  String motusLost(String word) {
+    return 'Dommage… Le mot était $word';
+  }
+
+  @override
+  String get motusRestart => 'Rejouer';
 }

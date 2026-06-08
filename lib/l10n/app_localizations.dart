@@ -753,6 +753,72 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Codes de déverrouillage mémorisés'**
   String get unlockedCodes;
+
+  /// No description provided for @elementTypeMotus.
+  ///
+  /// In fr, this message translates to:
+  /// **'Motus'**
+  String get elementTypeMotus;
+
+  /// No description provided for @motusWordLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mot à deviner *'**
+  String get motusWordLabel;
+
+  /// No description provided for @motusWordHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ex : SURPRISE'**
+  String get motusWordHint;
+
+  /// No description provided for @motusFormHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le joueur devra trouver le mot en 6 tentatives. La première lettre est toujours révélée.'**
+  String get motusFormHint;
+
+  /// No description provided for @playMotus.
+  ///
+  /// In fr, this message translates to:
+  /// **'Jouer au Motus'**
+  String get playMotus;
+
+  /// No description provided for @motusTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Motus'**
+  String get motusTitle;
+
+  /// No description provided for @motusAttemptsLeft.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =0{Plus de tentatives} =1{1 tentative restante} other{{count} tentatives restantes}}'**
+  String motusAttemptsLeft(int count);
+
+  /// No description provided for @motusValidate.
+  ///
+  /// In fr, this message translates to:
+  /// **'OK'**
+  String get motusValidate;
+
+  /// No description provided for @motusWon.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bravo ! Tu as trouvé le mot !'**
+  String get motusWon;
+
+  /// No description provided for @motusLost.
+  ///
+  /// In fr, this message translates to:
+  /// **'Dommage… Le mot était {word}'**
+  String motusLost(String word);
+
+  /// No description provided for @motusRestart.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rejouer'**
+  String get motusRestart;
 }
 
 class _AppLocalizationsDelegate

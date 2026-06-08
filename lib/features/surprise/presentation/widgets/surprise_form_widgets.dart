@@ -148,6 +148,8 @@ extension ElementTypeIcon on ElementType {
         return Icons.casino_outlined;
       case ElementType.puzzle:
         return Icons.grid_view_rounded;
+      case ElementType.motusGame:
+        return Icons.keyboard_rounded;
     }
   }
 }

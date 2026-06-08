@@ -360,5 +360,46 @@
   "@savedShareCodes": {},
 
   "unlockedCodes": "Codes de déverrouillage mémorisés",
-  "@unlockedCodes": {}
+  "@unlockedCodes": {},
+
+  "elementTypeMotus": "Motus",
+  "@elementTypeMotus": {},
+
+  "motusWordLabel": "Mot à deviner *",
+  "@motusWordLabel": {},
+
+  "motusWordHint": "Ex : SURPRISE",
+  "@motusWordHint": {},
+
+  "motusFormHint": "Le joueur devra trouver le mot en 6 tentatives. La première lettre est toujours révélée.",
+  "@motusFormHint": {},
+
+  "playMotus": "Jouer au Motus",
+  "@playMotus": {},
+
+  "motusTitle": "Motus",
+  "@motusTitle": {},
+
+  "motusAttemptsLeft": "{count, plural, =0{Plus de tentatives} =1{1 tentative restante} other{{count} tentatives restantes}}",
+  "@motusAttemptsLeft": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "motusValidate": "OK",
+  "@motusValidate": {},
+
+  "motusWon": "Bravo ! Tu as trouvé le mot !",
+  "@motusWon": {},
+
+  "motusLost": "Dommage… Le mot était {word}",
+  "@motusLost": {
+    "placeholders": {
+      "word": { "type": "String" }
+    }
+  },
+
+  "motusRestart": "Rejouer",
+  "@motusRestart": {}
 }
