@@ -240,6 +240,12 @@
   "add": "Ajouter",
   "@add": {},
 
+  "elementGroupContent": "Contenu",
+  "@elementGroupContent": {},
+
+  "elementGroupGames": "Jeux",
+  "@elementGroupGames": {},
+
   "elementTypeText": "Texte",
   "@elementTypeText": {},
 

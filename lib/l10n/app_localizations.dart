@@ -520,6 +520,18 @@ abstract class AppLocalizations {
   /// **'Ajouter'**
   String get add;
 
+  /// No description provided for @elementGroupContent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Contenu'**
+  String get elementGroupContent;
+
+  /// No description provided for @elementGroupGames.
+  ///
+  /// In fr, this message translates to:
+  /// **'Jeux'**
+  String get elementGroupGames;
+
   /// No description provided for @elementTypeText.
   ///
   /// In fr, this message translates to:

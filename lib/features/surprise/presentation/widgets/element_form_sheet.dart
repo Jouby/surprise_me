@@ -302,62 +302,28 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
               ).textTheme.headlineMedium?.copyWith(fontSize: 20),
             ),
             const SizedBox(height: 20),
-            // Type selector
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: ElementType.values.map((t) {
-                  final selected = t == _type;
-                  return GestureDetector(
-                    onTap: () => setState(() {
-                      _type = t;
-                      _selectedDate = null;
-                      _selectedTime = null;
-                      _uploadedImageUrl = null;
-                      _wordGameWord = '';
-                      _puzzleImageUrl = null;
-                      _motusWord = '';
-                      _scratchMessage = '';
-                      _codeGameCode = '';
-                      _contentController.clear();
-                      _submitted = false;
-                    }),
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 180),
-                      margin: const EdgeInsets.only(right: 8),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 9,
-                      ),
-                      decoration: BoxDecoration(
-                        color: selected ? AppTheme.primary : AppTheme.surface,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: selected ? AppTheme.primary : AppTheme.divider,
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(
-                            _iconFor(t),
-                            size: 14,
-                            color: selected ? Colors.white : AppTheme.textMid,
-                          ),
-                          const SizedBox(width: 6),
-                          Text(
-                            _labelFor(t),
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              color: selected ? Colors.white : AppTheme.textMid,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                }).toList(),
-              ),
+            // Type selector — deux groupes : Contenu et Jeux
+            _buildTypeGroup(
+              context,
+              label: context.l10n.elementGroupContent,
+              types: const [
+                ElementType.text,
+                ElementType.image,
+                ElementType.date,
+                ElementType.location,
+              ],
+            ),
+            const SizedBox(height: 10),
+            _buildTypeGroup(
+              context,
+              label: context.l10n.elementGroupGames,
+              types: const [
+                ElementType.wordGame,
+                ElementType.puzzle,
+                ElementType.motusGame,
+                ElementType.scratchGame,
+                ElementType.codeGame,
+              ],
             ),
             const SizedBox(height: 16),
             TextField(
@@ -571,6 +537,83 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
                   size: 18,
                 ),
                 label: Text(_isEditing ? context.l10n.save : context.l10n.add),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ── Sélecteur de type groupé ──────────────────────────────────────────────
+
+  Widget _buildTypeGroup(
+    BuildContext context, {
+    required String label,
+    required List<ElementType> types,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label.toUpperCase(),
+          style: const TextStyle(
+            fontSize: 10,
+            fontWeight: FontWeight.w700,
+            letterSpacing: 1.1,
+            color: AppTheme.textLight,
+          ),
+        ),
+        const SizedBox(height: 6),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(children: types.map((t) => _buildTypeChip(t)).toList()),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTypeChip(ElementType t) {
+    final selected = t == _type;
+    return GestureDetector(
+      onTap: () => setState(() {
+        _type = t;
+        _selectedDate = null;
+        _selectedTime = null;
+        _uploadedImageUrl = null;
+        _wordGameWord = '';
+        _puzzleImageUrl = null;
+        _motusWord = '';
+        _scratchMessage = '';
+        _codeGameCode = '';
+        _contentController.clear();
+        _submitted = false;
+      }),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        margin: const EdgeInsets.only(right: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+        decoration: BoxDecoration(
+          color: selected ? AppTheme.primary : AppTheme.surface,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: selected ? AppTheme.primary : AppTheme.divider,
+          ),
+        ),
+        child: Row(
+          children: [
+            Icon(
+              _iconFor(t),
+              size: 14,
+              color: selected ? Colors.white : AppTheme.textMid,
+            ),
+            const SizedBox(width: 6),
+            Text(
+              _labelFor(t),
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: selected ? Colors.white : AppTheme.textMid,
               ),
             ),
           ],

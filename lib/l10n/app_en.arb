@@ -112,6 +112,12 @@
   "generateCode": "Generate a code",
   "save": "Save",
   "add": "Add",
+  "elementGroupContent": "Content",
+  "@elementGroupContent": {},
+
+  "elementGroupGames": "Games",
+  "@elementGroupGames": {},
+
   "elementTypeText": "Text",
   "elementTypeImage": "Image",
   "elementTypeDate": "Date",

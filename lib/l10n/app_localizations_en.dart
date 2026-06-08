@@ -239,6 +239,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get add => 'Add';
 
   @override
+  String get elementGroupContent => 'Content';
+
+  @override
+  String get elementGroupGames => 'Games';
+
+  @override
   String get elementTypeText => 'Text';
 
   @override
