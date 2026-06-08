@@ -205,9 +205,7 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
       case ElementType.puzzle:
         return _puzzleImageUrl == null ? context.l10n.pleaseAddImage : null;
       case ElementType.motusGame:
-        return _motusWord.trim().isEmpty
-            ? context.l10n.pleaseEnterWord
-            : null;
+        return _motusWord.trim().isEmpty ? context.l10n.pleaseEnterWord : null;
       case ElementType.text:
         return _contentController.text.trim().isEmpty
             ? context.l10n.fieldRequired

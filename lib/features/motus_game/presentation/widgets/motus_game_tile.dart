@@ -28,8 +28,7 @@ class MotusGameTile extends StatelessWidget {
         builder: (context, constraints) {
           // Taille max tenant dans la largeur disponible (6px de marge par case).
           final preferred = _preferredTileSize(length);
-          final maxByWidth =
-              (constraints.maxWidth - length * 6) / length;
+          final maxByWidth = (constraints.maxWidth - length * 6) / length;
           final size = preferred.clamp(0.0, maxByWidth);
 
           return Column(
@@ -92,9 +91,7 @@ class MotusGameTile extends StatelessWidget {
                   ),
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 12),
-                    side: BorderSide(
-                      color: themeColor.withValues(alpha: 0.5),
-                    ),
+                    side: BorderSide(color: themeColor.withValues(alpha: 0.5)),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),

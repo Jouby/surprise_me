@@ -75,6 +75,5 @@ class _UpperCaseFormatter extends TextInputFormatter {
   TextEditingValue formatEditUpdate(
     TextEditingValue old,
     TextEditingValue value,
-  ) =>
-      value.copyWith(text: value.text.toUpperCase());
+  ) => value.copyWith(text: value.text.toUpperCase());
 }

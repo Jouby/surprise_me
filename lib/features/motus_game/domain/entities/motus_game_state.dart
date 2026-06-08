@@ -122,8 +122,7 @@ class MotusGameState {
         final letter = guess.letters[i];
         final result = guess.results[i];
         final current = map[letter];
-        if (current == null ||
-            order.indexOf(result) < order.indexOf(current)) {
+        if (current == null || order.indexOf(result) < order.indexOf(current)) {
           map[letter] = result;
         }
       }

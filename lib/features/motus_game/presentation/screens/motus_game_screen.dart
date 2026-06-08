@@ -71,9 +71,9 @@ class _MotusGameScreenState extends State<MotusGameScreen> {
         title: Text(
           context.l10n.motusTitle,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w700,
-                color: AppTheme.textDark,
-              ),
+            fontWeight: FontWeight.w700,
+            color: AppTheme.textDark,
+          ),
         ),
         centerTitle: true,
         actions: [
@@ -172,15 +172,13 @@ class _MotusGameScreenState extends State<MotusGameScreen> {
 
   Widget _buildRow(int rowIndex, double cellSize) {
     final isSubmitted = rowIndex < _state.guesses.length;
-    final isCurrent =
-        rowIndex == _state.guesses.length && !_state.isOver;
+    final isCurrent = rowIndex == _state.guesses.length && !_state.isOver;
     final letters = isSubmitted
         ? _state.guesses[rowIndex].letters
         : isCurrent
-            ? _state.currentInput
-            : '';
-    final results =
-        isSubmitted ? _state.guesses[rowIndex].results : null;
+        ? _state.currentInput
+        : '';
+    final results = isSubmitted ? _state.guesses[rowIndex].results : null;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3),
@@ -283,8 +281,7 @@ class _MotusGameScreenState extends State<MotusGameScreen> {
                 won
                     ? Icons.check_circle_rounded
                     : Icons.sentiment_dissatisfied_rounded,
-                color:
-                    won ? Colors.green.shade600 : Colors.red.shade400,
+                color: won ? Colors.green.shade600 : Colors.red.shade400,
                 size: 20,
               ),
               const SizedBox(width: 8),
@@ -296,9 +293,7 @@ class _MotusGameScreenState extends State<MotusGameScreen> {
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
-                    color: won
-                        ? Colors.green.shade700
-                        : Colors.red.shade600,
+                    color: won ? Colors.green.shade700 : Colors.red.shade600,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -410,9 +405,7 @@ class _KeyboardKey extends StatelessWidget {
     Color textColor;
 
     if (isAction) {
-      bgColor = enabled
-          ? themeColor.withValues(alpha: 0.15)
-          : AppTheme.surface;
+      bgColor = enabled ? themeColor.withValues(alpha: 0.15) : AppTheme.surface;
       textColor = enabled ? themeColor : AppTheme.textLight;
     } else if (result == TileResult.correct) {
       bgColor = themeColor;
