@@ -202,5 +202,33 @@
   },
 
   "motusRestart": "Play again",
-  "@motusRestart": {}
+  "@motusRestart": {},
+
+  "elementTypeScratch": "Scratch card",
+  "@elementTypeScratch": {},
+
+  "scratchMessageLabel": "Message to reveal *",
+  "@scratchMessageLabel": {},
+
+  "scratchMessageHint": "E.g. See you Saturday at 8pm!",
+  "@scratchMessageHint": {},
+
+  "scratchFormHint": "The player will scratch the silver area to uncover your message.",
+  "@scratchFormHint": {},
+
+  "scratchHint": "Scratch to reveal!",
+  "@scratchHint": {},
+
+  "scratchProgress": "{percent}% revealed",
+  "@scratchProgress": {
+    "placeholders": {
+      "percent": { "type": "int" }
+    }
+  },
+
+  "scratchRevealed": "Message revealed!",
+  "@scratchRevealed": {},
+
+  "scratchRestart": "Start over",
+  "@scratchRestart": {}
 }

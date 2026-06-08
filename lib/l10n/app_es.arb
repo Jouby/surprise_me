@@ -202,5 +202,33 @@
   },
 
   "motusRestart": "Volver a jugar",
-  "@motusRestart": {}
+  "@motusRestart": {},
+
+  "elementTypeScratch": "Rasca y gana",
+  "@elementTypeScratch": {},
+
+  "scratchMessageLabel": "Mensaje a revelar *",
+  "@scratchMessageLabel": {},
+
+  "scratchMessageHint": "Ej: ¡Nos vemos el sábado a las 20h!",
+  "@scratchMessageHint": {},
+
+  "scratchFormHint": "El jugador deberá rascar la zona plateada para descubrir tu mensaje.",
+  "@scratchFormHint": {},
+
+  "scratchHint": "¡Rasca para revelar!",
+  "@scratchHint": {},
+
+  "scratchProgress": "{percent}% revelado",
+  "@scratchProgress": {
+    "placeholders": {
+      "percent": { "type": "int" }
+    }
+  },
+
+  "scratchRevealed": "¡Mensaje revelado!",
+  "@scratchRevealed": {},
+
+  "scratchRestart": "Volver a empezar",
+  "@scratchRestart": {}
 }

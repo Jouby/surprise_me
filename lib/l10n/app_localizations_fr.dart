@@ -408,4 +408,31 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get motusRestart => 'Rejouer';
+
+  @override
+  String get elementTypeScratch => 'Gratte-moi';
+
+  @override
+  String get scratchMessageLabel => 'Message à révéler *';
+
+  @override
+  String get scratchMessageHint => 'Ex : Rendez-vous samedi à 20h !';
+
+  @override
+  String get scratchFormHint =>
+      'Le joueur devra gratter la zone argentée pour découvrir votre message.';
+
+  @override
+  String get scratchHint => 'Gratte pour révéler !';
+
+  @override
+  String scratchProgress(int percent) {
+    return '$percent% révélé';
+  }
+
+  @override
+  String get scratchRevealed => 'Message révélé !';
+
+  @override
+  String get scratchRestart => 'Recommencer';
 }

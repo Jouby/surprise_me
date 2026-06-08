@@ -150,6 +150,8 @@ extension ElementTypeIcon on ElementType {
         return Icons.grid_view_rounded;
       case ElementType.motusGame:
         return Icons.keyboard_rounded;
+      case ElementType.scratchGame:
+        return Icons.auto_awesome_rounded;
     }
   }
 }

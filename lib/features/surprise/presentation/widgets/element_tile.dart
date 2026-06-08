@@ -6,6 +6,7 @@ import '../../../../core/l10n/l10n.dart';
 import '../../../../features/word_game/presentation/widgets/word_game_tile.dart';
 import '../../../../features/puzzle_game/presentation/widgets/puzzle_game_tile.dart';
 import '../../../../features/motus_game/presentation/widgets/motus_game_tile.dart';
+import '../../../../features/scratch_game/presentation/widgets/scratch_game_tile.dart';
 import 'surprise_form_widgets.dart';
 
 class ElementTile extends StatelessWidget {
@@ -196,6 +197,10 @@ class ElementTile extends StatelessWidget {
 
     if (element.type == ElementType.motusGame) {
       return MotusGameTile(word: element.content, themeColor: themeColor);
+    }
+
+    if (element.type == ElementType.scratchGame) {
+      return ScratchGameTile(message: element.content, themeColor: themeColor);
     }
 
     return Padding(

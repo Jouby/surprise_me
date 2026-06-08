@@ -32,6 +32,8 @@ class SurpriseElementModel extends SurpriseElement {
         return ElementType.puzzle;
       case 'motus_game':
         return ElementType.motusGame;
+      case 'scratch_game':
+        return ElementType.scratchGame;
       default:
         return ElementType.text;
     }

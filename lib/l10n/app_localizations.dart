@@ -819,6 +819,54 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Rejouer'**
   String get motusRestart;
+
+  /// No description provided for @elementTypeScratch.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gratte-moi'**
+  String get elementTypeScratch;
+
+  /// No description provided for @scratchMessageLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Message à révéler *'**
+  String get scratchMessageLabel;
+
+  /// No description provided for @scratchMessageHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ex : Rendez-vous samedi à 20h !'**
+  String get scratchMessageHint;
+
+  /// No description provided for @scratchFormHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le joueur devra gratter la zone argentée pour découvrir votre message.'**
+  String get scratchFormHint;
+
+  /// No description provided for @scratchHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gratte pour révéler !'**
+  String get scratchHint;
+
+  /// No description provided for @scratchProgress.
+  ///
+  /// In fr, this message translates to:
+  /// **'{percent}% révélé'**
+  String scratchProgress(int percent);
+
+  /// No description provided for @scratchRevealed.
+  ///
+  /// In fr, this message translates to:
+  /// **'Message révélé !'**
+  String get scratchRevealed;
+
+  /// No description provided for @scratchRestart.
+  ///
+  /// In fr, this message translates to:
+  /// **'Recommencer'**
+  String get scratchRestart;
 }
 
 class _AppLocalizationsDelegate

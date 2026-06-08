@@ -410,4 +410,31 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get motusRestart => 'Volver a jugar';
+
+  @override
+  String get elementTypeScratch => 'Rasca y gana';
+
+  @override
+  String get scratchMessageLabel => 'Mensaje a revelar *';
+
+  @override
+  String get scratchMessageHint => 'Ej: ¡Nos vemos el sábado a las 20h!';
+
+  @override
+  String get scratchFormHint =>
+      'El jugador deberá rascar la zona plateada para descubrir tu mensaje.';
+
+  @override
+  String get scratchHint => '¡Rasca para revelar!';
+
+  @override
+  String scratchProgress(int percent) {
+    return '$percent% revelado';
+  }
+
+  @override
+  String get scratchRevealed => '¡Mensaje revelado!';
+
+  @override
+  String get scratchRestart => 'Volver a empezar';
 }

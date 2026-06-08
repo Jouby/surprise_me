@@ -401,5 +401,33 @@
   },
 
   "motusRestart": "Rejouer",
-  "@motusRestart": {}
+  "@motusRestart": {},
+
+  "elementTypeScratch": "Gratte-moi",
+  "@elementTypeScratch": {},
+
+  "scratchMessageLabel": "Message à révéler *",
+  "@scratchMessageLabel": {},
+
+  "scratchMessageHint": "Ex : Rendez-vous samedi à 20h !",
+  "@scratchMessageHint": {},
+
+  "scratchFormHint": "Le joueur devra gratter la zone argentée pour découvrir votre message.",
+  "@scratchFormHint": {},
+
+  "scratchHint": "Gratte pour révéler !",
+  "@scratchHint": {},
+
+  "scratchProgress": "{percent}% révélé",
+  "@scratchProgress": {
+    "placeholders": {
+      "percent": { "type": "int" }
+    }
+  },
+
+  "scratchRevealed": "Message révélé !",
+  "@scratchRevealed": {},
+
+  "scratchRestart": "Recommencer",
+  "@scratchRestart": {}
 }

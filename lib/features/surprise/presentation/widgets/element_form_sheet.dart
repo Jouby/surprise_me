@@ -11,6 +11,7 @@ import '../../../../core/utils/text_formatters.dart';
 import '../../../../features/word_game/presentation/widgets/word_game_form_field.dart';
 import '../../../../features/puzzle_game/presentation/widgets/puzzle_game_form_field.dart';
 import '../../../../features/motus_game/presentation/widgets/motus_game_form_field.dart';
+import '../../../../features/scratch_game/presentation/widgets/scratch_game_form_field.dart';
 import 'image_picker_field.dart';
 import 'location_autocomplete_field.dart';
 
@@ -37,6 +38,7 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
   String _wordGameWord = '';
   String? _puzzleImageUrl;
   String _motusWord = '';
+  String _scratchMessage = '';
   bool _submitted = false; // true dès le premier appui sur Ajouter/Enregistrer
 
   static const _chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
@@ -65,6 +67,9 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
     }
     if (init != null && init.type == ElementType.motusGame) {
       _motusWord = init.content;
+    }
+    if (init != null && init.type == ElementType.scratchGame) {
+      _scratchMessage = init.content;
     }
     _codeController = TextEditingController(text: init?.unlockCode ?? '');
 
@@ -206,6 +211,10 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
         return _puzzleImageUrl == null ? context.l10n.pleaseAddImage : null;
       case ElementType.motusGame:
         return _motusWord.trim().isEmpty ? context.l10n.pleaseEnterWord : null;
+      case ElementType.scratchGame:
+        return _scratchMessage.trim().isEmpty
+            ? context.l10n.fieldRequired
+            : null;
       case ElementType.text:
         return _contentController.text.trim().isEmpty
             ? context.l10n.fieldRequired
@@ -229,6 +238,8 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
       content = _puzzleImageUrl ?? '';
     } else if (_type == ElementType.motusGame) {
       content = _motusWord.trim().toUpperCase();
+    } else if (_type == ElementType.scratchGame) {
+      content = _scratchMessage.trim();
     } else {
       content = _contentController.text.trim();
     }
@@ -295,6 +306,7 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
                       _wordGameWord = '';
                       _puzzleImageUrl = null;
                       _motusWord = '';
+                      _scratchMessage = '';
                       _contentController.clear();
                       _submitted = false;
                     }),
@@ -457,6 +469,17 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
                 },
                 errorText: _contentError(context),
               )
+            else if (_type == ElementType.scratchGame)
+              ScratchGameFormField(
+                initialValue: _scratchMessage.isNotEmpty
+                    ? _scratchMessage
+                    : null,
+                onChanged: (v) {
+                  _scratchMessage = v;
+                  if (_submitted) setState(() {});
+                },
+                errorText: _contentError(context),
+              )
             else
               TextField(
                 controller: _contentController,
@@ -552,6 +575,8 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
         return l.elementTypePuzzle;
       case ElementType.motusGame:
         return l.elementTypeMotus;
+      case ElementType.scratchGame:
+        return l.elementTypeScratch;
     }
   }
 
@@ -572,6 +597,8 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
         return l.pleaseAddImage;
       case ElementType.motusGame:
         return l.motusWordLabel;
+      case ElementType.scratchGame:
+        return l.scratchMessageLabel;
     }
   }
 
@@ -591,6 +618,8 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
         return Icons.grid_view_rounded;
       case ElementType.motusGame:
         return Icons.keyboard_rounded;
+      case ElementType.scratchGame:
+        return Icons.auto_awesome_rounded;
     }
   }
 }
