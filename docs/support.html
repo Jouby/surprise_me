@@ -21,12 +21,39 @@
       padding: 20px 24px;
       display: flex;
       align-items: center;
-      gap: 12px;
+      justify-content: space-between;
     }
 
+    .header-left { display: flex; align-items: center; gap: 12px; }
     header span.emoji { font-size: 28px; }
     header h1 { font-size: 18px; font-weight: 600; margin: 0; color: #1a1a1a; }
     header p { font-size: 13px; color: #888; margin: 0; }
+
+    .lang-switch {
+      display: flex;
+      gap: 4px;
+      background: #f0f0f0;
+      border-radius: 8px;
+      padding: 3px;
+    }
+
+    .lang-switch button {
+      border: none;
+      background: transparent;
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      color: #888;
+      transition: all 0.15s;
+    }
+
+    .lang-switch button.active {
+      background: #ffffff;
+      color: #1a1a1a;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
 
     main {
       max-width: 680px;
@@ -59,9 +86,6 @@
       font-size: 15px;
       font-weight: 600;
       margin: 0 0 8px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
 
     .card p {
@@ -79,6 +103,9 @@
 
     .card a:hover { text-decoration: underline; }
 
+    [data-lang] { display: none; }
+    [data-lang].visible { display: block; }
+
     footer {
       text-align: center;
       font-size: 12px;
@@ -90,57 +117,128 @@
 <body>
 
   <header>
-    <span class="emoji">🎁</span>
-    <div>
-      <h1>Surprise Me</h1>
-      <p>Support</p>
+    <div class="header-left">
+      <span class="emoji">🎁</span>
+      <div>
+        <h1>Surprise Me</h1>
+        <p>Support</p>
+      </div>
+    </div>
+    <div class="lang-switch">
+      <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+      <button id="btn-fr" onclick="setLang('fr')">FR</button>
     </div>
   </header>
 
   <main>
-    <h2>How can we help?</h2>
-    <p class="subtitle">
-      Have a question, found a bug, or need help with your purchase?<br>
-      We're here to help — reach out and we'll get back to you as soon as possible.
-    </p>
 
-    <div class="card">
-      <h3>✉️ Contact us</h3>
-      <p>
-        Send us an email at <a href="mailto:aure.joubert@gmail.com">aure.joubert@gmail.com</a><br>
-        We typically respond within 1–2 business days.
+    <!-- ── English ─────────────────────────────────────────────────────── -->
+    <div data-lang="en" class="visible">
+      <h2>How can we help?</h2>
+      <p class="subtitle">
+        Have a question, found a bug, or need help with your purchase?<br>
+        We're here to help — reach out and we'll get back to you as soon as possible.
       </p>
+
+      <div class="card">
+        <h3>✉️ Contact us</h3>
+        <p>
+          Send us an email at <a href="mailto:aure.joubert@gmail.com">aure.joubert@gmail.com</a><br>
+          We typically respond within 1–2 business days.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>🔄 Restore a purchase</h3>
+        <p>
+          If you purchased Surprise Me Premium and it's not showing up,
+          go to <strong>Settings → Restore purchases</strong> inside the app.
+          Make sure you're signed in with the same Apple ID or Google account used for the original purchase.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>🐛 Report a bug</h3>
+        <p>
+          Found something that doesn't work as expected? Please email us with a description
+          of the issue, your device model, and the iOS/Android version. Screenshots are welcome!
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>🔒 Privacy</h3>
+        <p>
+          Read our <a href="https://jouby.github.io/surprise_me/privacy-policy">Privacy Policy</a>
+          to learn how we handle your data.
+        </p>
+      </div>
     </div>
 
-    <div class="card">
-      <h3>🔄 Restore a purchase</h3>
-      <p>
-        If you purchased Surprise Me Premium and it's not showing up,
-        go to <strong>Settings → Restore purchases</strong> inside the app.
-        Make sure you're signed in with the same Apple ID or Google account used for the original purchase.
+    <!-- ── Français ────────────────────────────────────────────────────── -->
+    <div data-lang="fr">
+      <h2>Comment pouvons-nous vous aider ?</h2>
+      <p class="subtitle">
+        Une question, un bug ou besoin d'aide avec votre achat ?<br>
+        Contactez-nous, nous vous répondrons dans les plus brefs délais.
       </p>
+
+      <div class="card">
+        <h3>✉️ Nous contacter</h3>
+        <p>
+          Envoyez-nous un email à <a href="mailto:aure.joubert@gmail.com">aure.joubert@gmail.com</a><br>
+          Nous répondons généralement sous 1 à 2 jours ouvrés.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>🔄 Restaurer un achat</h3>
+        <p>
+          Si vous avez acheté Surprise Me Premium et qu'il n'apparaît pas,
+          allez dans <strong>Paramètres → Restaurer mes achats</strong> dans l'application.
+          Assurez-vous d'être connecté avec le même identifiant Apple ou compte Google
+          que lors de l'achat initial.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>🐛 Signaler un bug</h3>
+        <p>
+          Quelque chose ne fonctionne pas comme prévu ? Envoyez-nous un email avec
+          une description du problème, votre modèle d'appareil et la version iOS/Android.
+          Les captures d'écran sont les bienvenues !
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>🔒 Confidentialité</h3>
+        <p>
+          Consultez notre <a href="https://jouby.github.io/surprise_me/privacy-policy">Politique de confidentialité</a>
+          pour savoir comment nous traitons vos données.
+        </p>
+      </div>
     </div>
 
-    <div class="card">
-      <h3>🐛 Report a bug</h3>
-      <p>
-        Found something that doesn't work as expected? Please email us with a description
-        of the issue, your device model, and the iOS/Android version. Screenshots are welcome!
-      </p>
-    </div>
-
-    <div class="card">
-      <h3>🔒 Privacy</h3>
-      <p>
-        Read our <a href="https://jouby.github.io/surprise_me/privacy-policy">Privacy Policy</a>
-        to learn how we handle your data.
-      </p>
-    </div>
   </main>
 
   <footer>
-    © 2025 Surprise Me · <a href="https://jouby.github.io/surprise_me/privacy-policy" style="color:#aaa">Privacy Policy</a>
+    © 2025 Surprise Me ·
+    <a href="https://jouby.github.io/surprise_me/privacy-policy" style="color:#aaa">Privacy Policy</a>
   </footer>
+
+  <script>
+    function setLang(lang) {
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.classList.toggle('visible', el.dataset.lang === lang);
+      });
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+      document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
+      document.documentElement.lang = lang;
+    }
+
+    // Détecte la langue du navigateur au chargement
+    const browserLang = navigator.language?.startsWith('fr') ? 'fr' : 'en';
+    setLang(browserLang);
+  </script>
 
 </body>
 </html>
