@@ -715,13 +715,13 @@ abstract class AppLocalizations {
   /// No description provided for @creatorTokens.
   ///
   /// In fr, this message translates to:
-  /// **'Creator tokens'**
+  /// **'Token créateur'**
   String get creatorTokens;
 
   /// No description provided for @creatorTokensHint.
   ///
   /// In fr, this message translates to:
-  /// **'Ces tokens prouvent que vous êtes le créateur d\'une surprise. Conservez-les précieusement — ils permettent de lier un nouvel appareil à vos surprises.'**
+  /// **'Ce token est lié à votre compte et prouve que vous êtes le créateur de vos surprises. Conservez-le précieusement — il permet de lier un nouvel appareil à votre compte.'**
   String get creatorTokensHint;
 
   /// No description provided for @noCreatedSurprises.
@@ -1029,6 +1029,60 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Code trouvé !'**
   String get codeGameSolved;
+
+  /// No description provided for @premiumTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Surprise Me Premium'**
+  String get premiumTitle;
+
+  /// No description provided for @premiumPerkUnlimited.
+  ///
+  /// In fr, this message translates to:
+  /// **'Créez autant de surprises que vous voulez'**
+  String get premiumPerkUnlimited;
+
+  /// No description provided for @premiumPerkGames.
+  ///
+  /// In fr, this message translates to:
+  /// **'Accédez à tous les éléments de type Jeu'**
+  String get premiumPerkGames;
+
+  /// No description provided for @premiumPerkOneTime.
+  ///
+  /// In fr, this message translates to:
+  /// **'Achat unique, sans abonnement'**
+  String get premiumPerkOneTime;
+
+  /// No description provided for @premiumBuy.
+  ///
+  /// In fr, this message translates to:
+  /// **'Passer en Premium'**
+  String get premiumBuy;
+
+  /// No description provided for @premiumRestore.
+  ///
+  /// In fr, this message translates to:
+  /// **'Restaurer mes achats'**
+  String get premiumRestore;
+
+  /// No description provided for @premiumRestoreNotFound.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun achat trouvé à restaurer.'**
+  String get premiumRestoreNotFound;
+
+  /// No description provided for @premiumLimitReached.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vous avez atteint la limite gratuite (1 surprise). Passez en Premium pour en créer davantage.'**
+  String get premiumLimitReached;
+
+  /// No description provided for @premiumGamesLocked.
+  ///
+  /// In fr, this message translates to:
+  /// **'Les jeux sont réservés aux utilisateurs Premium.'**
+  String get premiumGamesLocked;
 }
 
 class _AppLocalizationsDelegate

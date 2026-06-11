@@ -2,7 +2,10 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import '../../../../core/l10n/l10n.dart';
+import '../../../../core/premium/paywall_sheet.dart';
+import '../../../../core/premium/premium_provider.dart';
 
 import '../../domain/entities/element_draft.dart';
 import '../../domain/entities/surprise_element.dart';
@@ -343,7 +346,12 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
                   label: context.l10n.elementGroupGames,
                   icon: Icons.sports_esports_rounded,
                   selected: _showGames,
-                  onTap: () {
+                  locked: !context.read<PremiumProvider>().isPremium,
+                  onTap: () async {
+                    if (!context.read<PremiumProvider>().isPremium) {
+                      await PaywallSheet.show(context);
+                      return;
+                    }
                     if (!_showGames) {
                       setState(() {
                         _showGames = true;
@@ -605,6 +613,7 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
     required IconData icon,
     required bool selected,
     required VoidCallback onTap,
+    bool locked = false,
   }) {
     return Expanded(
       child: GestureDetector(
@@ -639,6 +648,10 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
                   color: selected ? AppTheme.primary : AppTheme.textMid,
                 ),
               ),
+              if (locked) ...[
+                const SizedBox(width: 4),
+                const Icon(Icons.lock_rounded, size: 12, color: AppTheme.textLight),
+              ],
             ],
           ),
         ),

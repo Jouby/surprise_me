@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'core/config/supabase_config.dart';
+import 'core/premium/premium_provider.dart';
 import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
 
@@ -58,6 +59,10 @@ Future<void> main() async {
   // Génère le token utilisateur dès le démarrage s'il n'existe pas encore.
   await surpriseLocalDs.getUserToken();
 
+  // Premium
+  final premiumProvider = PremiumProvider();
+  await premiumProvider.init();
+
   final fetchSurprises = FetchSurprisesUseCase(surpriseRepo);
   final createSurprise = CreateSurpriseUseCase(surpriseRepo);
   final joinSurprise = JoinSurpriseUseCase(surpriseRepo);
@@ -92,6 +97,7 @@ Future<void> main() async {
           ),
         ),
         Provider<UploadImageUseCase>.value(value: uploadImage),
+        ChangeNotifierProvider<PremiumProvider>.value(value: premiumProvider),
       ],
       child: const SurpriseMeApp(),
     ),

@@ -338,11 +338,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings => 'Settings';
 
   @override
-  String get creatorTokens => 'Creator tokens';
+  String get creatorTokens => 'Creator token';
 
   @override
   String get creatorTokensHint =>
-      'These tokens prove you are the creator of a surprise. Keep them safe — they allow you to link a new device to your surprises.';
+      'This token is tied to your account and proves you are the creator of your surprises. Keep it safe — it allows you to link a new device to your account.';
 
   @override
   String get noCreatedSurprises => 'No surprises created on this device.';
@@ -528,4 +528,32 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get codeGameSolved => 'Code cracked!';
+
+  @override
+  String get premiumTitle => 'Surprise Me Premium';
+
+  @override
+  String get premiumPerkUnlimited => 'Create as many surprises as you want';
+
+  @override
+  String get premiumPerkGames => 'Access all Game-type elements';
+
+  @override
+  String get premiumPerkOneTime => 'One-time purchase, no subscription';
+
+  @override
+  String get premiumBuy => 'Go Premium';
+
+  @override
+  String get premiumRestore => 'Restore purchases';
+
+  @override
+  String get premiumRestoreNotFound => 'No purchase found to restore.';
+
+  @override
+  String get premiumLimitReached =>
+      'You\'ve reached the free limit (1 surprise). Go Premium to create more.';
+
+  @override
+  String get premiumGamesLocked => 'Games are available to Premium users only.';
 }

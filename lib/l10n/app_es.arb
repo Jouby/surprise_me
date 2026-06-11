@@ -154,8 +154,8 @@
   "exitPreview": "Salir de la vista previa",
 
   "settings": "Ajustes",
-  "creatorTokens": "Creator tokens",
-  "creatorTokensHint": "Estos tokens demuestran que eres el creador de una sorpresa. Guárdalos en un lugar seguro — permiten vincular un nuevo dispositivo a tus sorpresas.",
+  "creatorTokens": "Token creador",
+  "creatorTokensHint": "Este token está vinculado a tu cuenta y demuestra que eres el creador de tus sorpresas. Guárdalo en un lugar seguro — permite vincular un nuevo dispositivo a tu cuenta.",
   "noCreatedSurprises": "Ninguna sorpresa creada en este dispositivo.",
   "tokenCopied": "¡Token copiado!",
   "surpriseId": "ID: {id}",
@@ -319,5 +319,15 @@
   "@codeGameRestart": {},
 
   "codeGameSolved": "¡Código descifrado!",
-  "@codeGameSolved": {}
+  "@codeGameSolved": {},
+
+  "premiumTitle": "Surprise Me Premium",
+  "premiumPerkUnlimited": "Crea tantas sorpresas como quieras",
+  "premiumPerkGames": "Accede a todos los elementos de tipo Juego",
+  "premiumPerkOneTime": "Compra única, sin suscripción",
+  "premiumBuy": "Hazte Premium",
+  "premiumRestore": "Restaurar compras",
+  "premiumRestoreNotFound": "No se encontró ninguna compra para restaurar.",
+  "premiumLimitReached": "Has alcanzado el límite gratuito (1 sorpresa). Hazte Premium para crear más.",
+  "premiumGamesLocked": "Los juegos están reservados para usuarios Premium."
 }

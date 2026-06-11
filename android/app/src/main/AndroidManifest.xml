@@ -12,6 +12,8 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <!-- Réseau pour l'upload Supabase -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- Achats intégrés Google Play -->
+    <uses-permission android:name="com.android.vending.BILLING"/>
     <application
         android:label="Surprise Me"
         android:name="${applicationName}"

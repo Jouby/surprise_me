@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/l10n/l10n.dart';
+import '../../../../core/premium/paywall_sheet.dart';
+import '../../../../core/premium/premium_provider.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/utils/text_formatters.dart';
@@ -23,9 +25,22 @@ class _HomeScreenState extends State<HomeScreen> {
   // pour le même deep link.
   String? _lastHandledJoinCode;
 
+  final ScrollController _scrollController = ScrollController();
+
+  // 0.0 = header totalement ouvert, 1.0 = header replié
+  double _collapseRatio = 0.0;
+
+  static const double _expandedHeight = 110;
+  static const double _collapsedHeight = kToolbarHeight;
+  static const double _scrollRange = _expandedHeight - _collapsedHeight;
+
+  static const Color _headerExpanded = Color(0xFFDEEEF8);
+  static const Color _headerCollapsed = AppTheme.primary;
+
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(_onScroll);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       // Charge les codes au premier affichage puis à chaque mise à jour.
@@ -35,8 +50,15 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void _onScroll() {
+    final t = (_scrollController.offset / _scrollRange).clamp(0.0, 1.0);
+    if (t != _collapseRatio) setState(() => _collapseRatio = t);
+  }
+
   @override
   void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
     // Retire le listener proprement pour éviter les fuites mémoire.
     // On lit le provider via le contexte avant qu'il soit détaché.
     try {
@@ -98,9 +120,21 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.surface,
-      body: Consumer<SurpriseProvider>(
-        builder: (context, provider, _) {
-          return CustomScrollView(
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xFFDEEEF8), Color(0xFFF5FAFF)],
+          ),
+        ),
+        child: Consumer<SurpriseProvider>(
+          builder: (context, provider, _) {
+            return RefreshIndicator(
+              onRefresh: provider.load,
+              color: AppTheme.primaryLight,
+              child: CustomScrollView(
+              controller: _scrollController,
             slivers: [
               _buildAppBar(context, provider),
               if (provider.isLoading)
@@ -166,8 +200,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ],
-          );
-        },
+            ),
+            );
+          },
+        ),
       ),
       floatingActionButton: _buildFab(context),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -175,36 +211,34 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildAppBar(BuildContext context, SurpriseProvider provider) {
+    final bg = Color.lerp(_headerExpanded, _headerCollapsed, _collapseRatio)!;
+    final iconColor = Color.lerp(AppTheme.textMid, Colors.white70, _collapseRatio)!;
+    final titleColor = Color.lerp(AppTheme.textDark, Colors.white, _collapseRatio)!;
     return SliverAppBar(
-      expandedHeight: 150,
+      expandedHeight: _expandedHeight,
       pinned: true,
-      backgroundColor: AppTheme.surface,
+      backgroundColor: bg,
       surfaceTintColor: Colors.transparent,
       actions: [
-        IconButton(
-          onPressed: provider.isLoading ? null : provider.load,
-          icon: const Icon(Icons.refresh_rounded, color: AppTheme.textMid),
-          tooltip: context.l10n.refresh,
-        ),
         Padding(
           padding: const EdgeInsets.only(right: 8),
           child: IconButton(
             onPressed: () => context.push('/settings'),
-            icon: const Icon(Icons.settings_outlined, color: AppTheme.textMid),
+            icon: Icon(Icons.settings_outlined, color: iconColor),
             tooltip: context.l10n.settings,
           ),
         ),
       ],
       flexibleSpace: FlexibleSpaceBar(
-        titlePadding: const EdgeInsets.fromLTRB(20, 0, 20, 18),
+        titlePadding: const EdgeInsets.fromLTRB(20, 0, 0, 16),
         title: Text(
           context.l10n.yourSurprises,
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-            fontSize: 26,
-            color: AppTheme.textDark,
+            fontSize: 20,
+            color: titleColor,
           ),
         ),
-        background: const ColoredBox(color: AppTheme.surface),
+        background: Container(color: _headerExpanded),
       ),
     );
   }
@@ -272,6 +306,18 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Future<void> _onCreateTap(BuildContext context) async {
+    final premium = context.read<PremiumProvider>();
+    final surprises = context.read<SurpriseProvider>();
+    debugPrint('[Premium] isPremium=${premium.isPremium} '
+        'createdCount=${surprises.createdSurprises.length}');
+    if (!premium.isPremium && surprises.createdSurprises.isNotEmpty) {
+      await PaywallSheet.show(context);
+      return;
+    }
+    if (context.mounted) context.push('/create');
+  }
+
   Widget _buildFab(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -291,7 +337,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: _FabButton(
               label: context.l10n.create,
               icon: Icons.add_rounded,
-              onTap: () => context.push('/create'),
+              onTap: () => _onCreateTap(context),
             ),
           ),
         ],

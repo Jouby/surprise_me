@@ -337,10 +337,10 @@
   "settings": "Paramètres",
   "@settings": {},
 
-  "creatorTokens": "Creator tokens",
+  "creatorTokens": "Token créateur",
   "@creatorTokens": {},
 
-  "creatorTokensHint": "Ces tokens prouvent que vous êtes le créateur d'une surprise. Conservez-les précieusement — ils permettent de lier un nouvel appareil à vos surprises.",
+  "creatorTokensHint": "Ce token est lié à votre compte et prouve que vous êtes le créateur de vos surprises. Conservez-le précieusement — il permet de lier un nouvel appareil à votre compte.",
   "@creatorTokensHint": {},
 
   "noCreatedSurprises": "Aucune surprise créée sur cet appareil.",
@@ -518,5 +518,24 @@
   "@codeGameRestart": {},
 
   "codeGameSolved": "Code trouvé !",
-  "@codeGameSolved": {}
+  "@codeGameSolved": {},
+
+  "premiumTitle": "Surprise Me Premium",
+  "@premiumTitle": {},
+  "premiumPerkUnlimited": "Créez autant de surprises que vous voulez",
+  "@premiumPerkUnlimited": {},
+  "premiumPerkGames": "Accédez à tous les éléments de type Jeu",
+  "@premiumPerkGames": {},
+  "premiumPerkOneTime": "Achat unique, sans abonnement",
+  "@premiumPerkOneTime": {},
+  "premiumBuy": "Passer en Premium",
+  "@premiumBuy": {},
+  "premiumRestore": "Restaurer mes achats",
+  "@premiumRestore": {},
+  "premiumRestoreNotFound": "Aucun achat trouvé à restaurer.",
+  "@premiumRestoreNotFound": {},
+  "premiumLimitReached": "Vous avez atteint la limite gratuite (1 surprise). Passez en Premium pour en créer davantage.",
+  "@premiumLimitReached": {},
+  "premiumGamesLocked": "Les jeux sont réservés aux utilisateurs Premium.",
+  "@premiumGamesLocked": {}
 }
