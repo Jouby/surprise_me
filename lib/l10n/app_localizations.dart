@@ -268,6 +268,12 @@ abstract class AppLocalizations {
   /// **'Erreur : {error}'**
   String errorPrefix(String error);
 
+  /// No description provided for @genericError.
+  ///
+  /// In fr, this message translates to:
+  /// **'Une erreur est survenue. Veuillez réessayer.'**
+  String get genericError;
+
   /// No description provided for @linkCopied.
   ///
   /// In fr, this message translates to:

@@ -9,6 +9,7 @@ import '../../domain/entities/element_draft.dart';
 import '../providers/surprise_provider.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/utils/color_utils.dart';
+import '../../../../core/utils/error_utils.dart';
 import '../widgets/element_form_sheet.dart';
 import '../widgets/emoji_picker_sheet.dart';
 import '../widgets/surprise_form_widgets.dart';
@@ -65,7 +66,7 @@ class _CreateSurpriseScreenState extends State<CreateSurpriseScreen> {
     } catch (e) {
       setState(() => _saving = false);
       if (!mounted) return;
-      _showSnack(context.l10n.errorPrefix(e.toString()));
+      _showSnack(errorMessage(e, context));
     }
   }
 

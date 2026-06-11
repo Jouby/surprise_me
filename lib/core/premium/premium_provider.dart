@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
+import '../utils/error_utils.dart';
+
 class PremiumProvider extends ChangeNotifier {
   static const _entitlement = 'premium';
   static const _appleApiKey = 'appl_yNRtTwKxQbUGqaAJrUBlcRNzRud';
@@ -24,7 +26,7 @@ class PremiumProvider extends ChangeNotifier {
       await _refresh();
     } catch (e) {
       _isLoading = false;
-      _error = e.toString();
+      _error = errorMessageRaw(e);
       notifyListeners();
     }
   }

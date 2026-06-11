@@ -99,6 +99,9 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get genericError => 'Une erreur est survenue. Veuillez réessayer.';
+
+  @override
   String get linkCopied => 'Lien copié !';
 
   @override

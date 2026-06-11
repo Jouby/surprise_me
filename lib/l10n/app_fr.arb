@@ -92,6 +92,8 @@
       "error": { "type": "String" }
     }
   },
+  "genericError": "Une erreur est survenue. Veuillez réessayer.",
+  "@genericError": {},
 
   "linkCopied": "Lien copié !",
   "@linkCopied": {},

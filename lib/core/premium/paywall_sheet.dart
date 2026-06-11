@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../l10n/l10n.dart';
 import '../theme/app_theme.dart';
+import '../utils/error_utils.dart';
 import 'premium_provider.dart';
 
 class PaywallSheet extends StatefulWidget {
@@ -40,7 +41,7 @@ class _PaywallSheetState extends State<PaywallSheet> {
       if (!mounted) return;
       if (success) Navigator.pop(context, true);
     } catch (e) {
-      if (mounted) setState(() => _error = e.toString());
+      if (mounted) setState(() => _error = errorMessage(e, context));
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -51,19 +52,25 @@ class _PaywallSheetState extends State<PaywallSheet> {
       _restoring = true;
       _error = null;
     });
-    final success = await context.read<PremiumProvider>().restore();
-    if (!mounted) return;
-    setState(() => _restoring = false);
-    if (success) {
-      Navigator.pop(context, true);
-    } else {
-      setState(() => _error = context.l10n.premiumRestoreNotFound);
+    try {
+      final success = await context.read<PremiumProvider>().restore();
+      if (!mounted) return;
+      if (success) {
+        Navigator.pop(context, true);
+      } else {
+        setState(() => _error = context.l10n.premiumRestoreNotFound);
+      }
+    } catch (e) {
+      if (mounted) setState(() => _error = errorMessage(e, context));
+    } finally {
+      if (mounted) setState(() => _restoring = false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final bottom = MediaQuery.of(context).viewInsets.bottom +
+    final bottom =
+        MediaQuery.of(context).viewInsets.bottom +
         MediaQuery.of(context).padding.bottom;
     return Container(
       decoration: const BoxDecoration(
@@ -95,9 +102,9 @@ class _PaywallSheetState extends State<PaywallSheet> {
           const SizedBox(height: 16),
           Text(
             context.l10n.premiumTitle,
-            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  fontSize: 22,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.headlineMedium?.copyWith(fontSize: 22),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 24),
@@ -120,16 +127,20 @@ class _PaywallSheetState extends State<PaywallSheet> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.error_outline_rounded,
-                    size: 15, color: Colors.red.shade400),
+                Icon(
+                  Icons.error_outline_rounded,
+                  size: 15,
+                  color: Colors.red.shade400,
+                ),
                 const SizedBox(width: 6),
                 Flexible(
                   child: Text(
                     _error!,
                     style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.red.shade400,
-                        fontWeight: FontWeight.w500),
+                      fontSize: 13,
+                      color: Colors.red.shade400,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ],
@@ -145,7 +156,9 @@ class _PaywallSheetState extends State<PaywallSheet> {
                       height: 20,
                       width: 20,
                       child: CircularProgressIndicator(
-                          strokeWidth: 2, color: Colors.white),
+                        strokeWidth: 2,
+                        color: Colors.white,
+                      ),
                     )
                   : Text(context.l10n.premiumBuy),
             ),
@@ -162,7 +175,9 @@ class _PaywallSheetState extends State<PaywallSheet> {
                 : Text(
                     context.l10n.premiumRestore,
                     style: const TextStyle(
-                        color: AppTheme.textLight, fontSize: 13),
+                      color: AppTheme.textLight,
+                      fontSize: 13,
+                    ),
                   ),
           ),
         ],

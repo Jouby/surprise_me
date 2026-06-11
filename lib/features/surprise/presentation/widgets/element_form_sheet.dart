@@ -650,7 +650,11 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
               ),
               if (locked) ...[
                 const SizedBox(width: 4),
-                const Icon(Icons.lock_rounded, size: 12, color: AppTheme.textLight),
+                const Icon(
+                  Icons.lock_rounded,
+                  size: 12,
+                  color: AppTheme.textLight,
+                ),
               ],
             ],
           ),

@@ -134,73 +134,76 @@ class _HomeScreenState extends State<HomeScreen> {
               onRefresh: provider.load,
               color: AppTheme.primaryLight,
               child: CustomScrollView(
-              controller: _scrollController,
-            slivers: [
-              _buildAppBar(context, provider),
-              if (provider.isLoading)
-                const SliverFillRemaining(
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      color: AppTheme.primaryLight,
-                      strokeWidth: 2,
-                    ),
-                  ),
-                )
-              else if (provider.error != null)
-                SliverFillRemaining(child: _buildError(context, provider))
-              else if (provider.surprises.isEmpty)
-                SliverFillRemaining(child: _buildEmpty(context))
-              else ...[
-                if (provider.createdSurprises.isNotEmpty) ...[
-                  SliverToBoxAdapter(
-                    child: _SectionHeader(
-                      icon: Icons.edit_rounded,
-                      label: context.l10n.myCreations,
-                    ),
-                  ),
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                      final s = provider.createdSurprises[index];
-                      return SurpriseCard(
-                        surprise: s,
-                        isOwner: true,
-                        onTap: () => context.push(
-                          '/surprise/${s.id}',
-                          extra: SurpriseRouteArgs(surprise: s, isOwner: true),
+                controller: _scrollController,
+                slivers: [
+                  _buildAppBar(context, provider),
+                  if (provider.isLoading)
+                    const SliverFillRemaining(
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: AppTheme.primaryLight,
+                          strokeWidth: 2,
                         ),
-                      );
-                    }, childCount: provider.createdSurprises.length),
-                  ),
-                ],
-                if (provider.joinedSurprises.isNotEmpty) ...[
-                  SliverToBoxAdapter(
-                    child: _SectionHeader(
-                      icon: Icons.celebration_outlined,
-                      label: context.l10n.joinedSurprises,
-                    ),
-                  ),
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                      final s = provider.joinedSurprises[index];
-                      return SurpriseCard(
-                        surprise: s,
-                        isOwner: false,
-                        onTap: () => context.push(
-                          '/surprise/${s.id}',
-                          extra: SurpriseRouteArgs(surprise: s),
+                      ),
+                    )
+                  else if (provider.error != null)
+                    SliverFillRemaining(child: _buildError(context, provider))
+                  else if (provider.surprises.isEmpty)
+                    SliverFillRemaining(child: _buildEmpty(context))
+                  else ...[
+                    if (provider.createdSurprises.isNotEmpty) ...[
+                      SliverToBoxAdapter(
+                        child: _SectionHeader(
+                          icon: Icons.edit_rounded,
+                          label: context.l10n.myCreations,
                         ),
-                      );
-                    }, childCount: provider.joinedSurprises.length),
-                  ),
+                      ),
+                      SliverList(
+                        delegate: SliverChildBuilderDelegate((context, index) {
+                          final s = provider.createdSurprises[index];
+                          return SurpriseCard(
+                            surprise: s,
+                            isOwner: true,
+                            onTap: () => context.push(
+                              '/surprise/${s.id}',
+                              extra: SurpriseRouteArgs(
+                                surprise: s,
+                                isOwner: true,
+                              ),
+                            ),
+                          );
+                        }, childCount: provider.createdSurprises.length),
+                      ),
+                    ],
+                    if (provider.joinedSurprises.isNotEmpty) ...[
+                      SliverToBoxAdapter(
+                        child: _SectionHeader(
+                          icon: Icons.celebration_outlined,
+                          label: context.l10n.joinedSurprises,
+                        ),
+                      ),
+                      SliverList(
+                        delegate: SliverChildBuilderDelegate((context, index) {
+                          final s = provider.joinedSurprises[index];
+                          return SurpriseCard(
+                            surprise: s,
+                            isOwner: false,
+                            onTap: () => context.push(
+                              '/surprise/${s.id}',
+                              extra: SurpriseRouteArgs(surprise: s),
+                            ),
+                          );
+                        }, childCount: provider.joinedSurprises.length),
+                      ),
+                    ],
+                    SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: 80 + MediaQuery.of(context).padding.bottom,
+                      ),
+                    ),
+                  ],
                 ],
-                SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: 80 + MediaQuery.of(context).padding.bottom,
-                  ),
-                ),
-              ],
-            ],
-            ),
+              ),
             );
           },
         ),
@@ -212,8 +215,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildAppBar(BuildContext context, SurpriseProvider provider) {
     final bg = Color.lerp(_headerExpanded, _headerCollapsed, _collapseRatio)!;
-    final iconColor = Color.lerp(AppTheme.textMid, Colors.white70, _collapseRatio)!;
-    final titleColor = Color.lerp(AppTheme.textDark, Colors.white, _collapseRatio)!;
+    final iconColor = Color.lerp(
+      AppTheme.textMid,
+      Colors.white70,
+      _collapseRatio,
+    )!;
+    final titleColor = Color.lerp(
+      AppTheme.textDark,
+      Colors.white,
+      _collapseRatio,
+    )!;
     return SliverAppBar(
       expandedHeight: _expandedHeight,
       pinned: true,
@@ -233,10 +244,9 @@ class _HomeScreenState extends State<HomeScreen> {
         titlePadding: const EdgeInsets.fromLTRB(20, 0, 0, 16),
         title: Text(
           context.l10n.yourSurprises,
-          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-            fontSize: 20,
-            color: titleColor,
-          ),
+          style: Theme.of(
+            context,
+          ).textTheme.headlineMedium?.copyWith(fontSize: 20, color: titleColor),
         ),
         background: Container(color: _headerExpanded),
       ),
@@ -309,8 +319,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _onCreateTap(BuildContext context) async {
     final premium = context.read<PremiumProvider>();
     final surprises = context.read<SurpriseProvider>();
-    debugPrint('[Premium] isPremium=${premium.isPremium} '
-        'createdCount=${surprises.createdSurprises.length}');
+    debugPrint(
+      '[Premium] isPremium=${premium.isPremium} '
+      'createdCount=${surprises.createdSurprises.length}',
+    );
     if (!premium.isPremium && surprises.createdSurprises.isNotEmpty) {
       await PaywallSheet.show(context);
       return;

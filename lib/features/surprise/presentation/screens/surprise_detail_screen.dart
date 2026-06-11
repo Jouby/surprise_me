@@ -9,6 +9,7 @@ import '../../../../core/l10n/l10n.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/utils/color_utils.dart';
+import '../../../../core/utils/error_utils.dart';
 import '../../../unlock/presentation/providers/unlock_provider.dart';
 import '../../../unlock/presentation/widgets/unlock_bottom_sheet.dart';
 import '../../domain/entities/surprise.dart';
@@ -191,7 +192,7 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(context.l10n.errorPrefix(e.toString())),
+            content: Text(errorMessage(e, context)),
             behavior: SnackBarBehavior.floating,
             backgroundColor: themeColor,
           ),

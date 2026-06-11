@@ -41,6 +41,7 @@
       "error": { "type": "String" }
     }
   },
+  "genericError": "An error occurred. Please try again.",
   "linkCopied": "Link copied!",
   "surpriseCreated": "Surprise created!",
   "shareCodeHint": "Share this code so your loved ones\ncan discover the surprise.",

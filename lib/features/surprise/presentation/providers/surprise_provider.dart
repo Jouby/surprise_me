@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 
+import '../../../../core/utils/error_utils.dart';
+
 import '../../../../core/services/local_cleanup_service.dart';
 import '../../../unlock/domain/repositories/i_unlock_repository.dart';
 import '../../domain/entities/surprise.dart';
@@ -62,7 +64,7 @@ class SurpriseProvider extends ChangeNotifier {
       _state = SurpriseLoadState.idle;
     } catch (e) {
       _state = SurpriseLoadState.error;
-      _error = e.toString();
+      _error = errorMessageRaw(e);
     }
     notifyListeners();
   }

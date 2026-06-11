@@ -8,6 +8,7 @@ import '../../domain/entities/surprise.dart';
 import '../../domain/usecases/update_surprise_usecase.dart';
 import '../providers/surprise_provider.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/utils/error_utils.dart';
 import '../widgets/element_form_sheet.dart';
 import '../widgets/emoji_picker_sheet.dart';
 import '../widgets/surprise_form_widgets.dart';
@@ -82,7 +83,7 @@ class _EditSurpriseScreenState extends State<EditSurpriseScreen> {
     } catch (e) {
       if (mounted) {
         setState(() => _saving = false);
-        _showSnack(context.l10n.errorPrefix(e.toString()));
+        _showSnack(errorMessage(e, context));
       }
     }
   }
