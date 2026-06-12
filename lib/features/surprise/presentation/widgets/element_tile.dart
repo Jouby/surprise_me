@@ -90,15 +90,19 @@ class ElementTile extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          Text(
-            element.label,
-            style: Theme.of(context).textTheme.labelLarge?.copyWith(
-              color: _revealed ? themeColor : AppTheme.textLight,
-              fontSize: 12,
-              letterSpacing: 0.8,
+          Flexible(
+            child: Text(
+              element.label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                color: _revealed ? themeColor : AppTheme.textLight,
+                fontSize: 12,
+                letterSpacing: 0.8,
+              ),
             ),
           ),
-          const Spacer(),
+          const SizedBox(width: 8),
           if (ownerMode)
             _UnlockCodeBadge(code: element.unlockCode, themeColor: themeColor)
           else if (isUnlocked)
