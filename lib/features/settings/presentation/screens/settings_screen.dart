@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/l10n/l10n.dart';
@@ -16,6 +17,8 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   String? _userToken;
+  String? _appVersion;
+  String? _buildNumber;
   bool _loading = true;
   bool _clearingData = false;
 
@@ -28,11 +31,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Future<void> _loadData() async {
     final provider = context.read<SurpriseProvider>();
 
-    final userToken = await provider.getUserToken();
+    final results = await Future.wait([
+      provider.getUserToken(),
+      PackageInfo.fromPlatform(),
+    ]);
 
     if (mounted) {
+      final info = results[1] as PackageInfo;
       setState(() {
-        _userToken = userToken;
+        _userToken = results[0] as String?;
+        _appVersion = info.version;
+        _buildNumber = info.buildNumber;
         _loading = false;
       });
     }
@@ -196,11 +205,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
 
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: 40 + MediaQuery.of(context).padding.bottom,
+            if (_appVersion != null)
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    top: 16,
+                    bottom: 16 + MediaQuery.of(context).padding.bottom,
+                  ),
+                  child: Text(
+                    'v$_appVersion (build $_buildNumber)',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 11,
+                      color: AppTheme.textLight,
+                    ),
+                  ),
+                ),
+              )
+            else
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: 40 + MediaQuery.of(context).padding.bottom,
+                ),
               ),
-            ),
           ],
         ],
       ),
