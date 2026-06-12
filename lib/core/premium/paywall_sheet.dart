@@ -149,18 +149,24 @@ class _PaywallSheetState extends State<PaywallSheet> {
           const SizedBox(height: 24),
           SizedBox(
             width: double.infinity,
-            child: ElevatedButton(
-              onPressed: _loading ? null : _purchase,
-              child: _loading
-                  ? const SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: Colors.white,
+            child: Consumer<PremiumProvider>(
+              builder: (context, premium, _) => ElevatedButton(
+                onPressed: _loading ? null : _purchase,
+                child: _loading
+                    ? const SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
+                      )
+                    : Text(
+                        premium.priceString != null
+                            ? '${context.l10n.premiumBuy} — ${premium.priceString}'
+                            : context.l10n.premiumBuy,
                       ),
-                    )
-                  : Text(context.l10n.premiumBuy),
+              ),
             ),
           ),
           const SizedBox(height: 12),

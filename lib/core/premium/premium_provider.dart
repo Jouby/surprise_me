@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -14,11 +15,13 @@ class PremiumProvider extends ChangeNotifier {
   bool _isLoading = true;
   String? _error;
   bool? _debugOverride;
+  String? _priceString;
 
   bool get isPremium =>
       kDebugMode ? (_debugOverride ?? _isPremium) : _isPremium;
   bool get isLoading => _isLoading;
   String? get error => _error;
+  String? get priceString => _priceString;
 
   Future<void> init() async {
     try {
@@ -39,7 +42,19 @@ class PremiumProvider extends ChangeNotifier {
       _isPremium = info.entitlements.active.containsKey(_entitlement);
     } catch (_) {}
     _isLoading = false;
+    unawaited(_fetchPrice());
     notifyListeners();
+  }
+
+  Future<void> _fetchPrice() async {
+    try {
+      final offerings = await Purchases.getOfferings();
+      final price = offerings.current?.lifetime?.storeProduct.priceString;
+      if (price != null && price != _priceString) {
+        _priceString = price;
+        notifyListeners();
+      }
+    } catch (_) {}
   }
 
   Future<bool> purchase() async {
