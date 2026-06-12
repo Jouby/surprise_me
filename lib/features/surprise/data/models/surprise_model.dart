@@ -18,7 +18,8 @@ class SurpriseModel extends Surprise {
     final rawElements =
         record.get<List<RecordModel>>('expand.surprise_elements_via_surprise')
           ..sort(
-            (a, b) => a.getIntValue('sort_order')
+            (a, b) => a
+                .getIntValue('sort_order')
                 .compareTo(b.getIntValue('sort_order')),
           );
 

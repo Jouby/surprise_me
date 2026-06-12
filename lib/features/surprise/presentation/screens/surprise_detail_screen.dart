@@ -72,10 +72,9 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
     setState(() => _onboardingPending = true);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted && _showcaseContext != null) {
-        ShowCaseWidget.of(_showcaseContext!).startShowCase([
-          _showcaseKeyElement,
-          _showcaseKeyUnlock,
-        ]);
+        ShowCaseWidget.of(
+          _showcaseContext!,
+        ).startShowCase([_showcaseKeyElement, _showcaseKeyUnlock]);
       }
     });
   }
@@ -142,34 +141,35 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
                             children: [
                               _buildHero(showcaseCtx),
                               const SizedBox(height: 20),
-                              _buildProgressBar(showcaseCtx, unlockedCount, total),
+                              _buildProgressBar(
+                                showcaseCtx,
+                                unlockedCount,
+                                total,
+                              ),
                             ],
                           ),
                         ),
                       ),
                       SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) {
-                            final tile = ElementTile(
-                              element: surprise.elements[index],
-                              isUnlocked: provider.isUnlocked(
-                                surprise.id,
-                                surprise.elements[index].unlockCode,
-                              ),
-                              themeColor: _themeColor,
+                        delegate: SliverChildBuilderDelegate((context, index) {
+                          final tile = ElementTile(
+                            element: surprise.elements[index],
+                            isUnlocked: provider.isUnlocked(
+                              surprise.id,
+                              surprise.elements[index].unlockCode,
+                            ),
+                            themeColor: _themeColor,
+                          );
+                          if (index == 0 && _onboardingPending) {
+                            return Showcase(
+                              key: _showcaseKeyElement,
+                              description:
+                                  'Chaque élément est verrouillé par un code secret. 🔒\nTu dois entrer le bon code pour révéler son contenu !',
+                              child: tile,
                             );
-                            if (index == 0 && _onboardingPending) {
-                              return Showcase(
-                                key: _showcaseKeyElement,
-                                description:
-                                    'Chaque élément est verrouillé par un code secret. 🔒\nTu dois entrer le bon code pour révéler son contenu !',
-                                child: tile,
-                              );
-                            }
-                            return tile;
-                          },
-                          childCount: surprise.elements.length,
-                        ),
+                          }
+                          return tile;
+                        }, childCount: surprise.elements.length),
                       ),
                       const SliverToBoxAdapter(child: SizedBox(height: 120)),
                     ],

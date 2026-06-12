@@ -155,50 +155,52 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (showcaseCtx) {
         _showcaseContext = showcaseCtx;
         return Scaffold(
-        backgroundColor: AppTheme.surface,
-        body: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Color(0xFFDEEEF8), Color(0xFFF5FAFF)],
+          backgroundColor: AppTheme.surface,
+          body: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Color(0xFFDEEEF8), Color(0xFFF5FAFF)],
+              ),
             ),
-          ),
-          child: Consumer<SurpriseProvider>(
-            builder: (context, provider, _) {
-              return RefreshIndicator(
-                onRefresh: provider.load,
-                color: AppTheme.primaryLight,
-                child: CustomScrollView(
-                  controller: _scrollController,
-                  slivers: [
-                    _buildAppBar(context, provider),
-                    if (provider.isLoading)
-                      const SliverFillRemaining(
-                        child: Center(
-                          child: CircularProgressIndicator(
-                            color: AppTheme.primaryLight,
-                            strokeWidth: 2,
+            child: Consumer<SurpriseProvider>(
+              builder: (context, provider, _) {
+                return RefreshIndicator(
+                  onRefresh: provider.load,
+                  color: AppTheme.primaryLight,
+                  child: CustomScrollView(
+                    controller: _scrollController,
+                    slivers: [
+                      _buildAppBar(context, provider),
+                      if (provider.isLoading)
+                        const SliverFillRemaining(
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              color: AppTheme.primaryLight,
+                              strokeWidth: 2,
+                            ),
                           ),
-                        ),
-                      )
-                    else if (provider.error != null)
-                      SliverFillRemaining(
-                        child: _buildError(context, provider),
-                      )
-                    else if (provider.surprises.isEmpty)
-                      SliverFillRemaining(child: _buildEmpty(context))
-                    else ...[
-                      if (provider.createdSurprises.isNotEmpty) ...[
-                        SliverToBoxAdapter(
-                          child: _SectionHeader(
-                            icon: Icons.edit_rounded,
-                            label: context.l10n.myCreations,
+                        )
+                      else if (provider.error != null)
+                        SliverFillRemaining(
+                          child: _buildError(context, provider),
+                        )
+                      else if (provider.surprises.isEmpty)
+                        SliverFillRemaining(child: _buildEmpty(context))
+                      else ...[
+                        if (provider.createdSurprises.isNotEmpty) ...[
+                          SliverToBoxAdapter(
+                            child: _SectionHeader(
+                              icon: Icons.edit_rounded,
+                              label: context.l10n.myCreations,
+                            ),
                           ),
-                        ),
-                        SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                            (context, index) {
+                          SliverList(
+                            delegate: SliverChildBuilderDelegate((
+                              context,
+                              index,
+                            ) {
                               final s = provider.createdSurprises[index];
                               return SurpriseCard(
                                 surprise: s,
@@ -211,21 +213,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                               );
-                            },
-                            childCount: provider.createdSurprises.length,
+                            }, childCount: provider.createdSurprises.length),
                           ),
-                        ),
-                      ],
-                      if (provider.joinedSurprises.isNotEmpty) ...[
-                        SliverToBoxAdapter(
-                          child: _SectionHeader(
-                            icon: Icons.celebration_outlined,
-                            label: context.l10n.joinedSurprises,
+                        ],
+                        if (provider.joinedSurprises.isNotEmpty) ...[
+                          SliverToBoxAdapter(
+                            child: _SectionHeader(
+                              icon: Icons.celebration_outlined,
+                              label: context.l10n.joinedSurprises,
+                            ),
                           ),
-                        ),
-                        SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                            (context, index) {
+                          SliverList(
+                            delegate: SliverChildBuilderDelegate((
+                              context,
+                              index,
+                            ) {
                               final s = provider.joinedSurprises[index];
                               final card = SurpriseCard(
                                 surprise: s,
@@ -245,26 +247,25 @@ class _HomeScreenState extends State<HomeScreen> {
                                 );
                               }
                               return card;
-                            },
-                            childCount: provider.joinedSurprises.length,
+                            }, childCount: provider.joinedSurprises.length),
+                          ),
+                        ],
+                        SliverToBoxAdapter(
+                          child: SizedBox(
+                            height: 80 + MediaQuery.of(context).padding.bottom,
                           ),
                         ),
                       ],
-                      SliverToBoxAdapter(
-                        child: SizedBox(
-                          height: 80 + MediaQuery.of(context).padding.bottom,
-                        ),
-                      ),
                     ],
-                  ],
-                ),
-              );
-            },
+                  ),
+                );
+              },
+            ),
           ),
-        ),
-        floatingActionButton: _buildFab(showcaseCtx),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      );
+          floatingActionButton: _buildFab(showcaseCtx),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
+        );
       },
     );
   }
