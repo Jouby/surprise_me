@@ -2,14 +2,14 @@ import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'l10n/app_localizations.dart';
+import 'package:pocketbase/pocketbase.dart';
 import 'package:provider/provider.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'core/config/supabase_config.dart';
+import 'core/config/app_config.dart';
 import 'core/premium/premium_provider.dart';
 import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
+import 'l10n/app_localizations.dart';
 
 // ── Surprise feature ─────────────────────────────────────────────────────────
 import 'features/surprise/data/datasources/surprise_local_datasource.dart';
@@ -38,23 +38,14 @@ Future<void> main() async {
     DeviceOrientation.portraitDown,
   ]);
 
-  await Supabase.initialize(
-    url: SupabaseConfig.url,
-    // ignore: deprecated_member_use
-    anonKey: SupabaseConfig.anonKey,
-  );
+  final pb = PocketBase(AppConfig.pocketbaseUrl);
 
   // ── Wiring ─────────────────────────────────────────────────────────────────
 
-  final supabaseClient = Supabase.instance.client;
-
   // Surprise
-  final surpriseRemoteDs = SurpriseRemoteDatasource(supabaseClient);
+  final surpriseRemoteDs = SurpriseRemoteDatasource(pb);
   final surpriseLocalDs = SurpriseLocalDatasource();
-  final surpriseRepo = SurpriseRepositoryImpl(
-    surpriseRemoteDs,
-    surpriseLocalDs,
-  );
+  final surpriseRepo = SurpriseRepositoryImpl(surpriseRemoteDs, surpriseLocalDs);
 
   // Génère le token utilisateur dès le démarrage s'il n'existe pas encore.
   await surpriseLocalDs.getUserToken();
@@ -125,12 +116,10 @@ class _SurpriseMeAppState extends State<SurpriseMeApp> {
   ///   surpriseme://join/CODE
   ///   ${AppConfig.shareBaseUrl}/CODE
   String? _extractCode(Uri uri) {
-    // Scheme custom
     if (uri.scheme == 'surpriseme' && uri.host == 'join') {
       final code = uri.pathSegments.firstOrNull?.trim().toUpperCase();
       return (code?.isNotEmpty == true) ? code : null;
     }
-    // Lien HTTPS GitHub Pages
     if ((uri.scheme == 'https' || uri.scheme == 'http') &&
         uri.host == 'jouby.github.io') {
       final segments = uri.pathSegments;
@@ -146,15 +135,12 @@ class _SurpriseMeAppState extends State<SurpriseMeApp> {
   void _handleIncomingLink(Uri uri) {
     final code = _extractCode(uri);
     if (code == null) return;
-    // go_router gère la navigation : /join/:code → /?joinCode=code
-    // HomeScreen détecte le changement via GoRouterState et ouvre la sheet.
     appRouter.go('/join/$code');
   }
 
   Future<void> _initDeepLinks() async {
     _appLinks = AppLinks();
 
-    // Lien qui a lancé l'app (cold start)
     try {
       final initialUri = await _appLinks.getInitialLink();
       if (initialUri != null) {
@@ -164,7 +150,6 @@ class _SurpriseMeAppState extends State<SurpriseMeApp> {
       }
     } catch (_) {}
 
-    // Liens reçus pendant que l'app est en arrière-plan (warm start)
     _appLinks.uriLinkStream.listen(_handleIncomingLink, onError: (_) {});
   }
 

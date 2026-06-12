@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
-import '../../../../core/config/supabase_config.dart';
+import '../../../../core/config/app_config.dart';
 import '../../../../core/l10n/l10n.dart';
 import '../../domain/entities/element_draft.dart';
 import '../providers/surprise_provider.dart';

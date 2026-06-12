@@ -1,3 +1,5 @@
+import 'package:pocketbase/pocketbase.dart';
+
 import '../../domain/entities/surprise.dart';
 import 'surprise_element_model.dart';
 
@@ -12,21 +14,25 @@ class SurpriseModel extends Surprise {
     super.color,
   });
 
-  factory SurpriseModel.fromJson(Map<String, dynamic> json) {
-    final rawElements = (json['surprise_elements'] as List? ?? [])
-      ..sort(
-        (a, b) => (a['sort_order'] as int).compareTo(b['sort_order'] as int),
-      );
+  factory SurpriseModel.fromRecord(RecordModel record) {
+    final rawElements =
+        record.get<List<RecordModel>>('expand.surprise_elements_via_surprise')
+          ..sort(
+            (a, b) => a.getIntValue('sort_order')
+                .compareTo(b.getIntValue('sort_order')),
+          );
 
     return SurpriseModel(
-      id: json['id'] as String,
-      emoji: json['emoji'] as String,
-      title: json['title'] as String,
-      subtitle: json['subtitle'] as String? ?? '',
-      shareCode: json['share_code'] as String,
-      color: json['color'] as String? ?? '#2E6DA4',
+      id: record.id,
+      emoji: record.getStringValue('emoji'),
+      title: record.getStringValue('title'),
+      subtitle: record.getStringValue('subtitle'),
+      shareCode: record.getStringValue('share_code'),
+      color: record.getStringValue('color').isNotEmpty
+          ? record.getStringValue('color')
+          : '#2E6DA4',
       elements: rawElements
-          .map((e) => SurpriseElementModel.fromJson(e as Map<String, dynamic>))
+          .map((e) => SurpriseElementModel.fromRecord(e))
           .toList(),
     );
   }

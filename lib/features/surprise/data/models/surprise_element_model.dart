@@ -1,3 +1,5 @@
+import 'package:pocketbase/pocketbase.dart';
+
 import '../../domain/entities/surprise_element.dart';
 
 class SurpriseElementModel extends SurpriseElement {
@@ -9,13 +11,13 @@ class SurpriseElementModel extends SurpriseElement {
     required super.unlockCode,
   });
 
-  factory SurpriseElementModel.fromJson(Map<String, dynamic> json) =>
+  factory SurpriseElementModel.fromRecord(RecordModel record) =>
       SurpriseElementModel(
-        id: json['id'] as String,
-        type: _parseType(json['type'] as String),
-        label: json['label'] as String,
-        content: json['content'] as String,
-        unlockCode: json['unlock_code'] as String,
+        id: record.id,
+        type: _parseType(record.getStringValue('type')),
+        label: record.getStringValue('label'),
+        content: record.getStringValue('content'),
+        unlockCode: record.getStringValue('unlock_code'),
       );
 
   static ElementType _parseType(String type) {

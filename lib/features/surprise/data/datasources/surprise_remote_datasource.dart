@@ -1,58 +1,54 @@
 import 'dart:io';
 
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:http/http.dart' as http;
+import 'package:pocketbase/pocketbase.dart';
 
+import '../../../../core/config/app_config.dart';
 import '../models/surprise_model.dart';
 
 class SurpriseRemoteDatasource {
-  final SupabaseClient _client;
-  SurpriseRemoteDatasource(this._client);
+  final PocketBase _pb;
 
-  // Colonnes retournées — creator_token intentionnellement exclu.
-  static const _surpriseCols =
-      'id, emoji, title, subtitle, share_code, color, created_at, surprise_elements(*)';
+  SurpriseRemoteDatasource(this._pb);
 
-  /// Retourne deux listes : [owned] (token correspond) et [joined] (token différent).
-  /// Deux requêtes distinctes pour que Supabase ne renvoie jamais le creator_token.
+  static const _expand = 'surprise_elements_via_surprise';
+
+  /// Retourne deux listes : [owned] et [joined].
   Future<({List<SurpriseModel> owned, List<SurpriseModel> joined})>
   getSurprises(List<String> codes, String userToken) async {
     if (codes.isEmpty) {
       return (owned: <SurpriseModel>[], joined: <SurpriseModel>[]);
     }
 
-    final ownedRes = await _client
-        .from('surprises')
-        .select(_surpriseCols)
-        .inFilter('share_code', codes)
-        .eq('creator_token', userToken);
+    final codeFilter = codes.map((c) => 'share_code="$c"').join('||');
 
-    final joinedRes = await _client
-        .from('surprises')
-        .select(_surpriseCols)
-        .inFilter('share_code', codes)
-        .neq('creator_token', userToken);
+    final ownedRes = await _pb.collection('surprises').getFullList(
+      filter: '($codeFilter) && creator_token="$userToken"',
+      expand: _expand,
+      sort: '-created',
+    );
+
+    final joinedRes = await _pb.collection('surprises').getFullList(
+      filter: '($codeFilter) && creator_token!="$userToken"',
+      expand: _expand,
+      sort: '-created',
+    );
 
     return (
-      owned: (ownedRes as List)
-          .map((e) => SurpriseModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      joined: (joinedRes as List)
-          .map((e) => SurpriseModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      owned: ownedRes.map(SurpriseModel.fromRecord).toList(),
+      joined: joinedRes.map(SurpriseModel.fromRecord).toList(),
     );
   }
 
   Future<SurpriseModel?> fetchByShareCode(String code) async {
-    final res = await _client
-        .from('surprises')
-        .select(_surpriseCols)
-        .eq('share_code', code.toUpperCase())
-        .maybeSingle();
-    if (res == null) return null;
-    return SurpriseModel.fromJson(res);
+    final res = await _pb.collection('surprises').getFullList(
+      filter: 'share_code="${code.toUpperCase()}"',
+      expand: _expand,
+    );
+    if (res.isEmpty) return null;
+    return SurpriseModel.fromRecord(res.first);
   }
 
-  /// Crée une surprise en injectant le [creatorToken] fourni par l'app (token utilisateur).
   Future<({String shareCode, String surpriseId})> createSurprise({
     required String emoji,
     required String title,
@@ -62,38 +58,31 @@ class SurpriseRemoteDatasource {
     required String creatorToken,
     required String shareCode,
   }) async {
-    final row = await _client
-        .from('surprises')
-        .insert({
-          'emoji': emoji,
-          'title': title,
-          'subtitle': subtitle,
-          'color': color,
-          'share_code': shareCode,
-          'creator_token': creatorToken,
-        })
-        .select('id, share_code')
-        .single();
+    final record = await _pb.collection('surprises').create(body: {
+      'emoji': emoji,
+      'title': title,
+      'subtitle': subtitle,
+      'color': color,
+      'share_code': shareCode,
+      'creator_token': creatorToken,
+    });
 
-    final surpriseId = row['id'] as String;
+    for (var i = 0; i < elements.length; i++) {
+      final el = elements[i];
+      await _pb.collection('surprise_elements').create(body: {
+        'surprise': record.id,
+        'type': el['type'],
+        'label': el['label'],
+        'content': el['content'],
+        'unlock_code': (el['unlock_code'] as String).toUpperCase(),
+        'sort_order': i + 1,
+      });
+    }
 
-    final rows = elements
-        .asMap()
-        .entries
-        .map(
-          (entry) => {
-            'surprise_id': surpriseId,
-            'type': entry.value['type'],
-            'label': entry.value['label'],
-            'content': entry.value['content'],
-            'unlock_code': (entry.value['unlock_code'] as String).toUpperCase(),
-            'sort_order': entry.key,
-          },
-        )
-        .toList();
-    await _client.from('surprise_elements').insert(rows);
-
-    return (shareCode: shareCode, surpriseId: surpriseId);
+    return (
+      shareCode: record.getStringValue('share_code'),
+      surpriseId: record.id,
+    );
   }
 
   Future<void> updateSurprise({
@@ -103,17 +92,13 @@ class SurpriseRemoteDatasource {
     required String title,
     required String subtitle,
     required String color,
-  }) => _client.rpc(
-    'update_surprise',
-    params: {
-      'p_id': id,
-      'p_token': creatorToken,
-      'p_emoji': emoji,
-      'p_title': title,
-      'p_subtitle': subtitle,
-      'p_color': color,
-    },
-  );
+  }) => _pb.collection('surprises').update(id, body: {
+    'emoji': emoji,
+    'title': title,
+    'subtitle': subtitle,
+    'color': color,
+    'creator_token': creatorToken,
+  });
 
   Future<void> updateElement({
     required String id,
@@ -123,34 +108,28 @@ class SurpriseRemoteDatasource {
     required String content,
     required String unlockCode,
     required int sortOrder,
-  }) => _client.rpc(
-    'update_surprise_element',
-    params: {
-      'p_id': id,
-      'p_token': creatorToken,
-      'p_type': type,
-      'p_label': label,
-      'p_content': content,
-      'p_unlock_code': unlockCode.toUpperCase(),
-      'p_sort_order': sortOrder,
-    },
-  );
+  }) => _pb.collection('surprise_elements').update(id, body: {
+    'type': type,
+    'label': label,
+    'content': content,
+    'unlock_code': unlockCode.toUpperCase(),
+    'sort_order': sortOrder,
+    'creator_token': creatorToken,
+  });
 
   Future<void> deleteSurprise({
     required String id,
     required String creatorToken,
-  }) => _client.rpc(
-    'delete_surprise',
-    params: {'p_id': id, 'p_token': creatorToken},
-  );
+  }) => _pb.collection('surprises').delete(id, body: {
+    'creator_token': creatorToken,
+  });
 
   Future<void> deleteElement({
     required String id,
     required String creatorToken,
-  }) => _client.rpc(
-    'delete_surprise_element',
-    params: {'p_id': id, 'p_token': creatorToken},
-  );
+  }) => _pb.collection('surprise_elements').delete(id, body: {
+    'creator_token': creatorToken,
+  });
 
   Future<void> addElement({
     required String surpriseId,
@@ -160,45 +139,43 @@ class SurpriseRemoteDatasource {
     required String content,
     required String unlockCode,
     required int sortOrder,
-  }) => _client.rpc(
-    'add_surprise_element',
-    params: {
-      'p_surprise_id': surpriseId,
-      'p_token': creatorToken,
-      'p_type': type,
-      'p_label': label,
-      'p_content': content,
-      'p_unlock_code': unlockCode.toUpperCase(),
-      'p_sort_order': sortOrder,
-    },
-  );
+  }) => _pb.collection('surprise_elements').create(body: {
+    'surprise': surpriseId,
+    'type': type,
+    'label': label,
+    'content': content,
+    'unlock_code': unlockCode.toUpperCase(),
+    'sort_order': sortOrder,
+    'creator_token': creatorToken,
+  });
 
+  /// Upload une image dans la collection `images` et retourne son URL publique.
   Future<String> uploadImage(File file) async {
     final baseName = file.path.split('/').last.split('?').first;
     final dotIndex = baseName.lastIndexOf('.');
     final ext = dotIndex != -1
         ? baseName.substring(dotIndex + 1).toLowerCase()
         : 'jpg';
-
-    final safeExt = (ext == 'jpeg' || ext == 'heic' || ext == 'heif')
-        ? 'jpg'
-        : ext;
+    final safeExt =
+        (ext == 'jpeg' || ext == 'heic' || ext == 'heif') ? 'jpg' : ext;
     final mimeType = safeExt == 'png'
         ? 'image/png'
         : safeExt == 'webp'
         ? 'image/webp'
         : 'image/jpeg';
 
-    final name = '${DateTime.now().millisecondsSinceEpoch}.$safeExt';
-    final path = 'elements/$name';
+    final fileName = '${DateTime.now().millisecondsSinceEpoch}.$safeExt';
+    final bytes = await file.readAsBytes();
 
-    await _client.storage
-        .from('surprise-images')
-        .upload(
-          path,
-          file,
-          fileOptions: FileOptions(contentType: mimeType, upsert: false),
-        );
-    return _client.storage.from('surprise-images').getPublicUrl(path);
+    final record = await _pb.collection('images').create(
+      files: [
+        http.MultipartFile.fromBytes('file', bytes,
+            filename: fileName,
+            contentType: http.MediaType.parse(mimeType)),
+      ],
+    );
+
+    final storedName = record.getStringValue('file');
+    return '${AppConfig.pocketbaseUrl}/api/files/images/${record.id}/$storedName';
   }
 }
