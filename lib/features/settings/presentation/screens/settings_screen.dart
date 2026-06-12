@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -5,6 +6,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/l10n/l10n.dart';
+import '../../../../core/premium/premium_provider.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../surprise/presentation/providers/surprise_provider.dart';
 
@@ -204,6 +206,55 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
             ),
+
+            // ── Section debug (uniquement en mode debug) ────────────────────
+            if (kDebugMode) ...[
+              SliverToBoxAdapter(
+                child: _SectionHeader(
+                  icon: Icons.bug_report_rounded,
+                  label: 'Debug',
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Consumer<PremiumProvider>(
+                    builder: (context, premium, _) => Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 18,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppTheme.cardBg,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: AppTheme.divider),
+                      ),
+                      child: SwitchListTile(
+                        contentPadding: EdgeInsets.zero,
+                        title: const Text(
+                          'Mode Premium',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: AppTheme.textDark,
+                          ),
+                        ),
+                        subtitle: const Text(
+                          'Override local — debug uniquement',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: AppTheme.textLight,
+                          ),
+                        ),
+                        value: premium.isPremium,
+                        activeThumbColor: AppTheme.primary,
+                        onChanged: (v) => premium.debugSetPremium(v),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
 
             if (_appVersion != null)
               SliverToBoxAdapter(

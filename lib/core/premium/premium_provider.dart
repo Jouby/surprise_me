@@ -13,8 +13,10 @@ class PremiumProvider extends ChangeNotifier {
   bool _isPremium = false;
   bool _isLoading = true;
   String? _error;
+  bool? _debugOverride;
 
-  bool get isPremium => _isPremium;
+  bool get isPremium =>
+      kDebugMode ? (_debugOverride ?? _isPremium) : _isPremium;
   bool get isLoading => _isLoading;
   String? get error => _error;
 
@@ -53,6 +55,12 @@ class PremiumProvider extends ChangeNotifier {
       if (e == PurchasesErrorCode.purchaseCancelledError) return false;
       rethrow;
     }
+  }
+
+  void debugSetPremium(bool value) {
+    assert(kDebugMode, 'debugSetPremium is only available in debug mode');
+    _debugOverride = value;
+    notifyListeners();
   }
 
   Future<bool> restore() async {
