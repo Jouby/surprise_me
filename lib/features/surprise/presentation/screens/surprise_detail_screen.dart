@@ -3,10 +3,12 @@ import 'package:flutter/services.dart' show Clipboard, ClipboardData;
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 import '../../../../core/config/app_config.dart';
 import '../../../../core/l10n/l10n.dart';
 import '../../../../core/router/app_router.dart';
+import '../../../../core/services/onboarding_service.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/utils/color_utils.dart';
 import '../../../../core/utils/error_utils.dart';
@@ -40,6 +42,12 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
   /// Couleur thème parsée une seule fois, recalculée si la surprise change.
   late Color _themeColor;
 
+  // ── Showcase ──────────────────────────────────────────────────────────────
+  final GlobalKey _showcaseKeyElement = GlobalKey();
+  final GlobalKey _showcaseKeyUnlock = GlobalKey();
+  BuildContext? _showcaseContext;
+  bool _onboardingPending = false;
+
   @override
   void didUpdateWidget(SurpriseDetailScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -52,7 +60,24 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
   void initState() {
     super.initState();
     _themeColor = ColorUtils.fromHex(surprise.color);
-    if (!isOwner && !previewMode) _loadUnlockedCodes();
+    if (!isOwner && !previewMode) {
+      _loadUnlockedCodes();
+      _maybeStartOnboarding();
+    }
+  }
+
+  Future<void> _maybeStartOnboarding() async {
+    final isFirst = await OnboardingService.isDetailFirstVisit();
+    if (!isFirst || !mounted) return;
+    setState(() => _onboardingPending = true);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && _showcaseContext != null) {
+        ShowCaseWidget.of(_showcaseContext!).startShowCase([
+          _showcaseKeyElement,
+          _showcaseKeyUnlock,
+        ]);
+      }
+    });
   }
 
   Future<void> _loadUnlockedCodes() async {
@@ -89,56 +114,76 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
     if (isOwner) return _buildOwnerView(context);
     if (previewMode) return _buildPreviewView(context);
 
-    return Consumer<UnlockProvider>(
-      builder: (context, provider, _) {
-        final unlockedCount = surprise.elements
-            .where((e) => provider.isUnlocked(surprise.id, e.unlockCode))
-            .length;
-        final total = surprise.elements.length;
+    return ShowCaseWidget(
+      onFinish: () {
+        setState(() => _onboardingPending = false);
+        OnboardingService.markDetailDone();
+      },
+      builder: (showcaseCtx) {
+        _showcaseContext = showcaseCtx;
+        return Consumer<UnlockProvider>(
+          builder: (context, provider, _) {
+            final unlockedCount = surprise.elements
+                .where((e) => provider.isUnlocked(surprise.id, e.unlockCode))
+                .length;
+            final total = surprise.elements.length;
 
-        return Scaffold(
-          backgroundColor: AppTheme.surface,
-          body: Stack(
-            children: [
-              CustomScrollView(
-                slivers: [
-                  _buildAppBar(context),
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
-                      child: Column(
-                        children: [
-                          _buildHero(context),
-                          const SizedBox(height: 20),
-                          _buildProgressBar(context, unlockedCount, total),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) => ElementTile(
-                        element: surprise.elements[index],
-                        isUnlocked: provider.isUnlocked(
-                          surprise.id,
-                          surprise.elements[index].unlockCode,
+            return Scaffold(
+              backgroundColor: AppTheme.surface,
+              body: Stack(
+                children: [
+                  CustomScrollView(
+                    slivers: [
+                      _buildAppBar(showcaseCtx),
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+                          child: Column(
+                            children: [
+                              _buildHero(showcaseCtx),
+                              const SizedBox(height: 20),
+                              _buildProgressBar(showcaseCtx, unlockedCount, total),
+                            ],
+                          ),
                         ),
-                        themeColor: _themeColor,
                       ),
-                      childCount: surprise.elements.length,
-                    ),
+                      SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) {
+                            final tile = ElementTile(
+                              element: surprise.elements[index],
+                              isUnlocked: provider.isUnlocked(
+                                surprise.id,
+                                surprise.elements[index].unlockCode,
+                              ),
+                              themeColor: _themeColor,
+                            );
+                            if (index == 0 && _onboardingPending) {
+                              return Showcase(
+                                key: _showcaseKeyElement,
+                                description:
+                                    'Chaque élément est verrouillé par un code secret. 🔒\nTu dois entrer le bon code pour révéler son contenu !',
+                                child: tile,
+                              );
+                            }
+                            return tile;
+                          },
+                          childCount: surprise.elements.length,
+                        ),
+                      ),
+                      const SliverToBoxAdapter(child: SizedBox(height: 120)),
+                    ],
                   ),
-                  const SliverToBoxAdapter(child: SizedBox(height: 120)),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: _buildBottomBar(showcaseCtx, provider),
+                  ),
                 ],
               ),
-              Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: _buildBottomBar(context, provider),
-              ),
-            ],
-          ),
+            );
+          },
         );
       },
     );
@@ -721,13 +766,18 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
         20,
         16 + MediaQuery.of(context).padding.bottom,
       ),
-      child: SizedBox(
-        width: double.infinity,
-        child: ElevatedButton.icon(
-          onPressed: () => _showUnlockSheet(context, provider),
-          icon: const Icon(Icons.vpn_key_outlined, size: 18),
-          label: Text(context.l10n.enterCode),
-          style: ElevatedButton.styleFrom(backgroundColor: themeColor),
+      child: Showcase(
+        key: _showcaseKeyUnlock,
+        description:
+            'Appuie ici pour saisir ton code secret et révéler un élément ! 🗝️',
+        child: SizedBox(
+          width: double.infinity,
+          child: ElevatedButton.icon(
+            onPressed: () => _showUnlockSheet(context, provider),
+            icon: const Icon(Icons.vpn_key_outlined, size: 18),
+            label: Text(context.l10n.enterCode),
+            style: ElevatedButton.styleFrom(backgroundColor: themeColor),
+          ),
         ),
       ),
     );
