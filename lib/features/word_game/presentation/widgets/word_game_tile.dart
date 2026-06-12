@@ -10,11 +10,13 @@ import '../../../../core/l10n/l10n.dart';
 class WordGameTile extends StatefulWidget {
   final String word;
   final Color themeColor;
+  final VoidCallback? onSolved;
 
   const WordGameTile({
     super.key,
     required this.word,
     this.themeColor = AppTheme.primaryLight,
+    this.onSolved,
   });
 
   @override
@@ -49,7 +51,10 @@ class _WordGameTileState extends State<WordGameTile>
 
   void _update(WordGameState next) {
     setState(() => _state = next);
-    if (next.isSolved) _successCtrl.forward(from: 0);
+    if (next.isSolved) {
+      _successCtrl.forward(from: 0);
+      widget.onSolved?.call();
+    }
   }
 
   @override

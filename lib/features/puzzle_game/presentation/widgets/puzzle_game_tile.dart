@@ -11,11 +11,13 @@ import '../../../../core/theme/app_theme.dart';
 class PuzzleGameTile extends StatefulWidget {
   final String imageUrl;
   final Color themeColor;
+  final VoidCallback? onSolved;
 
   const PuzzleGameTile({
     super.key,
     required this.imageUrl,
     this.themeColor = AppTheme.primaryLight,
+    this.onSolved,
   });
 
   @override
@@ -81,7 +83,10 @@ class _PuzzleGameTileState extends State<PuzzleGameTile>
     if (_state.tiles[pos] == PuzzleGameState.blankTile) return;
     if (!_state.canSlide(pos)) return;
     setState(() => _state = _state.slide(pos));
-    if (_state.isSolved) _successCtrl.forward(from: 0);
+    if (_state.isSolved) {
+      _successCtrl.forward(from: 0);
+      widget.onSolved?.call();
+    }
   }
 
   // ── Build ─────────────────────────────────────────────────────────────────

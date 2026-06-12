@@ -509,6 +509,9 @@ abstract class AppLocalizations {
   String get unlockCodeHint;
 
   /// No description provided for @unlockCodeInfo.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce code est celui que le destinataire devra saisir pour révéler cet élément. Tu peux le communiquer à l\'oral, par SMS, ou le cacher dans un autre élément.'**
   String get unlockCodeInfo;
 
   /// No description provided for @generateCode.
@@ -530,6 +533,9 @@ abstract class AppLocalizations {
   String get solveCodeHint;
 
   /// No description provided for @solveCodeInfo.
+  ///
+  /// In fr, this message translates to:
+  /// **'Optionnel. Ce code sera automatiquement saisi quand le destinataire réussit ce jeu, débloquant ainsi un autre élément de la surprise sans qu\'il ait besoin de le taper.'**
   String get solveCodeInfo;
 
   /// No description provided for @save.

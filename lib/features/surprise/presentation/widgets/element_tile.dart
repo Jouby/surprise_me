@@ -16,12 +16,16 @@ class ElementTile extends StatelessWidget {
   final bool ownerMode;
   final Color themeColor;
 
+  /// Appelé automatiquement quand un jeu est résolu, pour débloquer l'élément.
+  final VoidCallback? onGameSolved;
+
   const ElementTile({
     super.key,
     required this.element,
     required this.isUnlocked,
     this.ownerMode = false,
     this.themeColor = AppTheme.primaryLight,
+    this.onGameSolved,
   });
 
   bool get _revealed => isUnlocked || ownerMode;
@@ -189,11 +193,19 @@ class ElementTile extends StatelessWidget {
     }
 
     if (element.type == ElementType.puzzle) {
-      return PuzzleGameTile(imageUrl: element.content, themeColor: themeColor);
+      return PuzzleGameTile(
+        imageUrl: element.content,
+        themeColor: themeColor,
+        onSolved: onGameSolved,
+      );
     }
 
     if (element.type == ElementType.wordGame) {
-      return WordGameTile(word: element.content, themeColor: themeColor);
+      return WordGameTile(
+        word: element.content,
+        themeColor: themeColor,
+        onSolved: onGameSolved,
+      );
     }
 
     if (element.type == ElementType.motusGame) {
@@ -201,6 +213,7 @@ class ElementTile extends StatelessWidget {
         elementId: element.id,
         word: element.content,
         themeColor: themeColor,
+        onSolved: onGameSolved,
       );
     }
 
@@ -209,6 +222,7 @@ class ElementTile extends StatelessWidget {
         elementId: element.id,
         content: element.content,
         themeColor: themeColor,
+        onSolved: onGameSolved,
       );
     }
 
@@ -217,6 +231,7 @@ class ElementTile extends StatelessWidget {
         elementId: element.id,
         code: element.content,
         themeColor: themeColor,
+        onSolved: onGameSolved,
       );
     }
 
