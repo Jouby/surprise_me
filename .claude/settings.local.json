@@ -7,7 +7,8 @@
       "Bash(grep -v \"^Analyzing\\\\|^$\\\\|newer versions\")",
       "Bash(/Users/psykokwak/fvm/versions/stable/bin/flutter analyze *)",
       "Bash(/Users/psykokwak/fvm/versions/stable/bin/flutter pub *)",
-      "Bash(dart analyze *)"
+      "Bash(dart analyze *)",
+      "Bash(/Users/psykokwak/fvm/versions/3.35.7/bin/dart format *)"
     ]
   }
 }
