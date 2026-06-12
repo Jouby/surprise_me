@@ -508,6 +508,9 @@ abstract class AppLocalizations {
   /// **'Ex : SECRET1'**
   String get unlockCodeHint;
 
+  /// No description provided for @unlockCodeInfo.
+  String get unlockCodeInfo;
+
   /// No description provided for @generateCode.
   ///
   /// In fr, this message translates to:
@@ -515,10 +518,19 @@ abstract class AppLocalizations {
   String get generateCode;
 
   /// No description provided for @solveCodeLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Code récompense (optionnel)'**
   String get solveCodeLabel;
 
   /// No description provided for @solveCodeHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ex : NIVEAU2 — laisse vide si aucun'**
   String get solveCodeHint;
+
+  /// No description provided for @solveCodeInfo.
+  String get solveCodeInfo;
 
   /// No description provided for @save.
   ///

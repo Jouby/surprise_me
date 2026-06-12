@@ -235,6 +235,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get unlockCodeHint => 'Ex : SECRET1';
 
   @override
+  String get unlockCodeInfo =>
+      "Ce code est celui que le destinataire devra saisir pour révéler cet élément. Tu peux le communiquer à l'oral, par SMS, ou le cacher dans un autre élément.";
+
+  @override
   String get generateCode => 'Générer un code';
 
   @override
@@ -242,6 +246,10 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get solveCodeHint => 'Ex : NIVEAU2 — laisse vide si aucun';
+
+  @override
+  String get solveCodeInfo =>
+      "Optionnel. Ce code sera automatiquement saisi quand le destinataire réussit ce jeu, débloquant ainsi un autre élément de la surprise sans qu'il ait besoin de le taper.";
 
   @override
   String get save => 'Enregistrer';

@@ -233,6 +233,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get unlockCodeHint => 'e.g. SECRET1';
 
   @override
+  String get unlockCodeInfo =>
+      'This is the code the recipient must enter to reveal this element. You can share it verbally, by text, or hide it inside another element.';
+
+  @override
   String get generateCode => 'Generate a code';
 
   @override
@@ -240,6 +244,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get solveCodeHint => 'e.g. LEVEL2 — leave empty if none';
+
+  @override
+  String get solveCodeInfo =>
+      'Optional. This code is automatically entered when the recipient solves this game, unlocking another element in the surprise without them having to type it.';
 
   @override
   String get save => 'Save';

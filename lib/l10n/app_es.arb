@@ -110,10 +110,14 @@
   "pleaseEnterWord": "Por favor, introduce una palabra",
   "unlockCodeLabel": "Código de desbloqueo *",
   "unlockCodeHint": "Ej: SECRETO1",
+
+  "unlockCodeInfo": "Este es el código que el destinatario deberá introducir para revelar este elemento. Puedes compartirlo verbalmente, por mensaje o esconderlo en otro elemento.",
   "generateCode": "Generar un código",
 
   "solveCodeLabel": "Código recompensa (opcional)",
   "solveCodeHint": "Ej: NIVEL2 — déjalo vacío si ninguno",
+
+  "solveCodeInfo": "Opcional. Este código se introduce automáticamente cuando el destinatario supera este juego, desbloqueando otro elemento de la sorpresa sin que tenga que escribirlo.",
   "save": "Guardar",
   "add": "Añadir",
   "elementGroupContent": "Contenido",

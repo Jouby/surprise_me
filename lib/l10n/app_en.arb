@@ -110,10 +110,14 @@
   "pleaseEnterWord": "Please enter a word",
   "unlockCodeLabel": "Unlock code *",
   "unlockCodeHint": "e.g. SECRET1",
+
+  "unlockCodeInfo": "This is the code the recipient must enter to reveal this element. You can share it verbally, by text, or hide it inside another element.",
   "generateCode": "Generate a code",
 
   "solveCodeLabel": "Reward code (optional)",
   "solveCodeHint": "e.g. LEVEL2 — leave empty if none",
+
+  "solveCodeInfo": "Optional. This code is automatically entered when the recipient solves this game, unlocking another element in the surprise without them having to type it.",
   "save": "Save",
   "add": "Add",
   "elementGroupContent": "Content",

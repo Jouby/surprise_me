@@ -532,100 +532,31 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
                 ),
               ),
             const SizedBox(height: 12),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _codeController,
-                    textCapitalization: TextCapitalization.characters,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
-                      UpperCaseTextFormatter(),
-                    ],
-                    onChanged: (_) {
-                      if (_submitted) setState(() {});
-                    },
-                    decoration: InputDecoration(
-                      labelText: context.l10n.unlockCodeLabel,
-                      hintText: context.l10n.unlockCodeHint,
-                      errorText:
-                          (_submitted && _codeController.text.trim().isEmpty)
-                          ? context.l10n.fieldRequired
-                          : null,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Tooltip(
-                  message: context.l10n.generateCode,
-                  child: InkWell(
-                    onTap: () =>
-                        setState(() => _codeController.text = _generateCode()),
-                    borderRadius: BorderRadius.circular(12),
-                    child: Container(
-                      padding: const EdgeInsets.all(14),
-                      decoration: BoxDecoration(
-                        color: AppTheme.surface,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: AppTheme.divider, width: 1.5),
-                      ),
-                      child: Icon(
-                        Icons.auto_awesome_rounded,
-                        size: 20,
-                        color: AppTheme.primaryLight,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+            _CodeFieldRow(
+              controller: _codeController,
+              labelText: context.l10n.unlockCodeLabel,
+              hintText: context.l10n.unlockCodeHint,
+              infoText: context.l10n.unlockCodeInfo,
+              errorText: (_submitted && _codeController.text.trim().isEmpty)
+                  ? context.l10n.fieldRequired
+                  : null,
+              onGenerate: () =>
+                  setState(() => _codeController.text = _generateCode()),
+              generateTooltip: context.l10n.generateCode,
+              onChanged: (_) {
+                if (_submitted) setState(() {});
+              },
             ),
             if (_showGames) ...[
               const SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _solveCodeController,
-                      textCapitalization: TextCapitalization.characters,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(
-                          RegExp(r'[a-zA-Z0-9]'),
-                        ),
-                        UpperCaseTextFormatter(),
-                      ],
-                      decoration: InputDecoration(
-                        labelText: context.l10n.solveCodeLabel,
-                        hintText: context.l10n.solveCodeHint,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Tooltip(
-                    message: context.l10n.generateCode,
-                    child: InkWell(
-                      onTap: () => setState(
-                        () => _solveCodeController.text = _generateCode(),
-                      ),
-                      borderRadius: BorderRadius.circular(12),
-                      child: Container(
-                        padding: const EdgeInsets.all(14),
-                        decoration: BoxDecoration(
-                          color: AppTheme.surface,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: AppTheme.divider,
-                            width: 1.5,
-                          ),
-                        ),
-                        child: Icon(
-                          Icons.auto_awesome_rounded,
-                          size: 20,
-                          color: AppTheme.primaryLight,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+              _CodeFieldRow(
+                controller: _solveCodeController,
+                labelText: context.l10n.solveCodeLabel,
+                hintText: context.l10n.solveCodeHint,
+                infoText: context.l10n.solveCodeInfo,
+                onGenerate: () =>
+                    setState(() => _solveCodeController.text = _generateCode()),
+                generateTooltip: context.l10n.generateCode,
               ),
             ],
             const SizedBox(height: 24),
@@ -825,5 +756,118 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
       case ElementType.codeGame:
         return Icons.lock_outline_rounded;
     }
+  }
+}
+
+// ─── Champ code + bouton générer + bouton info ────────────────────────────────
+
+class _CodeFieldRow extends StatelessWidget {
+  final TextEditingController controller;
+  final String labelText;
+  final String hintText;
+  final String infoText;
+  final String? errorText;
+  final VoidCallback onGenerate;
+  final String generateTooltip;
+  final ValueChanged<String>? onChanged;
+
+  const _CodeFieldRow({
+    required this.controller,
+    required this.labelText,
+    required this.hintText,
+    required this.infoText,
+    required this.onGenerate,
+    required this.generateTooltip,
+    this.errorText,
+    this.onChanged,
+  });
+
+  void _showInfo(BuildContext context) {
+    showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: AppTheme.cardBg,
+        title: Text(
+          labelText.replaceAll(' *', ''),
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+            color: AppTheme.textDark,
+          ),
+        ),
+        content: Text(
+          infoText,
+          style: const TextStyle(
+            fontSize: 14,
+            color: AppTheme.textMid,
+            height: 1.5,
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: TextField(
+            controller: controller,
+            textCapitalization: TextCapitalization.characters,
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
+              UpperCaseTextFormatter(),
+            ],
+            onChanged: onChanged,
+            decoration: InputDecoration(
+              labelText: labelText,
+              hintText: hintText,
+              errorText: errorText,
+              suffixIcon: GestureDetector(
+                onTap: () => _showInfo(context),
+                child: const Padding(
+                  padding: EdgeInsets.only(right: 4),
+                  child: Icon(
+                    Icons.info_outline_rounded,
+                    size: 18,
+                    color: AppTheme.textLight,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(width: 8),
+        Tooltip(
+          message: generateTooltip,
+          child: InkWell(
+            onTap: onGenerate,
+            borderRadius: BorderRadius.circular(12),
+            child: Container(
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: AppTheme.surface,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppTheme.divider, width: 1.5),
+              ),
+              child: const Icon(
+                Icons.auto_awesome_rounded,
+                size: 20,
+                color: AppTheme.primaryLight,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
