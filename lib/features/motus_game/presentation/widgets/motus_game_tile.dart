@@ -15,12 +15,14 @@ class MotusGameTile extends StatefulWidget {
   final String elementId;
   final String word;
   final Color themeColor;
+  final VoidCallback? onSolved;
 
   const MotusGameTile({
     super.key,
     required this.elementId,
     required this.word,
     this.themeColor = AppTheme.primaryLight,
+    this.onSolved,
   });
 
   @override
@@ -55,6 +57,7 @@ class _MotusGameTileState extends State<MotusGameTile> {
     if (won == true && mounted) {
       await _ds.markSolved(widget.elementId);
       setState(() => _isSolved = true);
+      widget.onSolved?.call();
     }
   }
 

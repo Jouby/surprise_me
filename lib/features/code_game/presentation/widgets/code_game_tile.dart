@@ -16,12 +16,14 @@ class CodeGameTile extends StatefulWidget {
   final String elementId;
   final String code;
   final Color themeColor;
+  final VoidCallback? onSolved;
 
   const CodeGameTile({
     super.key,
     required this.elementId,
     required this.code,
     this.themeColor = AppTheme.primaryLight,
+    this.onSolved,
   });
 
   @override
@@ -55,6 +57,7 @@ class _CodeGameTileState extends State<CodeGameTile> {
     if (won == true && mounted) {
       await _ds.markSolved(widget.elementId);
       setState(() => _isSolved = true);
+      widget.onSolved?.call();
     }
   }
 

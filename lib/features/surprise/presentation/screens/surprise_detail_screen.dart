@@ -15,6 +15,7 @@ import '../../../../core/utils/error_utils.dart';
 import '../../../unlock/presentation/providers/unlock_provider.dart';
 import '../../../unlock/presentation/widgets/unlock_bottom_sheet.dart';
 import '../../domain/entities/surprise.dart';
+import '../../domain/entities/surprise_element.dart';
 import '../providers/surprise_provider.dart';
 import '../widgets/element_tile.dart';
 
@@ -152,13 +153,18 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
                       ),
                       SliverList(
                         delegate: SliverChildBuilderDelegate((context, index) {
+                          final element = surprise.elements[index];
                           final tile = ElementTile(
-                            element: surprise.elements[index],
+                            element: element,
                             isUnlocked: provider.isUnlocked(
                               surprise.id,
-                              surprise.elements[index].unlockCode,
+                              element.unlockCode,
                             ),
                             themeColor: _themeColor,
+                            onGameSolved: element.type.isGame
+                                ? () => provider.tryUnlock(
+                                    surprise.id, element.unlockCode)
+                                : null,
                           );
                           if (index == 0 && _onboardingPending) {
                             return Showcase(

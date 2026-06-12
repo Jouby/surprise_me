@@ -16,12 +16,14 @@ class ScratchGameTile extends StatefulWidget {
   final String elementId;
   final String content;
   final Color themeColor;
+  final VoidCallback? onSolved;
 
   const ScratchGameTile({
     super.key,
     required this.elementId,
     required this.content,
     this.themeColor = AppTheme.primaryLight,
+    this.onSolved,
   });
 
   @override
@@ -55,6 +57,7 @@ class _ScratchGameTileState extends State<ScratchGameTile> {
     if (revealed == true && mounted) {
       await _ds.markScratched(widget.elementId);
       setState(() => _isScratched = true);
+      widget.onSolved?.call();
     }
   }
 
