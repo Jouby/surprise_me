@@ -90,6 +90,13 @@
   },
   "revealedElements": "Elementos revelados",
   "enterCode": "Introducir un código",
+
+  "onboardingUnlockHint": "¡Pulsa aquí para introducir tu código secreto y revelar un elemento! 🗝️\n\nPara empezar, introduce el código: {code}",
+  "@onboardingUnlockHint": {
+    "placeholders": {
+      "code": { "type": "String" }
+    }
+  },
   "shareSheetTitle": "Compartir \"{title}\"",
   "@shareSheetTitle": {
     "placeholders": {

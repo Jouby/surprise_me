@@ -192,6 +192,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get enterCode => 'Introducir un código';
 
   @override
+  String onboardingUnlockHint(String code) =>
+      '¡Pulsa aquí para introducir tu código secreto y revelar un elemento! 🗝️\n\nPara empezar, introduce el código: $code';
+
+  @override
   String shareSheetTitle(String title) {
     return 'Compartir \"$title\"';
   }

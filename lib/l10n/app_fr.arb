@@ -187,6 +187,13 @@
   "enterCode": "Entrer un code",
   "@enterCode": {},
 
+  "onboardingUnlockHint": "Appuie ici pour saisir ton code secret et révéler un élément ! 🗝️\n\nPour commencer, entre le code : {code}",
+  "@onboardingUnlockHint": {
+    "placeholders": {
+      "code": { "type": "String" }
+    }
+  },
+
   "shareSheetTitle": "Partager \"{title}\"",
   "@shareSheetTitle": {
     "placeholders": {

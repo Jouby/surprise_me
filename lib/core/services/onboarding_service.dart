@@ -6,14 +6,26 @@ class OnboardingService {
   static const _detailKey = 'onboarding_detail_done';
 
   /// Retourne le share_code de la surprise d'onboarding selon la locale.
-  /// Actuellement seul le français est disponible ; toutes les autres langues
-  /// utilisent également la version FR par défaut.
   static String onboardingCode(Locale locale) {
     switch (locale.languageCode) {
       case 'fr':
         return 'ONBFR';
+      case 'es':
+        return 'ONBES';
       default:
-        return 'ONBFR';
+        return 'ONBEN';
+    }
+  }
+
+  /// Retourne le code du premier élément à saisir sur la page détail.
+  static String firstElementCode(Locale locale) {
+    switch (locale.languageCode) {
+      case 'fr':
+        return 'DEBUT';
+      case 'es':
+        return 'INICIO';
+      default:
+        return 'START';
     }
   }
 

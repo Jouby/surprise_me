@@ -424,6 +424,9 @@ abstract class AppLocalizations {
   /// **'Entrer un code'**
   String get enterCode;
 
+  /// No description provided for @onboardingUnlockHint.
+  String onboardingUnlockHint(String code);
+
   /// No description provided for @shareSheetTitle.
   ///
   /// In fr, this message translates to:

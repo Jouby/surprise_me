@@ -90,6 +90,13 @@
   },
   "revealedElements": "Revealed elements",
   "enterCode": "Enter a code",
+
+  "onboardingUnlockHint": "Tap here to enter your secret code and reveal an element! 🗝️\n\nTo start, enter the code: {code}",
+  "@onboardingUnlockHint": {
+    "placeholders": {
+      "code": { "type": "String" }
+    }
+  },
   "shareSheetTitle": "Share \"{title}\"",
   "@shareSheetTitle": {
     "placeholders": {

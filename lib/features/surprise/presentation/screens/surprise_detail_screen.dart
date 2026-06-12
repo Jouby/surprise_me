@@ -778,8 +778,9 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
       ),
       child: Showcase(
         key: _showcaseKeyUnlock,
-        description:
-            'Appuie ici pour saisir ton code secret et révéler un élément ! 🗝️\n\nPour commencer, entre le code : DEBUT',
+        description: context.l10n.onboardingUnlockHint(
+          OnboardingService.firstElementCode(Localizations.localeOf(context)),
+        ),
         child: SizedBox(
           width: double.infinity,
           child: ElevatedButton.icon(
