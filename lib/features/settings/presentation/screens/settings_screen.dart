@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../core/l10n/l10n.dart';
 import '../../../../core/premium/premium_provider.dart';
+import '../../../../core/services/onboarding_service.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../surprise/presentation/providers/surprise_provider.dart';
 
@@ -250,6 +251,55 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         activeThumbColor: AppTheme.primary,
                         onChanged: (v) => premium.debugSetPremium(v),
                       ),
+                    ),
+                  ),
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AppTheme.cardBg,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: AppTheme.divider),
+                    ),
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 18,
+                        vertical: 4,
+                      ),
+                      leading: const Icon(
+                        Icons.replay_rounded,
+                        color: AppTheme.textLight,
+                        size: 20,
+                      ),
+                      title: const Text(
+                        'Réinitialiser l\'onboarding',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: AppTheme.textDark,
+                        ),
+                      ),
+                      subtitle: const Text(
+                        'Relance les coaches marks au prochain lancement',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: AppTheme.textLight,
+                        ),
+                      ),
+                      onTap: () async {
+                        await OnboardingService.reset();
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Onboarding réinitialisé'),
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
+                        }
+                      },
                     ),
                   ),
                 ),

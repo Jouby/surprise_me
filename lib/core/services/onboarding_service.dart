@@ -52,4 +52,10 @@ class OnboardingService {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_detailKey, true);
   }
+
+  static Future<void> reset() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_homeKey);
+    await prefs.remove(_detailKey);
+  }
 }
