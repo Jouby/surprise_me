@@ -29,6 +29,7 @@ abstract class ISurpriseRepository {
     required String label,
     required String content,
     required String unlockCode,
+    required String solveCode,
     required int sortOrder,
   });
   Future<void> deleteSurprise({
@@ -46,6 +47,7 @@ abstract class ISurpriseRepository {
     required String label,
     required String content,
     required String unlockCode,
+    required String solveCode,
     required int sortOrder,
   });
   Future<String> uploadImage(File file);

@@ -71,6 +71,7 @@ class SurpriseRepositoryImpl implements ISurpriseRepository {
     required String label,
     required String content,
     required String unlockCode,
+    required String solveCode,
     required int sortOrder,
   }) => _remote.updateElement(
     id: id,
@@ -79,6 +80,7 @@ class SurpriseRepositoryImpl implements ISurpriseRepository {
     label: label,
     content: content,
     unlockCode: unlockCode,
+    solveCode: solveCode,
     sortOrder: sortOrder,
   );
 
@@ -102,6 +104,7 @@ class SurpriseRepositoryImpl implements ISurpriseRepository {
     required String label,
     required String content,
     required String unlockCode,
+    required String solveCode,
     required int sortOrder,
   }) => _remote.addElement(
     surpriseId: surpriseId,
@@ -110,6 +113,7 @@ class SurpriseRepositoryImpl implements ISurpriseRepository {
     label: label,
     content: content,
     unlockCode: unlockCode,
+    solveCode: solveCode,
     sortOrder: sortOrder,
   );
 

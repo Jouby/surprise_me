@@ -65,6 +65,7 @@ class UpdateSurpriseUseCase {
           label: draft.label,
           content: draft.content,
           unlockCode: draft.unlockCode,
+          solveCode: draft.solveCode,
           sortOrder: i,
         );
       } else {
@@ -75,7 +76,8 @@ class UpdateSurpriseUseCase {
           label: draft.label,
           content: draft.content,
           unlockCode: draft.unlockCode,
-          sortOrder: i, // persiste le nouvel ordre après réagencement
+          solveCode: draft.solveCode,
+          sortOrder: i,
         );
       }
     }

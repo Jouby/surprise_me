@@ -11,6 +11,14 @@ enum ElementType {
 }
 
 extension ElementTypeX on ElementType {
+  bool get isGame => const {
+    ElementType.wordGame,
+    ElementType.motusGame,
+    ElementType.scratchGame,
+    ElementType.codeGame,
+    ElementType.puzzle,
+  }.contains(this);
+
   /// Serialized name used in the database (snake_case).
   String get dbName {
     switch (this) {
@@ -34,6 +42,8 @@ class SurpriseElement {
   final String unlockCode;
   final String content;
   final String label;
+  /// Code auto-entré quand le jeu est résolu (vide si non défini).
+  final String solveCode;
 
   const SurpriseElement({
     required this.id,
@@ -41,5 +51,6 @@ class SurpriseElement {
     required this.unlockCode,
     required this.content,
     required this.label,
+    this.solveCode = '',
   });
 }

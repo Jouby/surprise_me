@@ -69,6 +69,7 @@ class _FakeSurpriseRepository implements ISurpriseRepository {
     required String label,
     required String content,
     required String unlockCode,
+    required String solveCode,
     required int sortOrder,
   }) async {}
 
@@ -86,6 +87,7 @@ class _FakeSurpriseRepository implements ISurpriseRepository {
     required String label,
     required String content,
     required String unlockCode,
+    required String solveCode,
     required int sortOrder,
   }) async {}
 

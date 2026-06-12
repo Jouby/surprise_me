@@ -370,6 +370,7 @@
       { "autogeneratePattern": "", "help": "", "hidden": false, "id": "text_label", "max": 0, "min": 0, "name": "label", "pattern": "", "presentable": false, "primaryKey": false, "required": false, "system": false, "type": "text" },
       { "autogeneratePattern": "", "help": "", "hidden": false, "id": "text_content", "max": 0, "min": 0, "name": "content", "pattern": "", "presentable": false, "primaryKey": false, "required": false, "system": false, "type": "text" },
       { "autogeneratePattern": "", "help": "", "hidden": false, "id": "text_unlock_code", "max": 0, "min": 1, "name": "unlock_code", "pattern": "", "presentable": false, "primaryKey": false, "required": true, "system": false, "type": "text" },
+      { "autogeneratePattern": "", "help": "", "hidden": false, "id": "text_solve_code", "max": 0, "min": 0, "name": "solve_code", "pattern": "", "presentable": false, "primaryKey": false, "required": false, "system": false, "type": "text" },
       { "help": "", "hidden": false, "id": "number_sort_order", "max": null, "min": null, "name": "sort_order", "noDecimal": true, "onlyInt": true, "presentable": false, "required": false, "system": false, "type": "number" },
       {
         "help": "",

@@ -236,6 +236,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get generateCode => 'Generate a code';
 
   @override
+  String get solveCodeLabel => 'Reward code (optional)';
+
+  @override
+  String get solveCodeHint => 'e.g. LEVEL2 — leave empty if none';
+
+  @override
   String get save => 'Save';
 
   @override

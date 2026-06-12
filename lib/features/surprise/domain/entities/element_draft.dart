@@ -6,6 +6,7 @@ class ElementDraft {
   final String label;
   final String content;
   final String unlockCode;
+  final String solveCode;
 
   const ElementDraft({
     this.id,
@@ -13,6 +14,7 @@ class ElementDraft {
     required this.label,
     required this.content,
     required this.unlockCode,
+    this.solveCode = '',
   });
 
   factory ElementDraft.fromElement(SurpriseElement e) => ElementDraft(
@@ -21,6 +23,7 @@ class ElementDraft {
     label: e.label,
     content: e.content,
     unlockCode: e.unlockCode,
+    solveCode: e.solveCode,
   );
 
   ElementDraft copyWith({
@@ -29,12 +32,14 @@ class ElementDraft {
     String? label,
     String? content,
     String? unlockCode,
+    String? solveCode,
   }) => ElementDraft(
     id: id ?? this.id,
     type: type ?? this.type,
     label: label ?? this.label,
     content: content ?? this.content,
     unlockCode: unlockCode ?? this.unlockCode,
+    solveCode: solveCode ?? this.solveCode,
   );
 
   bool get isNew => id == null;
@@ -49,5 +54,6 @@ class ElementDraft {
     'label': label.trim(),
     'content': content.trim(),
     'unlock_code': unlockCode.trim().toUpperCase(),
+    'solve_code': solveCode.trim().toUpperCase(),
   };
 }

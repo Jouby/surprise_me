@@ -111,6 +111,9 @@
   "unlockCodeLabel": "Unlock code *",
   "unlockCodeHint": "e.g. SECRET1",
   "generateCode": "Generate a code",
+
+  "solveCodeLabel": "Reward code (optional)",
+  "solveCodeHint": "e.g. LEVEL2 — leave empty if none",
   "save": "Save",
   "add": "Add",
   "elementGroupContent": "Content",

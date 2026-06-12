@@ -514,6 +514,12 @@ abstract class AppLocalizations {
   /// **'Générer un code'**
   String get generateCode;
 
+  /// No description provided for @solveCodeLabel.
+  String get solveCodeLabel;
+
+  /// No description provided for @solveCodeHint.
+  String get solveCodeHint;
+
   /// No description provided for @save.
   ///
   /// In fr, this message translates to:

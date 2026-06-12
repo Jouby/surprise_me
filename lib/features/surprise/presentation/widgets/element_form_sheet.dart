@@ -36,6 +36,7 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
   late final TextEditingController _labelController;
   late final TextEditingController _contentController;
   late final TextEditingController _codeController;
+  late final TextEditingController _solveCodeController;
   DateTime? _selectedDate;
   TimeOfDay? _selectedTime;
   String? _uploadedImageUrl;
@@ -98,6 +99,7 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
       _codeGameCode = init.content;
     }
     _codeController = TextEditingController(text: init?.unlockCode ?? '');
+    _solveCodeController = TextEditingController(text: init?.solveCode ?? '');
 
     if (init != null && init.type == ElementType.date) {
       _parseInitialDate(init.content);
@@ -156,6 +158,7 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
     _labelController.dispose();
     _contentController.dispose();
     _codeController.dispose();
+    _solveCodeController.dispose();
     super.dispose();
   }
 
@@ -285,6 +288,7 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
         label: label,
         content: content,
         unlockCode: code.toUpperCase(),
+        solveCode: _solveCodeController.text.trim().toUpperCase(),
       ),
     );
     Navigator.pop(context);
@@ -575,6 +579,55 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
                 ),
               ],
             ),
+            if (_showGames) ...[
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _solveCodeController,
+                      textCapitalization: TextCapitalization.characters,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(
+                          RegExp(r'[a-zA-Z0-9]'),
+                        ),
+                        UpperCaseTextFormatter(),
+                      ],
+                      decoration: InputDecoration(
+                        labelText: context.l10n.solveCodeLabel,
+                        hintText: context.l10n.solveCodeHint,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Tooltip(
+                    message: context.l10n.generateCode,
+                    child: InkWell(
+                      onTap: () => setState(
+                        () => _solveCodeController.text = _generateCode(),
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        padding: const EdgeInsets.all(14),
+                        decoration: BoxDecoration(
+                          color: AppTheme.surface,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: AppTheme.divider,
+                            width: 1.5,
+                          ),
+                        ),
+                        child: Icon(
+                          Icons.auto_awesome_rounded,
+                          size: 20,
+                          color: AppTheme.primaryLight,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
             const SizedBox(height: 24),
             SizedBox(
               width: double.infinity,

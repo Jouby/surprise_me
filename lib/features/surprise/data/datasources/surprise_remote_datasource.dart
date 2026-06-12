@@ -88,6 +88,7 @@ class SurpriseRemoteDatasource {
               'label': el['label'],
               'content': el['content'],
               'unlock_code': (el['unlock_code'] as String).toUpperCase(),
+              'solve_code': (el['solve_code'] as String? ?? '').toUpperCase(),
               'sort_order': i + 1,
             },
           );
@@ -126,6 +127,7 @@ class SurpriseRemoteDatasource {
     required String label,
     required String content,
     required String unlockCode,
+    required String solveCode,
     required int sortOrder,
   }) => _pb
       .collection('surprise_elements')
@@ -136,6 +138,7 @@ class SurpriseRemoteDatasource {
           'label': label,
           'content': content,
           'unlock_code': unlockCode.toUpperCase(),
+          'solve_code': solveCode.toUpperCase(),
           'sort_order': sortOrder,
           'creator_token': creatorToken,
         },
@@ -162,6 +165,7 @@ class SurpriseRemoteDatasource {
     required String label,
     required String content,
     required String unlockCode,
+    required String solveCode,
     required int sortOrder,
   }) => _pb
       .collection('surprise_elements')
@@ -172,6 +176,7 @@ class SurpriseRemoteDatasource {
           'label': label,
           'content': content,
           'unlock_code': unlockCode.toUpperCase(),
+          'solve_code': solveCode.toUpperCase(),
           'sort_order': sortOrder,
           'creator_token': creatorToken,
         },

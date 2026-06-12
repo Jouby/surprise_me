@@ -238,6 +238,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get generateCode => 'Générer un code';
 
   @override
+  String get solveCodeLabel => 'Code récompense (optionnel)';
+
+  @override
+  String get solveCodeHint => 'Ex : NIVEAU2 — laisse vide si aucun';
+
+  @override
   String get save => 'Enregistrer';
 
   @override

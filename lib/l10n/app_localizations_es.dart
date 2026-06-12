@@ -240,6 +240,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get generateCode => 'Generar un código';
 
   @override
+  String get solveCodeLabel => 'Código recompensa (opcional)';
+
+  @override
+  String get solveCodeHint => 'Ej: NIVEL2 — déjalo vacío si ninguno';
+
+  @override
   String get save => 'Guardar';
 
   @override

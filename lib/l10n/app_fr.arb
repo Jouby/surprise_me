@@ -236,6 +236,12 @@
   "generateCode": "Générer un code",
   "@generateCode": {},
 
+  "solveCodeLabel": "Code récompense (optionnel)",
+  "@solveCodeLabel": {},
+
+  "solveCodeHint": "Ex : NIVEAU2 — laisse vide si aucun",
+  "@solveCodeHint": {},
+
   "save": "Enregistrer",
   "@save": {},
 

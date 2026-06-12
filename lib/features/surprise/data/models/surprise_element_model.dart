@@ -9,6 +9,7 @@ class SurpriseElementModel extends SurpriseElement {
     required super.label,
     required super.content,
     required super.unlockCode,
+    super.solveCode = '',
   });
 
   factory SurpriseElementModel.fromRecord(RecordModel record) =>
@@ -18,6 +19,7 @@ class SurpriseElementModel extends SurpriseElement {
         label: record.getStringValue('label'),
         content: record.getStringValue('content'),
         unlockCode: record.getStringValue('unlock_code'),
+        solveCode: record.getStringValue('solve_code'),
       );
 
   static ElementType _parseType(String type) {

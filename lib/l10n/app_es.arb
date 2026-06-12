@@ -111,6 +111,9 @@
   "unlockCodeLabel": "Código de desbloqueo *",
   "unlockCodeHint": "Ej: SECRETO1",
   "generateCode": "Generar un código",
+
+  "solveCodeLabel": "Código recompensa (opcional)",
+  "solveCodeHint": "Ej: NIVEL2 — déjalo vacío si ninguno",
   "save": "Guardar",
   "add": "Añadir",
   "elementGroupContent": "Contenido",
