@@ -769,7 +769,7 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
       child: Showcase(
         key: _showcaseKeyUnlock,
         description:
-            'Appuie ici pour saisir ton code secret et révéler un élément ! 🗝️',
+            'Appuie ici pour saisir ton code secret et révéler un élément ! 🗝️\n\nPour commencer, entre le code : DEBUT',
         child: SizedBox(
           width: double.infinity,
           child: ElevatedButton.icon(
