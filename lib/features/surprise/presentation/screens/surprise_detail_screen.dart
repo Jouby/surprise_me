@@ -161,10 +161,13 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
                               element.unlockCode,
                             ),
                             themeColor: _themeColor,
-                            onGameSolved: (element.type.isGame &&
+                            onGameSolved:
+                                (element.type.isGame &&
                                     element.solveCode.isNotEmpty)
                                 ? () => provider.tryUnlock(
-                                    surprise.id, element.solveCode)
+                                    surprise.id,
+                                    element.solveCode,
+                                  )
                                 : null,
                           );
                           if (index == 0 && _onboardingPending) {

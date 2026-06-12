@@ -42,6 +42,7 @@ class SurpriseElement {
   final String unlockCode;
   final String content;
   final String label;
+
   /// Code auto-entré quand le jeu est résolu (vide si non défini).
   final String solveCode;
 
