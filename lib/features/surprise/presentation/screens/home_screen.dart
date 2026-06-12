@@ -40,6 +40,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   bool _onboardingPending = false;
 
+  // Contexte capturé depuis l'intérieur du ShowCaseWidget.builder.
+  BuildContext? _showcaseContext;
+
   @override
   void initState() {
     super.initState();
@@ -69,8 +72,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // Lance le tour dès que les widgets sont rendus.
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        ShowCaseWidget.of(context).startShowCase([
+      if (mounted && _showcaseContext != null) {
+        ShowCaseWidget.of(_showcaseContext!).startShowCase([
           _showcaseKeyCard,
           _showcaseKeyJoin,
           _showcaseKeyCreate,
@@ -149,7 +152,9 @@ class _HomeScreenState extends State<HomeScreen> {
         setState(() => _onboardingPending = false);
         OnboardingService.markDone();
       },
-      builder: (context) => Scaffold(
+      builder: (showcaseCtx) {
+        _showcaseContext = showcaseCtx;
+        return Scaffold(
         backgroundColor: AppTheme.surface,
         body: Container(
           decoration: const BoxDecoration(
@@ -257,9 +262,10 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
         ),
-        floatingActionButton: _buildFab(context),
+        floatingActionButton: _buildFab(showcaseCtx),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      ),
+      );
+      },
     );
   }
 
