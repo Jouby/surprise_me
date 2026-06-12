@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 import '../../../../core/l10n/l10n.dart';
 import '../../../../core/premium/paywall_sheet.dart';
 import '../../../../core/premium/premium_provider.dart';
 import '../../../../core/router/app_router.dart';
+import '../../../../core/services/onboarding_service.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/utils/text_formatters.dart';
 import '../../../unlock/presentation/providers/unlock_provider.dart';
@@ -21,32 +23,59 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // Dernier code de join traité — évite d'ouvrir la sheet plusieurs fois
-  // pour le même deep link.
   String? _lastHandledJoinCode;
-
   final ScrollController _scrollController = ScrollController();
-
-  // 0.0 = header totalement ouvert, 1.0 = header replié
   double _collapseRatio = 0.0;
 
   static const double _expandedHeight = 110;
   static const double _collapsedHeight = kToolbarHeight;
   static const double _scrollRange = _expandedHeight - _collapsedHeight;
-
   static const Color _headerExpanded = Color(0xFFDEEEF8);
   static const Color _headerCollapsed = AppTheme.primary;
+
+  // ── Showcase keys ─────────────────────────────────────────────────────────
+  final GlobalKey _showcaseKeyCard = GlobalKey();
+  final GlobalKey _showcaseKeyJoin = GlobalKey();
+  final GlobalKey _showcaseKeyCreate = GlobalKey();
+
+  bool _onboardingPending = false;
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (!mounted) return;
-      // Charge les codes au premier affichage puis à chaque mise à jour.
       final surpriseProvider = context.read<SurpriseProvider>();
       surpriseProvider.addListener(_onSurprisesChanged);
       _loadUnlockCodesForJoined();
+      await _maybeStartOnboarding();
+    });
+  }
+
+  Future<void> _maybeStartOnboarding() async {
+    final isFirst = await OnboardingService.isFirstLaunch();
+    if (!isFirst || !mounted) return;
+
+    final locale = Localizations.localeOf(context);
+    final code = OnboardingService.onboardingCode(locale);
+    final provider = context.read<SurpriseProvider>();
+
+    // Rejoint silencieusement la surprise d'onboarding.
+    await provider.joinByShareCode(code);
+
+    if (!mounted) return;
+    setState(() => _onboardingPending = true);
+
+    // Lance le tour dès que les widgets sont rendus.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        ShowCaseWidget.of(context).startShowCase([
+          _showcaseKeyCard,
+          _showcaseKeyJoin,
+          _showcaseKeyCreate,
+        ]);
+      }
     });
   }
 
@@ -59,8 +88,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void dispose() {
     _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
-    // Retire le listener proprement pour éviter les fuites mémoire.
-    // On lit le provider via le contexte avant qu'il soit détaché.
     try {
       context.read<SurpriseProvider>().removeListener(_onSurprisesChanged);
     } catch (_) {}
@@ -102,7 +129,6 @@ class _HomeScreenState extends State<HomeScreen> {
           final surprise = await provider.joinByShareCode(code);
           if (!context.mounted) return false;
           if (surprise == null) return false;
-          // Ferme la sheet puis navigue vers le détail.
           // ignore: use_build_context_synchronously
           Navigator.pop(context);
           // ignore: use_build_context_synchronously
@@ -118,98 +144,122 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppTheme.surface,
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFFDEEEF8), Color(0xFFF5FAFF)],
+    return ShowCaseWidget(
+      onFinish: () {
+        setState(() => _onboardingPending = false);
+        OnboardingService.markDone();
+      },
+      builder: (context) => Scaffold(
+        backgroundColor: AppTheme.surface,
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0xFFDEEEF8), Color(0xFFF5FAFF)],
+            ),
           ),
-        ),
-        child: Consumer<SurpriseProvider>(
-          builder: (context, provider, _) {
-            return RefreshIndicator(
-              onRefresh: provider.load,
-              color: AppTheme.primaryLight,
-              child: CustomScrollView(
-                controller: _scrollController,
-                slivers: [
-                  _buildAppBar(context, provider),
-                  if (provider.isLoading)
-                    const SliverFillRemaining(
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          color: AppTheme.primaryLight,
-                          strokeWidth: 2,
+          child: Consumer<SurpriseProvider>(
+            builder: (context, provider, _) {
+              return RefreshIndicator(
+                onRefresh: provider.load,
+                color: AppTheme.primaryLight,
+                child: CustomScrollView(
+                  controller: _scrollController,
+                  slivers: [
+                    _buildAppBar(context, provider),
+                    if (provider.isLoading)
+                      const SliverFillRemaining(
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: AppTheme.primaryLight,
+                            strokeWidth: 2,
+                          ),
                         ),
-                      ),
-                    )
-                  else if (provider.error != null)
-                    SliverFillRemaining(child: _buildError(context, provider))
-                  else if (provider.surprises.isEmpty)
-                    SliverFillRemaining(child: _buildEmpty(context))
-                  else ...[
-                    if (provider.createdSurprises.isNotEmpty) ...[
-                      SliverToBoxAdapter(
-                        child: _SectionHeader(
-                          icon: Icons.edit_rounded,
-                          label: context.l10n.myCreations,
+                      )
+                    else if (provider.error != null)
+                      SliverFillRemaining(
+                        child: _buildError(context, provider),
+                      )
+                    else if (provider.surprises.isEmpty)
+                      SliverFillRemaining(child: _buildEmpty(context))
+                    else ...[
+                      if (provider.createdSurprises.isNotEmpty) ...[
+                        SliverToBoxAdapter(
+                          child: _SectionHeader(
+                            icon: Icons.edit_rounded,
+                            label: context.l10n.myCreations,
+                          ),
                         ),
-                      ),
-                      SliverList(
-                        delegate: SliverChildBuilderDelegate((context, index) {
-                          final s = provider.createdSurprises[index];
-                          return SurpriseCard(
-                            surprise: s,
-                            isOwner: true,
-                            onTap: () => context.push(
-                              '/surprise/${s.id}',
-                              extra: SurpriseRouteArgs(
+                        SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                              final s = provider.createdSurprises[index];
+                              return SurpriseCard(
                                 surprise: s,
                                 isOwner: true,
-                              ),
-                            ),
-                          );
-                        }, childCount: provider.createdSurprises.length),
-                      ),
-                    ],
-                    if (provider.joinedSurprises.isNotEmpty) ...[
+                                onTap: () => context.push(
+                                  '/surprise/${s.id}',
+                                  extra: SurpriseRouteArgs(
+                                    surprise: s,
+                                    isOwner: true,
+                                  ),
+                                ),
+                              );
+                            },
+                            childCount: provider.createdSurprises.length,
+                          ),
+                        ),
+                      ],
+                      if (provider.joinedSurprises.isNotEmpty) ...[
+                        SliverToBoxAdapter(
+                          child: _SectionHeader(
+                            icon: Icons.celebration_outlined,
+                            label: context.l10n.joinedSurprises,
+                          ),
+                        ),
+                        SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                              final s = provider.joinedSurprises[index];
+                              final card = SurpriseCard(
+                                surprise: s,
+                                isOwner: false,
+                                onTap: () => context.push(
+                                  '/surprise/${s.id}',
+                                  extra: SurpriseRouteArgs(surprise: s),
+                                ),
+                              );
+                              // Attache le showcase uniquement à la première carte rejointe.
+                              if (index == 0 && _onboardingPending) {
+                                return Showcase(
+                                  key: _showcaseKeyCard,
+                                  description:
+                                      'Voilà ta surprise de bienvenue ! 🎉\nAppuie dessus pour l\'explorer et découvrir comment Surprise Me fonctionne.',
+                                  child: card,
+                                );
+                              }
+                              return card;
+                            },
+                            childCount: provider.joinedSurprises.length,
+                          ),
+                        ),
+                      ],
                       SliverToBoxAdapter(
-                        child: _SectionHeader(
-                          icon: Icons.celebration_outlined,
-                          label: context.l10n.joinedSurprises,
+                        child: SizedBox(
+                          height: 80 + MediaQuery.of(context).padding.bottom,
                         ),
                       ),
-                      SliverList(
-                        delegate: SliverChildBuilderDelegate((context, index) {
-                          final s = provider.joinedSurprises[index];
-                          return SurpriseCard(
-                            surprise: s,
-                            isOwner: false,
-                            onTap: () => context.push(
-                              '/surprise/${s.id}',
-                              extra: SurpriseRouteArgs(surprise: s),
-                            ),
-                          );
-                        }, childCount: provider.joinedSurprises.length),
-                      ),
                     ],
-                    SliverToBoxAdapter(
-                      child: SizedBox(
-                        height: 80 + MediaQuery.of(context).padding.bottom,
-                      ),
-                    ),
                   ],
-                ],
-              ),
-            );
-          },
+                ),
+              );
+            },
+          ),
         ),
+        floatingActionButton: _buildFab(context),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
-      floatingActionButton: _buildFab(context),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
@@ -319,10 +369,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _onCreateTap(BuildContext context) async {
     final premium = context.read<PremiumProvider>();
     final surprises = context.read<SurpriseProvider>();
-    debugPrint(
-      '[Premium] isPremium=${premium.isPremium} '
-      'createdCount=${surprises.createdSurprises.length}',
-    );
     if (!premium.isPremium && surprises.createdSurprises.isNotEmpty) {
       await PaywallSheet.show(context);
       return;
@@ -337,19 +383,29 @@ class _HomeScreenState extends State<HomeScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
-            child: _FabButton(
-              label: context.l10n.join,
-              icon: Icons.qr_code_scanner_rounded,
-              onTap: () => _showJoinSheet(),
-              outlined: true,
+            child: Showcase(
+              key: _showcaseKeyJoin,
+              description:
+                  'Tu as reçu un code de partage ?\nUtilise ce bouton pour rejoindre la surprise d\'un proche. 🔗',
+              child: _FabButton(
+                label: context.l10n.join,
+                icon: Icons.qr_code_scanner_rounded,
+                onTap: () => _showJoinSheet(),
+                outlined: true,
+              ),
             ),
           ),
           const SizedBox(width: 12),
           Expanded(
-            child: _FabButton(
-              label: context.l10n.create,
-              icon: Icons.add_rounded,
-              onTap: () => _onCreateTap(context),
+            child: Showcase(
+              key: _showcaseKeyCreate,
+              description:
+                  'Prêt à créer ta propre surprise ?\nAppuie ici pour commencer ! 🎁',
+              child: _FabButton(
+                label: context.l10n.create,
+                icon: Icons.add_rounded,
+                onTap: () => _onCreateTap(context),
+              ),
             ),
           ),
         ],

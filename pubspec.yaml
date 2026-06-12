@@ -39,6 +39,7 @@ dependencies:
   google_fonts: ^6.2.1
   provider: ^6.1.2
   pocketbase: ^0.22.0
+  showcaseview: ^3.0.0
   share_plus: ^10.1.4
   http: ^1.2.0
   image_picker: ^1.1.2
