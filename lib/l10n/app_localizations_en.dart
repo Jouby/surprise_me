@@ -188,8 +188,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get enterCode => 'Enter a code';
 
   @override
-  String onboardingUnlockHint(String code) =>
-      'Tap here to enter your secret code and reveal an element! 🗝️\n\nTo start, enter the code: $code';
+  String onboardingUnlockHint(String code) {
+    return 'Tap here to enter your secret code and reveal an element! 🗝️\n\nTo start, enter the code: $code';
+  }
 
   @override
   String shareSheetTitle(String title) {
