@@ -89,8 +89,9 @@ class _SurpriseDetailScreenState extends State<SurpriseDetailScreen> {
   }
 
   void _showUnlockSheet(BuildContext context, UnlockProvider provider) {
-    final validCodes =
-        surprise.elements.map((e) => e.unlockCode.toUpperCase()).toSet();
+    final validCodes = surprise.elements
+        .map((e) => e.unlockCode.toUpperCase())
+        .toSet();
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,

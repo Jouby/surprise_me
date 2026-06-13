@@ -51,7 +51,8 @@ class _UnlockBottomSheetState extends State<UnlockBottomSheet> {
     // Vérifie que le code correspond à un élément avant de sauvegarder.
     final isValid =
         widget.validCodes.isEmpty || widget.validCodes.contains(code);
-    final ok = isValid && await widget.provider.tryUnlock(widget.surpriseId, code);
+    final ok =
+        isValid && await widget.provider.tryUnlock(widget.surpriseId, code);
 
     if (mounted) {
       setState(() {
