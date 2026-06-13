@@ -824,6 +824,7 @@ class _CodeFieldRow extends StatelessWidget {
             controller: controller,
             textCapitalization: TextCapitalization.characters,
             inputFormatters: [
+              RemoveAccentsFormatter(),
               FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
               UpperCaseTextFormatter(),
             ],

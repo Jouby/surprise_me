@@ -9,12 +9,14 @@ class UnlockBottomSheet extends StatefulWidget {
   final UnlockProvider provider;
   final String surpriseId;
   final Color themeColor;
+  final Set<String> validCodes;
 
   const UnlockBottomSheet({
     super.key,
     required this.provider,
     required this.surpriseId,
     this.themeColor = AppTheme.primary,
+    this.validCodes = const {},
   });
 
   @override
@@ -36,7 +38,7 @@ class _UnlockBottomSheetState extends State<UnlockBottomSheet> {
   }
 
   Future<void> _submit() async {
-    final code = _controller.text.trim();
+    final code = _controller.text.trim().toUpperCase();
     if (code.isEmpty) return;
 
     setState(() {
@@ -45,17 +47,25 @@ class _UnlockBottomSheetState extends State<UnlockBottomSheet> {
     });
 
     await Future.delayed(const Duration(milliseconds: 400));
-    final ok = await widget.provider.tryUnlock(widget.surpriseId, code);
 
-    setState(() {
-      _loading = false;
-      _success = ok;
-      _feedback = ok ? context.l10n.codeAccepted : context.l10n.invalidCode;
-    });
+    // Vérifie que le code correspond à un élément avant de sauvegarder.
+    final isValid =
+        widget.validCodes.isEmpty || widget.validCodes.contains(code);
+    final ok = isValid && await widget.provider.tryUnlock(widget.surpriseId, code);
 
-    if (ok) {
-      await Future.delayed(const Duration(milliseconds: 1200));
-      if (mounted) Navigator.pop(context);
+    if (mounted) {
+      setState(() {
+        _loading = false;
+        _success = ok;
+        _feedback = ok ? context.l10n.codeAccepted : context.l10n.invalidCode;
+      });
+
+      if (ok) {
+        await Future.delayed(const Duration(milliseconds: 1200));
+        if (mounted) Navigator.pop(context);
+      } else {
+        HapticFeedback.heavyImpact();
+      }
     }
   }
 
@@ -112,6 +122,7 @@ class _UnlockBottomSheetState extends State<UnlockBottomSheet> {
             autofocus: true,
             textCapitalization: TextCapitalization.characters,
             inputFormatters: [
+              RemoveAccentsFormatter(),
               FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
               UpperCaseTextFormatter(),
             ],

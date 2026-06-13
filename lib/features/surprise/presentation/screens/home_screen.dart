@@ -599,6 +599,7 @@ class _JoinSheetState extends State<_JoinSheet> {
             autofocus: true,
             textCapitalization: TextCapitalization.characters,
             inputFormatters: [
+              RemoveAccentsFormatter(),
               FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
               UpperCaseTextFormatter(),
             ],
