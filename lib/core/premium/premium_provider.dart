@@ -62,7 +62,8 @@ class PremiumProvider extends ChangeNotifier {
       final offerings = await Purchases.getOfferings();
       final package = offerings.current?.lifetime;
       if (package == null) return false;
-      final info = await Purchases.purchasePackage(package);
+      await Purchases.purchase(PurchaseParams.package(package));
+      final info = await Purchases.getCustomerInfo();
       _isPremium = info.entitlements.active.containsKey(_entitlement);
       notifyListeners();
       return _isPremium;
