@@ -209,7 +209,6 @@ class _ElementFormSheetState extends State<ElementFormSheet> {
       initialDate: _selectedDate ?? DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
-      locale: const Locale('fr'),
     );
     if (date == null) return;
     setState(() => _selectedDate = date);

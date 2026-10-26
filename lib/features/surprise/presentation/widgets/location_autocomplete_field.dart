@@ -72,7 +72,7 @@ class _LocationAutocompleteFieldState extends State<LocationAutocompleteField> {
         'format': 'json',
         'addressdetails': '1',
         'limit': '5',
-        'accept-language': 'fr',
+        'accept-language': Localizations.localeOf(context).languageCode,
       });
       final resp = await http.get(
         uri,

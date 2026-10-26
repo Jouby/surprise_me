@@ -1,0 +1,236 @@
+{
+  "@@locale": "pt",
+
+  "appTitle": "Surprise Me",
+
+  "myCreations": "Minhas criações",
+  "joinedSurprises": "Participando",
+  "refresh": "Atualizar",
+  "yourSurprises": "Suas surpresas",
+  "noSurpriseYet": "Nenhuma surpresa ainda",
+  "noSurpriseHint": "Crie uma surpresa ou digite\num código para participar.",
+  "loadError": "Não foi possível carregar as surpresas",
+  "retry": "Tentar novamente",
+  "join": "Participar",
+  "create": "Criar",
+  "joinSurpriseTitle": "Participar de uma surpresa",
+  "enterSharedCode": "Digite o código compartilhado pelo organizador.",
+  "codeNotFound": "Código não encontrado. Verifique e tente novamente.",
+
+  "createSurprise": "Criar uma surpresa",
+  "identity": "Identidade",
+  "elementsCount": "Elementos ({count})",
+  "elementsHint": "Cada elemento pode ser revelado com um código diferente.",
+  "titleLabel": "Título *",
+  "requiredField": "Obrigatório",
+  "subtitleLabel": "Subtítulo (opcional)",
+  "themeColor": "Cor do tema",
+  "addElement": "Adicionar um elemento",
+  "creating": "Criando…",
+  "createButton": "Criar surpresa",
+  "addAtLeastOneElement": "Adicione pelo menos um elemento.",
+  "completeAllElements": "Preencha todos os elementos.",
+  "errorPrefix": "Erro: {error}",
+  "genericError": "Ocorreu um erro. Tente novamente.",
+  "linkCopied": "Link copiado!",
+  "surpriseCreated": "Surpresa criada!",
+  "shareCodeHint": "Compartilhe este código para que seus queridos\npossam descobrir a surpresa.",
+  "copy": "Copiar",
+  "share": "Compartilhar",
+  "shareMessage": "Tenho uma surpresa para você! 🎁\nAbra este link para descobri-la: {link}\n\nOu digite o código manualmente: {code}",
+  "backToHome": "Voltar ao início",
+  "elementN": "Elemento {n}",
+  "codeLabel": "Código: {code}",
+
+  "editSurprise": "Editar surpresa",
+  "editElementsHint": "Toque em um elemento para editá-lo, arraste para reordenar.",
+  "titleRequired": "O título é obrigatório.",
+  "saving": "Salvando…",
+  "saveButton": "Salvar alterações",
+  "newBadge": "Novo",
+
+  "deleteDialogTitle": "Excluir esta surpresa?",
+  "deleteOwnerContent": "Esta ação é irreversível. A surpresa e todos os seus elementos serão excluídos permanentemente.",
+  "deleteGuestContent": "A surpresa será removida da sua lista. Você pode participar novamente com o código dela.",
+  "cancel": "Cancelar",
+  "delete": "Excluir",
+  "remove": "Remover",
+  "ownerBanner": "Você é o criador · Toque em um código para revelá-lo",
+  "shareWithCode": "Compartilhar · {code}",
+  "revealedElements": "Elementos revelados",
+  "enterCode": "Digitar um código",
+
+  "onboardingUnlockHint": "Toque aqui para digitar seu código secreto e revelar um elemento! 🗝️\n\nPara começar, digite o código: {code}",
+  "shareSheetTitle": "Compartilhar \"{title}\"",
+  "shareAccessHint": "Compartilhe este código para que seus queridos\npossam acessar esta surpresa.",
+  "linkCopiedClipboard": "Link copiado para a área de transferência",
+
+  "editElement": "Editar elemento",
+  "newElement": "Novo elemento",
+  "elementTitleLabel": "Título do elemento *",
+  "fieldRequired": "Este campo é obrigatório",
+  "selectDate": "Selecione uma data *",
+  "pleaseSelectDate": "Selecione uma data",
+  "pleaseAddImage": "Adicione uma imagem",
+  "pleaseEnterLocation": "Digite um local",
+  "pleaseEnterWord": "Digite uma palavra",
+  "unlockCodeLabel": "Código de desbloqueio *",
+  "unlockCodeHint": "ex.: SEGREDO1",
+
+  "unlockCodeInfo": "É o código que o destinatário deve digitar para revelar este elemento. Você pode passá-lo pessoalmente, por mensagem ou escondê-lo em outro elemento.",
+  "generateCode": "Gerar um código",
+
+  "solveCodeLabel": "Código de recompensa (opcional)",
+  "solveCodeHint": "ex.: NIVEL2 — deixe vazio se não houver",
+
+  "solveCodeInfo": "Opcional. Este código é inserido automaticamente quando o destinatário resolve este jogo, desbloqueando outro elemento da surpresa sem que ele precise digitá-lo.",
+  "save": "Salvar",
+  "add": "Adicionar",
+  "elementGroupContent": "Conteúdo",
+
+  "elementGroupGames": "Jogos",
+
+  "elementTypeText": "Texto",
+  "elementTypeImage": "Imagem",
+  "elementTypeDate": "Data",
+  "elementTypeLocation": "Local",
+  "elementTypeWordGame": "Jogo de palavras",
+  "elementTypePuzzle": "Quebra-cabeça",
+  "messageContent": "Conteúdo da mensagem *",
+  "wordToGuessLabel": "Palavra a adivinhar *",
+  "wordToGuessHint": "ex.: SURPRESA",
+  "wordGameHint": "As letras serão embaralhadas. O jogador precisa colocá-las de volta na ordem certa.",
+
+  "enterYourCode": "Digite seu código",
+  "codeUnlocksElement": "Cada código desbloqueia um elemento da surpresa.",
+  "codeAccepted": "Código aceito! Um elemento foi revelado.",
+  "invalidCode": "Código inválido. Verifique e tente novamente.",
+  "unlock": "Desbloquear",
+
+  "unlocked": "Desbloqueado",
+  "enterCodeToReveal": "Digite um código para revelar",
+
+  "congratulations": "Muito bem! Você encontrou a palavra!",
+  "shuffleAgain": "Embaralhar de novo",
+
+  "uploadError": "Erro no envio. Tente novamente.",
+  "addImage": "Adicionar uma imagem",
+  "gallery": "Galeria",
+  "camera": "Câmera",
+  "change": "Alterar",
+  "galleryOrCamera": "Galeria ou câmera",
+  "uploading": "Enviando…",
+
+  "preview": "Pré-visualizar",
+  "previewBanner": "Você está vendo a surpresa como o destinatário verá · Todos os elementos estão desbloqueados",
+  "exitPreview": "Sair da pré-visualização",
+
+  "settings": "Configurações",
+  "creatorTokens": "Token de criador",
+  "creatorTokensHint": "Este token está ligado à sua conta e comprova que você é o criador das suas surpresas. Guarde-o com cuidado — ele permite vincular um novo dispositivo à sua conta.",
+  "noCreatedSurprises": "Nenhuma surpresa criada neste dispositivo.",
+  "tokenCopied": "Token copiado!",
+  "surpriseId": "ID: {id}",
+  "localData": "Meus dados",
+  "localDataHint": "Estes dados são armazenados apenas neste dispositivo.",
+  "savedShareCodes": "Códigos de compartilhamento salvos",
+  "unlockedCodes": "Códigos de desbloqueio memorizados",
+
+  "clearLocalDataButton": "Excluir todos os meus dados",
+
+  "clearLocalDataTitle": "Excluir todos os meus dados?",
+
+  "clearLocalDataContent": "Isto excluirá permanentemente:\n\n• Todas as surpresas que você criou (em todos os dispositivos)\n• Todas as surpresas de que você participa neste dispositivo\n• Seu progresso (códigos desbloqueados, jogos resolvidos)\n\nEsta ação não pode ser desfeita.",
+
+  "clearLocalDataConfirm": "Excluir tudo",
+
+  "clearLocalDataDone": "Todos os seus dados foram excluídos.",
+
+  "clearLocalDataHint": "Exclui permanentemente as surpresas que você criou, remove as surpresas de que participa e apaga seu progresso neste dispositivo.",
+
+  "elementTypeMotus": "Motus",
+
+  "motusWordLabel": "Palavra a adivinhar *",
+
+  "motusWordHint": "Ex.: SURPRESA",
+
+  "motusFormHint": "O jogador terá 6 tentativas para adivinhar a palavra. A primeira letra é sempre revelada.",
+
+  "playMotus": "Jogar Motus",
+
+  "motusTitle": "Motus",
+
+  "motusAttemptsLeft": "{count, plural, =0{Nenhuma tentativa restante} =1{1 tentativa restante} other{{count} tentativas restantes}}",
+
+  "motusValidate": "OK",
+
+  "motusWon": "Muito bem! Você encontrou a palavra!",
+
+  "motusLost": "Que pena… A palavra era {word}",
+
+  "motusRestart": "Jogar de novo",
+
+  "motusRevealed": "Palavra encontrada!",
+
+  "elementTypeScratch": "Raspadinha",
+
+  "scratchMessageLabel": "Mensagem a revelar *",
+
+  "scratchMessageHint": "Ex.: Até sábado às 20h!",
+
+  "scratchFormHint": "O jogador vai raspar a área prateada para descobrir sua mensagem.",
+
+  "scratchHint": "Raspe para revelar!",
+
+  "scratchProgress": "{percent}% revelado",
+
+  "scratchRevealed": "Mensagem revelada!",
+
+  "scratchRevealedImage": "Imagem revelada!",
+
+  "scratchRestart": "Recomeçar",
+
+  "scratchPlay": "Raspar!",
+
+  "scratchBackToSurprise": "Ver a surpresa",
+
+  "scratchContentTypeText": "Texto",
+
+  "scratchContentTypeImage": "Imagem",
+
+  "scratchImageFormHint": "A imagem será revelada depois de raspada.",
+
+  "elementTypeCodeGame": "Código secreto",
+
+  "codeGameSecretLabel": "Código de 4 dígitos *",
+
+  "codeGameSecretHint": "Ex.: 4729",
+
+  "codeGameFormHint": "O jogador terá 8 tentativas para adivinhar o código. Após cada tentativa, recebe dicas sobre os dígitos corretos.",
+
+  "codeGameInvalidCode": "O código deve ter exatamente 4 dígitos",
+
+  "codeGamePlay": "Adivinhar o código",
+
+  "codeGameAttemptsLeft": "{count, plural, =0{Nenhuma tentativa restante} =1{1 tentativa restante} other{{count} tentativas restantes}}",
+
+  "codeGameValidate": "OK",
+
+  "codeGameWon": "Muito bem! Você decifrou o código!",
+
+  "codeGameLost": "Que pena… O código era {code}",
+
+  "codeGameRestart": "Jogar de novo",
+
+  "codeGameSolved": "Código decifrado!",
+
+  "premiumTitle": "Surprise Me Premium",
+  "premiumPerkUnlimited": "Crie quantas surpresas quiser",
+  "premiumPerkGames": "Acesso a todos os elementos do tipo Jogo",
+  "premiumPerkOneTime": "Compra única, sem assinatura",
+  "premiumBuy": "Seja Premium",
+  "premiumRestore": "Restaurar compras",
+  "premiumRestoreNotFound": "Nenhuma compra encontrada para restaurar.",
+  "premiumLimitReached": "Você atingiu o limite gratuito (1 surpresa). Seja Premium para criar mais.",
+  "premiumGamesLocked": "Os jogos estão disponíveis apenas para usuários Premium."
+}
